@@ -1,13 +1,14 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Lock, Mail, Eye, EyeOff } from 'lucide-react'
+import { Mail, Eye, EyeOff } from 'lucide-react'
 
 export default function AdminLoginPage() {
   const router = useRouter()
@@ -70,8 +71,14 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-primary/25">
-            <Lock className="w-8 h-8 text-primary-foreground" />
+          <div className="w-20 h-20 rounded-2xl overflow-hidden bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center mx-auto mb-4 shadow-lg shadow-yellow-500/25">
+            <Image
+              src="/logo.png"
+              alt="洋泾小蜜蜂"
+              width={80}
+              height={80}
+              className="object-cover"
+            />
           </div>
           <h1 className="text-2xl font-bold">洋泾小蜜蜂</h1>
           <p className="text-muted-foreground mt-1">管理后台登录</p>

@@ -1,7 +1,6 @@
-// import Image from 'next/image'
+import Image from 'next/image'
 import { Github, Twitter, Mail, Video, FileText } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 interface HeroSectionProps {
   videoCount: number
@@ -17,13 +16,18 @@ export function HeroSection({ videoCount, articleCount }: HeroSectionProps) {
       
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
         <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-          {/* Avatar */}
+          {/* Logo */}
           <div className="relative">
-            <div className="absolute -inset-1 bg-gradient-to-r from-primary to-primary/60 rounded-full blur opacity-50" />
-            <Avatar className="relative w-28 h-28 md:w-36 md:h-36 border-4 border-background shadow-2xl">
-              <AvatarImage src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200" alt="Avatar" />
-              <AvatarFallback className="text-3xl">博主</AvatarFallback>
-            </Avatar>
+            <div className="absolute -inset-2 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full blur opacity-30" />
+            <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-background shadow-2xl bg-gradient-to-br from-yellow-300 to-yellow-500">
+              <Image
+                src="/logo.png"
+                alt="洋泾小蜜蜂"
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
           </div>
 
           {/* Info */}
