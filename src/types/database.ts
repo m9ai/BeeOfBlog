@@ -133,6 +133,8 @@ export interface Database {
           contact_email: string | null
           status: 'pending' | 'processing' | 'completed' | 'rejected'
           admin_reply: string | null
+          priority: 'low' | 'medium' | 'high' | 'urgent'
+          assigned_to: string | null
           created_at: string
           updated_at: string
         }
@@ -146,6 +148,8 @@ export interface Database {
           contact_email?: string | null
           status?: 'pending' | 'processing' | 'completed' | 'rejected'
           admin_reply?: string | null
+          priority?: 'low' | 'medium' | 'high' | 'urgent'
+          assigned_to?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -159,8 +163,33 @@ export interface Database {
           contact_email?: string | null
           status?: 'pending' | 'processing' | 'completed' | 'rejected'
           admin_reply?: string | null
+          priority?: 'low' | 'medium' | 'high' | 'urgent'
+          assigned_to?: string | null
           created_at?: string
           updated_at?: string
+        }
+      }
+      wishlist_notes: {
+        Row: {
+          id: string
+          wishlist_id: string
+          content: string
+          created_by: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          wishlist_id: string
+          content: string
+          created_by?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          wishlist_id?: string
+          content?: string
+          created_by?: string | null
+          created_at?: string
         }
       }
     }

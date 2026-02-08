@@ -16,7 +16,9 @@ import {
   EyeOff,
   LayoutDashboard,
   Loader2,
-  LogOut
+  LogOut,
+  Heart,
+  ChevronRight
 } from 'lucide-react'
 import type { Tables } from '@/types/database'
 
@@ -149,7 +151,7 @@ export default function AdminPage() {
                 <LayoutDashboard className="w-6 h-6 text-primary" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold">内容管理</h1>
+                <h1 className="text-2xl font-bold">管理后台</h1>
                 <p className="text-sm text-muted-foreground">
                   共 {posts.length} 条内容
                 </p>
@@ -171,8 +173,46 @@ export default function AdminPage() {
         </div>
       </section>
 
-      {/* Content Table */}
+      {/* Navigation Cards */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+          <Link href="/admin">
+            <div className="bg-card border rounded-xl p-6 hover:shadow-md transition-shadow">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                    <FileText className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-semibold">内容管理</h2>
+                    <p className="text-sm text-muted-foreground">管理文章和视频</p>
+                  </div>
+                </div>
+                <ChevronRight className="w-5 h-5 text-muted-foreground" />
+              </div>
+            </div>
+          </Link>
+          <Link href="/admin/wishlist">
+            <div className="bg-card border rounded-xl p-6 hover:shadow-md transition-shadow">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center">
+                    <Heart className="w-6 h-6 text-red-500" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-semibold">心愿单管理</h2>
+                    <p className="text-sm text-muted-foreground">处理用户诉求和工单</p>
+                  </div>
+                </div>
+                <ChevronRight className="w-5 h-5 text-muted-foreground" />
+              </div>
+            </div>
+          </Link>
+        </div>
+      </section>
+
+      {/* Content Table */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
         <div className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-xl overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
