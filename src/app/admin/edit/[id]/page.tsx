@@ -341,14 +341,30 @@ export default function EditPostPage() {
               </button>
               <button
                 type="button"
-                onClick={() => setFormData(prev => ({ ...prev, status: 'published' }))}
+                onClick={async () => {
+                  setFormData(prev => ({ ...prev, status: 'published' }))
+                  // 自动保存并发布
+                  setSaving(true)
+                  const { error } = await supabase
+                    .from('posts')
+                    .update({ ...formData, status: 'published' })
+                    .eq('id', postId)
+                  
+                  if (error) {
+                    console.error('Error publishing post:', error)
+                    alert('发布失败: ' + error.message)
+                  } else {
+                    router.push('/admin')
+                  }
+                  setSaving(false)
+                }}
                 className={`px-4 py-2 rounded-lg border transition-all ${
                   formData.status === 'published'
                     ? 'border-primary bg-primary/5 text-primary'
                     : 'border-border'
                 }`}
               >
-                立即发布
+                {saving ? '发布中...' : '立即发布'}
               </button>
             </div>
           </div>
