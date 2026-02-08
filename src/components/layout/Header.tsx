@@ -3,9 +3,10 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
-import { Video, FileText, Menu, X, Home, User, Shield } from 'lucide-react'
+import { Video, FileText, Menu, X, Home, User, Shield, Heart } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { createClient } from '@/lib/supabase/client'
+import { SearchBox } from '@/components/search/SearchBox'
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -40,6 +41,7 @@ export function Header() {
     { href: '/', label: '首页', icon: Home },
     { href: '/videos', label: '视频号', icon: Video },
     { href: '/posts', label: '公众号', icon: FileText },
+    { href: '/wishlist', label: '心愿单', icon: Heart },
   ]
 
   return (
@@ -76,6 +78,11 @@ export function Header() {
             ))}
           </nav>
 
+          {/* Search Box - Desktop */}
+          <div className="hidden lg:block flex-1 max-w-md mx-4">
+            <SearchBox />
+          </div>
+
           {/* Right Section */}
           <div className="flex items-center gap-2">
             <Link href="/admin">
@@ -106,6 +113,10 @@ export function Header() {
       {mobileMenuOpen && (
         <div className="md:hidden border-t border-border/50 bg-background/95 backdrop-blur-xl">
           <nav className="flex flex-col p-4 gap-2">
+            {/* Mobile Search */}
+            <div className="mb-4">
+              <SearchBox />
+            </div>
             {navItems.map((item) => (
               <Link
                 key={item.href}
@@ -117,6 +128,14 @@ export function Header() {
                 {item.label}
               </Link>
             ))}
+            <Link
+              href="/wishlist"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-all"
+            >
+              <Heart className="w-5 h-5" />
+              心愿单
+            </Link>
             <Link
               href="/admin"
               onClick={() => setMobileMenuOpen(false)}

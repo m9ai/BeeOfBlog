@@ -122,6 +122,47 @@ export interface Database {
           tag_id?: string
         }
       }
+      wishlist: {
+        Row: {
+          id: string
+          title: string
+          content: string
+          category: 'old_renovation' | 'municipal' | 'cooperation' | 'other'
+          contact_name: string | null
+          contact_phone: string | null
+          contact_email: string | null
+          status: 'pending' | 'processing' | 'completed' | 'rejected'
+          admin_reply: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          title: string
+          content: string
+          category: 'old_renovation' | 'municipal' | 'cooperation' | 'other'
+          contact_name?: string | null
+          contact_phone?: string | null
+          contact_email?: string | null
+          status?: 'pending' | 'processing' | 'completed' | 'rejected'
+          admin_reply?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          title?: string
+          content?: string
+          category?: 'old_renovation' | 'municipal' | 'cooperation' | 'other'
+          contact_name?: string | null
+          contact_phone?: string | null
+          contact_email?: string | null
+          status?: 'pending' | 'processing' | 'completed' | 'rejected'
+          admin_reply?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
     }
     Views: {
       [_ in never]: never

@@ -29,6 +29,8 @@ export default function EditPostPage() {
   const [loading, setLoading] = useState(false)
   const [saving, setSaving] = useState(false)
   const [authChecking, setAuthChecking] = useState(true)
+  const [hasDraft, setHasDraft] = useState(false)
+  const [postStatus, setPostStatus] = useState<'published' | 'draft'>('draft')
   const [formData, setFormData] = useState({
     title: '',
     slug: '',
@@ -39,7 +41,6 @@ export default function EditPostPage() {
     type: 'article' as 'video' | 'article',
     video_url: '',
     external_link: '',
-    status: 'draft' as 'published' | 'draft',
   })
 
   useEffect(() => {
@@ -55,7 +56,6 @@ export default function EditPostPage() {
         return
       }
 
-      // 检查用户是否为管理员
       const { data: userData, error } = await supabase
         .from('user_roles')
         .select('role')
@@ -89,6 +89,13 @@ export default function EditPostPage() {
       setCategories(cats)
     }
 
+    // 先尝试获取草稿
+    const { data: draft } = await supabase
+      .from('drafts')
+      .select('*')
+      .eq('post_id', postId)
+      .single()
+
     // 获取文章数据
     const { data: post, error } = await supabase
       .from('posts')
@@ -102,39 +109,121 @@ export default function EditPostPage() {
       return
     }
 
-    setFormData({
-      title: post.title || '',
-      slug: post.slug || '',
-      excerpt: post.excerpt || '',
-      content: post.content || '',
-      cover_image: post.cover_image || '',
-      category_id: post.category_id || '',
-      type: post.type as 'video' | 'article',
-      video_url: post.video_url || '',
-      external_link: post.external_link || '',
-      status: post.status as 'published' | 'draft',
-    })
+    setPostStatus(post.status as 'published' | 'draft')
+
+    if (draft) {
+      // 有草稿，使用草稿数据
+      setHasDraft(true)
+      setFormData({
+        title: draft.title || '',
+        slug: draft.slug || '',
+        excerpt: draft.excerpt || '',
+        content: draft.content || '',
+        cover_image: draft.cover_image || '',
+        category_id: draft.category_id || '',
+        type: draft.type as 'video' | 'article',
+        video_url: draft.video_url || '',
+        external_link: draft.external_link || '',
+      })
+    } else {
+      // 没有草稿，使用已发布数据
+      setHasDraft(false)
+      setFormData({
+        title: post.title || '',
+        slug: post.slug || '',
+        excerpt: post.excerpt || '',
+        content: post.content || '',
+        cover_image: post.cover_image || '',
+        category_id: post.category_id || '',
+        type: post.type as 'video' | 'article',
+        video_url: post.video_url || '',
+        external_link: post.external_link || '',
+      })
+    }
     
     setLoading(false)
   }
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
+  // 保存到草稿表
+  async function handleSave(e?: React.FormEvent) {
+    if (e) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
     setSaving(true)
 
+    const draftData = {
+      post_id: postId,
+      title: formData.title,
+      slug: formData.slug,
+      excerpt: formData.excerpt,
+      content: formData.content,
+      cover_image: formData.cover_image,
+      category_id: formData.category_id,
+      type: formData.type,
+      video_url: formData.video_url,
+      external_link: formData.external_link,
+      updated_at: new Date().toISOString(),
+    }
+
+    // 使用 upsert：有则更新，无则插入
     const { error } = await supabase
-      .from('posts')
-      .update(formData)
-      .eq('id', postId)
+      .from('drafts')
+      .upsert(draftData, { onConflict: 'post_id' })
 
     if (error) {
-      console.error('Error updating post:', error)
-      alert('更新失败: ' + error.message)
+      console.error('Error saving draft:', error)
+      alert('保存失败: ' + error.message)
     } else {
-      router.push('/admin')
+      setHasDraft(true)
+      alert('已保存到草稿！')
     }
-    
     setSaving(false)
+  }
+
+  // 发布：将草稿更新到 posts 表
+  async function handlePublish() {
+    setSaving(true)
+
+    // 先更新 posts 表
+    const { error: updateError } = await supabase
+      .from('posts')
+      .update({
+        title: formData.title,
+        slug: formData.slug,
+        excerpt: formData.excerpt,
+        content: formData.content,
+        cover_image: formData.cover_image,
+        category_id: formData.category_id,
+        type: formData.type,
+        video_url: formData.video_url,
+        external_link: formData.external_link,
+        status: 'published',
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', postId)
+
+    if (updateError) {
+      console.error('Error publishing post:', updateError)
+      alert('发布失败: ' + updateError.message)
+      setSaving(false)
+      return
+    }
+
+    // 删除草稿
+    const { error: deleteError } = await supabase
+      .from('drafts')
+      .delete()
+      .eq('post_id', postId)
+
+    if (deleteError) {
+      console.error('Error deleting draft:', deleteError)
+    }
+
+    setPostStatus('published')
+    setHasDraft(false)
+    alert('发布成功！')
+    router.push('/admin')
   }
 
   async function handleLogout() {
@@ -167,7 +256,23 @@ export default function EditPostPage() {
                   <ArrowLeft className="w-5 h-5" />
                 </Button>
               </Link>
-              <h1 className="text-2xl font-bold">编辑内容</h1>
+              <div>
+                <h1 className="text-2xl font-bold">编辑内容</h1>
+                <div className="flex items-center gap-2 mt-1">
+                  <span className={`text-xs px-2 py-0.5 rounded ${
+                    postStatus === 'published' 
+                      ? 'bg-green-500/20 text-green-500' 
+                      : 'bg-yellow-500/20 text-yellow-500'
+                  }`}>
+                    {postStatus === 'published' ? '已发布' : '草稿'}
+                  </span>
+                  {hasDraft && (
+                    <span className="text-xs px-2 py-0.5 rounded bg-blue-500/20 text-blue-500">
+                      有未发布修改
+                    </span>
+                  )}
+                </div>
+              </div>
             </div>
             <div className="flex items-center gap-3">
               <Button variant="outline" onClick={handleLogout} className="gap-2">
@@ -175,12 +280,20 @@ export default function EditPostPage() {
                 退出登录
               </Button>
               <Button 
-                onClick={handleSubmit} 
+                onClick={() => handleSave()} 
                 disabled={saving}
+                variant="outline"
                 className="gap-2"
               >
                 <Save className="w-4 h-4" />
                 {saving ? '保存中...' : '保存'}
+              </Button>
+              <Button 
+                onClick={handlePublish}
+                disabled={saving}
+                className="gap-2"
+              >
+                {saving ? '发布中...' : '立即发布'}
               </Button>
             </div>
           </div>
@@ -189,7 +302,7 @@ export default function EditPostPage() {
 
       {/* Form */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSave} className="space-y-6">
           {/* Type Selection */}
           <div className="flex gap-4">
             <button
@@ -322,51 +435,6 @@ export default function EditPostPage() {
               rows={15}
               className="font-mono text-sm"
             />
-          </div>
-
-          {/* Status */}
-          <div className="flex items-center gap-4">
-            <Label>发布状态:</Label>
-            <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={() => setFormData(prev => ({ ...prev, status: 'draft' }))}
-                className={`px-4 py-2 rounded-lg border transition-all ${
-                  formData.status === 'draft'
-                    ? 'border-primary bg-primary/5 text-primary'
-                    : 'border-border'
-                }`}
-              >
-                草稿
-              </button>
-              <button
-                type="button"
-                onClick={async () => {
-                  setFormData(prev => ({ ...prev, status: 'published' }))
-                  // 自动保存并发布
-                  setSaving(true)
-                  const { error } = await supabase
-                    .from('posts')
-                    .update({ ...formData, status: 'published' })
-                    .eq('id', postId)
-                  
-                  if (error) {
-                    console.error('Error publishing post:', error)
-                    alert('发布失败: ' + error.message)
-                  } else {
-                    router.push('/admin')
-                  }
-                  setSaving(false)
-                }}
-                className={`px-4 py-2 rounded-lg border transition-all ${
-                  formData.status === 'published'
-                    ? 'border-primary bg-primary/5 text-primary'
-                    : 'border-border'
-                }`}
-              >
-                {saving ? '发布中...' : '立即发布'}
-              </button>
-            </div>
           </div>
         </form>
       </div>

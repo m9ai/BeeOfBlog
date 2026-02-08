@@ -35,8 +35,8 @@ export function HeroSection({ videoCount, articleCount }: HeroSectionProps) {
             <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
               欢迎来到洋泾小蜜蜂
             </h1>
-            <p className="text-muted-foreground text-lg mb-6 max-w-xl">
-              分享视频号创作、技术文章与生活感悟。在这里记录成长的每一步，与你一起探索更广阔的世界。
+            <p className="text-muted-foreground text-base mb-6 max-w-xl leading-relaxed">
+              侬好！阿拉是 "洋泾小蜜蜂"，以前叫 "洋泾阿舰"。改名是想以更活力的形象和大家见面。以前在视频号分享生活趣事，承蒙大家喜欢。以后，我还会接着挖掘生活乐子，像邻里间的新鲜事、自己的小创意，都分享给大家。我也会努力提升视频质量，多搞点新花样，让大家看得开心。"洋泾小蜜蜂" 想成为大家的快乐源泉，赶紧关注我，一起在生活里找乐子，别错过！
             </p>
 
             {/* Stats */}
@@ -55,15 +55,21 @@ export function HeroSection({ videoCount, articleCount }: HeroSectionProps) {
 
             {/* Social Links */}
             <div className="flex items-center justify-center md:justify-start gap-3">
-              <Button variant="outline" size="icon" className="rounded-full hover:bg-primary hover:text-primary-foreground transition-colors">
-                <Github className="w-4 h-4" />
-              </Button>
-              <Button variant="outline" size="icon" className="rounded-full hover:bg-primary hover:text-primary-foreground transition-colors">
-                <Twitter className="w-4 h-4" />
-              </Button>
-              <Button variant="outline" size="icon" className="rounded-full hover:bg-primary hover:text-primary-foreground transition-colors">
-                <Mail className="w-4 h-4" />
-              </Button>
+              <a href="https://github.com/m9ai" target="_blank" rel="noopener noreferrer">
+                <Button variant="outline" size="icon" className="rounded-full hover:bg-primary hover:text-primary-foreground transition-colors">
+                  <Github className="w-4 h-4" />
+                </Button>
+              </a>
+              <a href="https://x.com/BeeOfYangjing" target="_blank" rel="noopener noreferrer">
+                <Button variant="outline" size="icon" className="rounded-full hover:bg-primary hover:text-primary-foreground transition-colors">
+                  <Twitter className="w-4 h-4" />
+                </Button>
+              </a>
+              <a href="mailto:zhangjian@m9ai.work">
+                <Button variant="outline" size="icon" className="rounded-full hover:bg-primary hover:text-primary-foreground transition-colors">
+                  <Mail className="w-4 h-4" />
+                </Button>
+              </a>
             </div>
           </div>
         </div>

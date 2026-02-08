@@ -101,17 +101,68 @@ export default function NewPostPage() {
     }))
   }
 
+  // 表单校验
+  function validateForm(): string | null {
+    if (!formData.title.trim()) {
+      return '请输入标题'
+    }
+    if (!formData.slug.trim()) {
+      return '请输入链接标识'
+    }
+    if (!formData.category_id) {
+      return '请选择分类'
+    }
+    if (!formData.cover_image.trim()) {
+      return '请输入封面图片 URL'
+    }
+    if (!formData.excerpt.trim()) {
+      return '请输入摘要'
+    }
+    if (!formData.content.trim()) {
+      return formData.type === 'video' ? '请输入视频描述' : '请输入文章内容'
+    }
+    // URL 格式校验
+    if (formData.cover_image && !isValidUrl(formData.cover_image)) {
+      return '封面图片 URL 格式不正确'
+    }
+    if (formData.video_url && !isValidUrl(formData.video_url)) {
+      return '视频嵌入链接格式不正确'
+    }
+    if (formData.external_link && !isValidUrl(formData.external_link)) {
+      return '视频号链接格式不正确'
+    }
+    return null
+  }
+
+  function isValidUrl(url: string): boolean {
+    if (!url) return true
+    try {
+      new URL(url)
+      return true
+    } catch {
+      return false
+    }
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+    
+    // 前端校验
+    const error = validateForm()
+    if (error) {
+      alert(error)
+      return
+    }
+    
     setLoading(true)
 
-    const { error } = await supabase
+    const { error: submitError } = await supabase
       .from('posts')
       .insert([formData])
 
-    if (error) {
-      console.error('Error creating post:', error)
-      alert('创建失败: ' + error.message)
+    if (submitError) {
+      console.error('Error creating post:', submitError)
+      alert('创建失败: ' + submitError.message)
     } else {
       router.push('/admin')
     }
@@ -202,7 +253,9 @@ export default function NewPostPage() {
 
           {/* Title */}
           <div className="space-y-2">
-            <Label htmlFor="title">标题</Label>
+            <Label htmlFor="title">
+              标题 <span className="text-destructive">*</span>
+            </Label>
             <Input
               id="title"
               value={formData.title}
@@ -214,7 +267,9 @@ export default function NewPostPage() {
 
           {/* Slug */}
           <div className="space-y-2">
-            <Label htmlFor="slug">链接标识</Label>
+            <Label htmlFor="slug">
+              链接标识 <span className="text-destructive">*</span>
+            </Label>
             <Input
               id="slug"
               value={formData.slug}
@@ -226,7 +281,9 @@ export default function NewPostPage() {
 
           {/* Category */}
           <div className="space-y-2">
-            <Label>分类</Label>
+            <Label>
+              分类 <span className="text-destructive">*</span>
+            </Label>
             <Select
               value={formData.category_id}
               onValueChange={value => setFormData(prev => ({ ...prev, category_id: value }))}
@@ -246,7 +303,9 @@ export default function NewPostPage() {
 
           {/* Cover Image */}
           <div className="space-y-2">
-            <Label htmlFor="cover_image">封面图片 URL</Label>
+            <Label htmlFor="cover_image">
+              封面图片 URL <span className="text-destructive">*</span>
+            </Label>
             <Input
               id="cover_image"
               value={formData.cover_image}
@@ -257,7 +316,9 @@ export default function NewPostPage() {
 
           {/* Excerpt */}
           <div className="space-y-2">
-            <Label htmlFor="excerpt">摘要</Label>
+            <Label htmlFor="excerpt">
+              摘要 <span className="text-destructive">*</span>
+            </Label>
             <Textarea
               id="excerpt"
               value={formData.excerpt}
@@ -295,6 +356,7 @@ export default function NewPostPage() {
           <div className="space-y-2">
             <Label htmlFor="content">
               {formData.type === 'video' ? '视频描述' : '文章内容 (Markdown)'}
+              <span className="text-destructive">*</span>
             </Label>
             <Textarea
               id="content"
