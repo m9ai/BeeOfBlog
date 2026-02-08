@@ -31,6 +31,7 @@ export default function AdminPage() {
   const [posts, setPosts] = useState<PostWithCategory[]>([])
   const [loading, setLoading] = useState(true)
   const [authChecking, setAuthChecking] = useState(true)
+  const [pendingWishlistCount, setPendingWishlistCount] = useState(0)
   const supabase = createClient()
 
   useEffect(() => {
@@ -61,6 +62,7 @@ export default function AdminPage() {
 
       setAuthChecking(false)
       fetchPosts()
+      fetchPendingWishlistCount()
     } catch (error) {
       console.error('Auth check error:', error)
       router.push('/admin/login')
@@ -88,6 +90,17 @@ export default function AdminPage() {
       setPosts(data || [])
     }
     setLoading(false)
+  }
+
+  async function fetchPendingWishlistCount() {
+    const { count, error } = await supabase
+      .from('wishlist')
+      .select('*', { count: 'exact', head: true })
+      .in('status', ['pending', 'processing'])
+
+    if (!error) {
+      setPendingWishlistCount(count || 0)
+    }
   }
 
   async function deletePost(id: string) {
@@ -201,7 +214,14 @@ export default function AdminPage() {
                   </div>
                   <div>
                     <h2 className="text-lg font-semibold">心愿单管理</h2>
-                    <p className="text-sm text-muted-foreground">处理用户诉求和工单</p>
+                    <p className="text-sm text-muted-foreground">
+                      处理用户诉求和工单
+                      {pendingWishlistCount > 0 && (
+                        <span className="ml-2 px-2 py-0.5 bg-red-500 text-white text-xs rounded-full">
+                          {pendingWishlistCount} 未处理
+                        </span>
+                      )}
+                    </p>
                   </div>
                 </div>
                 <ChevronRight className="w-5 h-5 text-muted-foreground" />

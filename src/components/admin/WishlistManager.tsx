@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { format } from 'date-fns'
 import { zhCN } from 'date-fns/locale'
 import {
@@ -34,6 +34,8 @@ import {
   Mail,
   Tag,
   Send,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -53,6 +55,19 @@ type WishlistNote = Tables<'wishlist_notes'>
 
 interface WishlistManagerProps {
   wishlist: Wishlist[]
+  currentPage: number
+  totalPages: number
+  total: number
+  stats: {
+    total: number
+    pending: number
+    processing: number
+    completed: number
+    urgent: number
+  }
+  statusFilter: string
+  priorityFilter: string
+  categoryFilter: string
 }
 
 const categoryConfig = {
@@ -124,14 +139,129 @@ const priorityConfig = {
   },
 }
 
-export function WishlistManager({ wishlist: initialWishlist }: WishlistManagerProps) {
+function Pagination({
+  currentPage,
+  totalPages,
+  total,
+}: {
+  currentPage: number
+  totalPages: number
+  total: number
+}) {
   const router = useRouter()
+  const searchParams = useSearchParams()
+
+  const goToPage = (page: number) => {
+    if (page < 1 || page > totalPages) return
+    const params = new URLSearchParams(searchParams.toString())
+    params.set('page', page.toString())
+    router.push(`/admin/wishlist?${params.toString()}`)
+  }
+
+  const getPageNumbers = () => {
+    const pages: (number | string)[] = []
+    const maxVisible = 5
+
+    if (totalPages <= maxVisible) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i)
+      }
+    } else {
+      if (currentPage <= 3) {
+        for (let i = 1; i <= 4; i++) {
+          pages.push(i)
+        }
+        pages.push('...')
+        pages.push(totalPages)
+      } else if (currentPage >= totalPages - 2) {
+        pages.push(1)
+        pages.push('...')
+        for (let i = totalPages - 3; i <= totalPages; i++) {
+          pages.push(i)
+        }
+      } else {
+        pages.push(1)
+        pages.push('...')
+        for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+          pages.push(i)
+        }
+        pages.push('...')
+        pages.push(totalPages)
+      }
+    }
+
+    return pages
+  }
+
+  if (totalPages <= 1) return null
+
+  return (
+    <div className="flex flex-col items-center gap-4 mt-8 pt-6 border-t">
+      <p className="text-sm text-muted-foreground">
+        共 {total} 条心愿，第 {currentPage}/{totalPages} 页
+      </p>
+      <div className="flex items-center gap-2">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => goToPage(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          <ChevronLeft className="w-4 h-4 mr-1" />
+          上一页
+        </Button>
+
+        <div className="flex items-center gap-1">
+          {getPageNumbers().map((page, index) => (
+            <div key={index}>
+              {page === '...' ? (
+                <span className="px-2 text-muted-foreground">...</span>
+              ) : (
+                <Button
+                  variant={currentPage === page ? 'default' : 'outline'}
+                  size="sm"
+                  className="min-w-[40px]"
+                  onClick={() => goToPage(page as number)}
+                >
+                  {page}
+                </Button>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => goToPage(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          下一页
+          <ChevronRight className="w-4 h-4 ml-1" />
+        </Button>
+      </div>
+    </div>
+  )
+}
+
+export function WishlistManager({
+  wishlist: initialWishlist,
+  currentPage,
+  totalPages,
+  total,
+  stats,
+  statusFilter: initialStatusFilter,
+  priorityFilter: initialPriorityFilter,
+  categoryFilter: initialCategoryFilter
+}: WishlistManagerProps) {
+  const router = useRouter()
+  const searchParams = useSearchParams()
   const supabase = createClient()
   const [wishlist, setWishlist] = useState<Wishlist[]>(initialWishlist)
   const [searchQuery, setSearchQuery] = useState('')
-  const [statusFilter, setStatusFilter] = useState<string>('all')
-  const [priorityFilter, setPriorityFilter] = useState<string>('all')
-  const [categoryFilter, setCategoryFilter] = useState<string>('all')
+  const [statusFilter, setStatusFilter] = useState<string>(initialStatusFilter)
+  const [priorityFilter, setPriorityFilter] = useState<string>(initialPriorityFilter)
+  const [categoryFilter, setCategoryFilter] = useState<string>(initialCategoryFilter)
   const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set())
   const [selectedItem, setSelectedItem] = useState<Wishlist | null>(null)
   const [itemNotes, setItemNotes] = useState<WishlistNote[]>([])
@@ -145,23 +275,56 @@ export function WishlistManager({ wishlist: initialWishlist }: WishlistManagerPr
   const [loading, setLoading] = useState(false)
   const [activeTab, setActiveTab] = useState('details')
 
+  // 当 initialWishlist 变化时（翻页时），更新 wishlist state
+  useEffect(() => {
+    setWishlist(initialWishlist)
+    // 清空选中状态
+    setSelectedItems(new Set())
+  }, [initialWishlist])
+
+  // 当 URL 参数变化时，更新本地状态
+  useEffect(() => {
+    setStatusFilter(initialStatusFilter)
+    setPriorityFilter(initialPriorityFilter)
+    setCategoryFilter(initialCategoryFilter)
+  }, [initialStatusFilter, initialPriorityFilter, initialCategoryFilter])
+
+  // 前端搜索过滤（仅对搜索框）
   const filteredWishlist = wishlist.filter((item) => {
+    if (!searchQuery) return true
     const matchesSearch =
       item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.contact_name?.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchesStatus = statusFilter === 'all' || item.status === statusFilter
-    const matchesPriority = priorityFilter === 'all' || item.priority === priorityFilter
-    const matchesCategory = categoryFilter === 'all' || item.category === categoryFilter
-    return matchesSearch && matchesStatus && matchesPriority && matchesCategory
+    return matchesSearch
   })
 
-  const stats = {
-    total: wishlist.length,
-    pending: wishlist.filter((w) => w.status === 'pending').length,
-    processing: wishlist.filter((w) => w.status === 'processing').length,
-    completed: wishlist.filter((w) => w.status === 'completed').length,
-    urgent: wishlist.filter((w) => w.priority === 'urgent' && w.status !== 'completed').length,
+  // 更新筛选条件并刷新页面
+  const updateFilter = (type: 'status' | 'priority' | 'category', value: string) => {
+    const params = new URLSearchParams(searchParams.toString())
+    params.set('page', '1') // 重置到第一页
+
+    if (type === 'status') {
+      if (value === 'all') {
+        params.delete('status')
+      } else {
+        params.set('status', value)
+      }
+    } else if (type === 'priority') {
+      if (value === 'all') {
+        params.delete('priority')
+      } else {
+        params.set('priority', value)
+      }
+    } else if (type === 'category') {
+      if (value === 'all') {
+        params.delete('category')
+      } else {
+        params.set('category', value)
+      }
+    }
+
+    router.push(`/admin/wishlist?${params.toString()}`)
   }
 
   async function fetchNotes(wishlistId: string) {
@@ -444,14 +607,17 @@ export function WishlistManager({ wishlist: initialWishlist }: WishlistManagerPr
                 <Button variant="outline" size="sm" className="gap-2">
                   <Filter className="w-4 h-4" />
                   状态
+                  {statusFilter !== 'all' && (
+                    <span className="ml-1 w-2 h-2 bg-primary rounded-full" />
+                  )}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuItem onClick={() => setStatusFilter('all')}>全部</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setStatusFilter('pending')}>待处理</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setStatusFilter('processing')}>处理中</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setStatusFilter('completed')}>已完成</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setStatusFilter('rejected')}>已拒绝</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => updateFilter('status', 'all')}>全部</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => updateFilter('status', 'pending')}>待处理</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => updateFilter('status', 'processing')}>处理中</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => updateFilter('status', 'completed')}>已完成</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => updateFilter('status', 'rejected')}>已拒绝</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
             <DropdownMenu>
@@ -459,14 +625,17 @@ export function WishlistManager({ wishlist: initialWishlist }: WishlistManagerPr
                 <Button variant="outline" size="sm" className="gap-2">
                   <AlertCircle className="w-4 h-4" />
                   优先级
+                  {priorityFilter !== 'all' && (
+                    <span className="ml-1 w-2 h-2 bg-primary rounded-full" />
+                  )}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuItem onClick={() => setPriorityFilter('all')}>全部</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setPriorityFilter('urgent')}>紧急</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setPriorityFilter('high')}>高</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setPriorityFilter('medium')}>中</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setPriorityFilter('low')}>低</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => updateFilter('priority', 'all')}>全部</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => updateFilter('priority', 'urgent')}>紧急</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => updateFilter('priority', 'high')}>高</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => updateFilter('priority', 'medium')}>中</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => updateFilter('priority', 'low')}>低</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
             <DropdownMenu>
@@ -474,14 +643,17 @@ export function WishlistManager({ wishlist: initialWishlist }: WishlistManagerPr
                 <Button variant="outline" size="sm" className="gap-2">
                   <Tag className="w-4 h-4" />
                   分类
+                  {categoryFilter !== 'all' && (
+                    <span className="ml-1 w-2 h-2 bg-primary rounded-full" />
+                  )}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuItem onClick={() => setCategoryFilter('all')}>全部</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setCategoryFilter('old_renovation')}>小区旧改</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setCategoryFilter('municipal')}>市政工程</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setCategoryFilter('cooperation')}>本地合作</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setCategoryFilter('other')}>其他</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => updateFilter('category', 'all')}>全部</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => updateFilter('category', 'old_renovation')}>小区旧改</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => updateFilter('category', 'municipal')}>市政工程</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => updateFilter('category', 'cooperation')}>本地合作</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => updateFilter('category', 'other')}>其他</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -664,6 +836,9 @@ export function WishlistManager({ wishlist: initialWishlist }: WishlistManagerPr
           </div>
         )}
       </div>
+
+      {/* Pagination */}
+      <Pagination currentPage={currentPage} totalPages={totalPages} total={total} />
 
       {/* Detail Dialog */}
       <Dialog open={isDetailDialogOpen} onOpenChange={setIsDetailDialogOpen}>

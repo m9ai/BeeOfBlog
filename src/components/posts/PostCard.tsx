@@ -16,10 +16,10 @@ export function PostCard({ post }: PostCardProps) {
   const Icon = isVideo ? Video : FileText
 
   return (
-    <Link href={`/${isVideo ? 'videos' : 'posts'}/${post.slug}`}>
-      <Card className="group overflow-hidden bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/5">
+    <Link href={`/${isVideo ? 'videos' : 'posts'}/${post.id}`}>
+      <Card className="group overflow-hidden bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/5 h-full flex flex-col">
         {/* Cover Image */}
-        <div className="relative aspect-video overflow-hidden">
+        <div className="relative aspect-video overflow-hidden flex-shrink-0">
           <Image
             src={post.cover_image || `https://placehold.co/600x400/1e293b/64748b?text=${encodeURIComponent(post.title)}`}
             alt={post.title}
@@ -28,7 +28,7 @@ export function PostCard({ post }: PostCardProps) {
           />
           {/* Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          
+
           {/* Type Badge */}
           <div className="absolute top-3 left-3">
             <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm">
@@ -48,28 +48,28 @@ export function PostCard({ post }: PostCardProps) {
         </div>
 
         {/* Content */}
-        <CardContent className="p-4">
-          {/* Category */}
-          {post.category && (
-            <Badge variant="outline" className="mb-2 text-xs">
-              {post.category.name}
-            </Badge>
-          )}
+        <CardContent className="p-4 flex flex-col flex-1">
+          {/* Category - 固定高度 */}
+          <div className="h-6 mb-2">
+            {post.category && (
+              <Badge variant="outline" className="text-xs">
+                {post.category.name}
+              </Badge>
+            )}
+          </div>
 
-          {/* Title */}
-          <h3 className="font-semibold text-lg mb-2 line-clamp-2 group-hover:text-primary transition-colors">
+          {/* Title - 固定两行高度 */}
+          <h3 className="font-semibold text-lg mb-2 line-clamp-2 group-hover:text-primary transition-colors h-[3.5rem]">
             {post.title}
           </h3>
 
-          {/* Excerpt */}
-          {post.excerpt && (
-            <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
-              {post.excerpt}
-            </p>
-          )}
+          {/* Excerpt - 固定两行高度 */}
+          <p className="text-sm text-muted-foreground line-clamp-2 mb-3 h-[2.5rem]">
+            {post.excerpt || '\u00A0'}
+          </p>
 
-          {/* Meta */}
-          <div className="flex items-center gap-4 text-xs text-muted-foreground">
+          {/* Meta - 固定在底部 */}
+          <div className="flex items-center gap-4 text-xs text-muted-foreground mt-auto">
             <span className="flex items-center gap-1">
               <Calendar className="w-3 h-3" />
               {new Date(post.created_at).toLocaleDateString('zh-CN')}

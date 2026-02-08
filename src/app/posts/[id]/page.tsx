@@ -5,13 +5,13 @@ import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import { PostContent } from '@/components/posts/PostContent'
 import { GiscusComments } from '@/components/comments/GiscusComments'
+import { ShareButton } from '@/components/ShareButton'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { 
-  Calendar, 
-  Eye, 
-  ArrowLeft, 
-  Share2, 
+import {
+  Calendar,
+  Eye,
+  ArrowLeft,
   FileText,
   ChevronLeft,
   ChevronRight
@@ -21,75 +21,85 @@ export async function generateStaticParams() {
   const supabase = createStaticClient()
   const { data: posts } = await supabase
     .from('posts')
-    .select('slug')
+    .select('id')
+    .eq('type', 'article')
     .eq('status', 'published')
-  
+
   return posts?.map((post) => ({
-    slug: post.slug,
+    id: post.id,
   })) || []
 }
 
-async function getPost(slug: string) {
+async function getPost(id: string) {
   const supabase = await createClient()
-  
+
   const { data, error } = await supabase
     .from('posts')
     .select(`
       *,
       category:categories(*)
     `)
-    .eq('slug', slug)
+    .eq('id', id)
     .eq('type', 'article')
     .eq('status', 'published')
     .single()
-  
+
   if (error || !data) {
     return null
   }
-  
+
   // Increment view count
   await supabase
     .from('posts')
     .update({ view_count: (data.view_count || 0) + 1 })
     .eq('id', data.id)
-  
+
   return data
 }
 
-async function getAdjacentPosts() {
+async function getAdjacentPosts(currentId: string) {
   const supabase = await createClient()
-  
+
+  // Get current post's created_at
+  const { data: currentPost } = await supabase
+    .from('posts')
+    .select('created_at')
+    .eq('id', currentId)
+    .single()
+
+  if (!currentPost) return { prevPost: null, nextPost: null }
+
   const { data: prevPost } = await supabase
     .from('posts')
-    .select('slug, title')
+    .select('id, title')
     .eq('type', 'article')
     .eq('status', 'published')
-    .lt('created_at', new Date().toISOString())
+    .lt('created_at', currentPost.created_at)
     .order('created_at', { ascending: false })
     .limit(1)
     .single()
-  
+
   const { data: nextPost } = await supabase
     .from('posts')
-    .select('slug, title')
+    .select('id, title')
     .eq('type', 'article')
     .eq('status', 'published')
-    .gt('created_at', new Date().toISOString())
+    .gt('created_at', currentPost.created_at)
     .order('created_at', { ascending: true })
     .limit(1)
     .single()
-  
+
   return { prevPost, nextPost }
 }
 
-export default async function PostDetailPage({ params }: { params: { slug: string } }) {
-  const post = await getPost(params.slug)
-  
+export default async function PostDetailPage({ params }: { params: { id: string } }) {
+  const post = await getPost(params.id)
+
   if (!post) {
     notFound()
   }
-  
-  const { prevPost, nextPost } = await getAdjacentPosts()
+
+  const { prevPost, nextPost } = await getAdjacentPosts(params.id)
 
   return (
     <div className="min-h-screen">
@@ -132,10 +142,9 @@ export default async function PostDetailPage({ params }: { params: { slug: strin
             <Eye className="w-4 h-4" />
             {post.view_count} 阅读
           </span>
-          <Button variant="ghost" size="sm" className="gap-1 ml-auto">
-            <Share2 className="w-4 h-4" />
-            分享
-          </Button>
+          <div className="ml-auto">
+            <ShareButton title={post.title} url={`/posts/${post.id}`} />
+          </div>
         </div>
 
         {/* Cover Image */}
@@ -159,7 +168,7 @@ export default async function PostDetailPage({ params }: { params: { slug: strin
         {/* Navigation */}
         <div className="flex items-center justify-between mt-12 pt-8 border-t border-border">
           {prevPost ? (
-            <Link href={`/posts/${prevPost.slug}`}>
+            <Link href={`/posts/${prevPost.id}`}>
               <Button variant="ghost" className="gap-2 pl-0">
                 <ChevronLeft className="w-4 h-4" />
                 <div className="text-left">
@@ -173,9 +182,9 @@ export default async function PostDetailPage({ params }: { params: { slug: strin
           ) : (
             <div />
           )}
-          
+
           {nextPost ? (
-            <Link href={`/posts/${nextPost.slug}`}>
+            <Link href={`/posts/${nextPost.id}`}>
               <Button variant="ghost" className="gap-2 pr-0">
                 <div className="text-right">
                   <div className="text-xs text-muted-foreground">下一篇</div>
@@ -194,7 +203,7 @@ export default async function PostDetailPage({ params }: { params: { slug: strin
         {/* Comments */}
         <div className="mt-12 pt-8 border-t border-border">
           <h2 className="text-xl font-semibold mb-6">评论</h2>
-          <GiscusComments slug={post.slug} />
+          <GiscusComments slug={post.slug || post.id} />
         </div>
       </article>
     </div>

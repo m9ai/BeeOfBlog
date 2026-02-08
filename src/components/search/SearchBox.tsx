@@ -1,20 +1,46 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
-import { Search, X, Loader2 } from 'lucide-react'
+import { Search, X, Loader2, Heart, FileText, Video } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { createClient } from '@/lib/supabase/client'
 import { useDebounce } from '@/hooks/useDebounce'
+import { Badge } from '@/components/ui/badge'
 
-interface SearchResult {
+interface PostResult {
   id: string
   title: string
-  slug: string
-  excerpt: string
+  excerpt: string | null
   type: 'video' | 'article'
-  cover_image: string
+  cover_image: string | null
+  source: 'post'
+}
+
+interface WishlistResult {
+  id: string
+  title: string
+  content: string
+  category: 'old_renovation' | 'municipal' | 'cooperation' | 'other'
+  status: 'pending' | 'processing' | 'completed' | 'rejected'
+  source: 'wishlist'
+}
+
+type SearchResult = PostResult | WishlistResult
+
+const categoryLabels: Record<string, string> = {
+  old_renovation: '小区旧改',
+  municipal: '市政工程',
+  cooperation: '本地合作',
+  other: '其他',
+}
+
+const statusLabels: Record<string, string> = {
+  pending: '待处理',
+  processing: '处理中',
+  completed: '已完成',
+  rejected: '已拒绝',
 }
 
 export function SearchBox() {
@@ -27,11 +53,9 @@ export function SearchBox() {
   const inputRef = useRef<HTMLInputElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const abortControllerRef = useRef<AbortController | null>(null)
-  
-  // 使用防抖 hook，延迟 300ms
+
   const debouncedQuery = useDebounce(query, 300)
 
-  // 点击外部关闭搜索结果
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
@@ -42,17 +66,13 @@ export function SearchBox() {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  // 搜索功能 - 使用防抖后的查询值
   useEffect(() => {
     async function performSearch() {
-      // 取消之前的请求
       if (abortControllerRef.current) {
         abortControllerRef.current.abort()
       }
-      
-      // 创建新的 AbortController
       abortControllerRef.current = new AbortController()
-      
+
       if (debouncedQuery.trim().length < 2) {
         setResults([])
         setLoading(false)
@@ -61,21 +81,40 @@ export function SearchBox() {
 
       setLoading(true)
       const searchTerm = debouncedQuery.trim()
-      
-      try {
-        const { data, error } = await supabase
-          .from('posts')
-          .select('id, title, slug, excerpt, type, cover_image')
-          .eq('status', 'published')
-          .or(`title.ilike.%${searchTerm}%,excerpt.ilike.%${searchTerm}%,content.ilike.%${searchTerm}%`)
-          .limit(8)
-          .abortSignal(abortControllerRef.current.signal)
 
-        if (!error && data) {
-          setResults(data as SearchResult[])
+      try {
+        const [postsResult, wishlistResult] = await Promise.all([
+          supabase
+            .from('posts')
+            .select('id, title, excerpt, type, cover_image')
+            .eq('status', 'published')
+            .or(`title.ilike.%${searchTerm}%,excerpt.ilike.%${searchTerm}%,content.ilike.%${searchTerm}%`)
+            .limit(5)
+            .abortSignal(abortControllerRef.current.signal),
+          supabase
+            .from('wishlist')
+            .select('id, title, content, category, status')
+            .or(`title.ilike.%${searchTerm}%,content.ilike.%${searchTerm}%`)
+            .limit(3)
+            .abortSignal(abortControllerRef.current.signal),
+        ])
+
+        const combinedResults: SearchResult[] = []
+
+        if (!postsResult.error && postsResult.data) {
+          combinedResults.push(
+            ...postsResult.data.map((item) => ({ ...item, source: 'post' as const }))
+          )
         }
+
+        if (!wishlistResult.error && wishlistResult.data) {
+          combinedResults.push(
+            ...wishlistResult.data.map((item) => ({ ...item, source: 'wishlist' as const }))
+          )
+        }
+
+        setResults(combinedResults)
       } catch (err) {
-        // 忽略取消的请求错误
         if (err instanceof Error && err.name === 'AbortError') {
           return
         }
@@ -87,7 +126,6 @@ export function SearchBox() {
 
     performSearch()
 
-    // 清理函数
     return () => {
       if (abortControllerRef.current) {
         abortControllerRef.current.abort()
@@ -103,9 +141,13 @@ export function SearchBox() {
     }
   }
 
-  function handleResultClick(slug: string, type: string) {
-    const path = type === 'video' ? `/videos/${slug}` : `/posts/${slug}`
-    router.push(path)
+  function handleResultClick(result: SearchResult) {
+    if (result.source === 'post') {
+      const path = result.type === 'video' ? `/videos/${result.id}` : `/posts/${result.id}`
+      router.push(path)
+    } else {
+      router.push(`/wishlist/${result.id}`)
+    }
     setShowResults(false)
     setQuery('')
   }
@@ -116,6 +158,40 @@ export function SearchBox() {
     inputRef.current?.focus()
   }
 
+  function getResultIcon(result: SearchResult) {
+    if (result.source === 'wishlist') {
+      return <Heart className="w-4 h-4 text-red-500" />
+    }
+    return result.type === 'video' ? (
+      <Video className="w-4 h-4 text-purple-500" />
+    ) : (
+      <FileText className="w-4 h-4 text-blue-500" />
+    )
+  }
+
+  function getResultBadge(result: SearchResult) {
+    if (result.source === 'wishlist') {
+      return (
+        <Badge variant="outline" className="text-xs">
+          <Heart className="w-3 h-3 mr-1 text-red-500" />
+          心愿单
+        </Badge>
+      )
+    }
+    return (
+      <Badge
+        variant="outline"
+        className={`text-xs ${
+          result.type === 'video'
+            ? 'bg-purple-500/10 text-purple-600 border-purple-200'
+            : 'bg-blue-500/10 text-blue-600 border-blue-200'
+        }`}
+      >
+        {result.type === 'video' ? '视频' : '文章'}
+      </Badge>
+    )
+  }
+
   return (
     <div ref={containerRef} className="relative w-full max-w-md">
       <form onSubmit={handleSubmit} className="relative">
@@ -123,7 +199,7 @@ export function SearchBox() {
         <Input
           ref={inputRef}
           type="text"
-          placeholder="搜索文章或视频..."
+          placeholder="搜索文章、视频或心愿单..."
           value={query}
           onChange={(e) => {
             setQuery(e.target.value)
@@ -143,7 +219,6 @@ export function SearchBox() {
         )}
       </form>
 
-      {/* 搜索结果下拉框 */}
       {showResults && query.trim().length >= 2 && (
         <div className="absolute top-full left-0 right-0 mt-2 bg-background border border-border rounded-lg shadow-lg overflow-hidden z-50">
           {loading ? (
@@ -154,53 +229,42 @@ export function SearchBox() {
             <div className="max-h-96 overflow-y-auto">
               {results.map((result) => (
                 <button
-                  key={result.id}
-                  onClick={() => handleResultClick(result.slug, result.type)}
+                  key={`${result.source}-${result.id}`}
+                  onClick={() => handleResultClick(result)}
                   className="w-full flex items-center gap-3 p-3 hover:bg-secondary transition-colors text-left"
                 >
-                  <div className="w-12 h-12 rounded-lg overflow-hidden bg-secondary flex-shrink-0">
-                    {result.cover_image ? (
+                  <div className="w-12 h-12 rounded-lg overflow-hidden bg-secondary flex-shrink-0 flex items-center justify-center">
+                    {result.source === 'post' && result.cover_image ? (
                       <img
                         src={result.cover_image}
                         alt={result.title}
                         className="w-full h-full object-cover"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-muted-foreground text-xs">
-                        无图
+                      <div className="w-full h-full flex items-center justify-center">
+                        {getResultIcon(result)}
                       </div>
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
                     <h4 className="font-medium text-sm truncate">{result.title}</h4>
                     <p className="text-xs text-muted-foreground truncate">
-                      {result.excerpt || '暂无描述'}
+                      {result.source === 'post'
+                        ? result.excerpt || '暂无描述'
+                        : result.content.slice(0, 50) + '...'}
                     </p>
                   </div>
-                  <span className={`text-xs px-2 py-1 rounded ${
-                    result.type === 'video' 
-                      ? 'bg-purple-500/20 text-purple-500' 
-                      : 'bg-blue-500/20 text-blue-500'
-                  }`}>
-                    {result.type === 'video' ? '视频' : '文章'}
-                  </span>
+                  {getResultBadge(result)}
                 </button>
               ))}
               <div className="p-2 border-t border-border">
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className="w-full"
-                  onClick={handleSubmit}
-                >
+                <Button variant="ghost" size="sm" className="w-full" onClick={handleSubmit}>
                   查看全部搜索结果
                 </Button>
               </div>
             </div>
           ) : (
-            <div className="py-8 text-center text-muted-foreground text-sm">
-              未找到相关内容
-            </div>
+            <div className="py-8 text-center text-muted-foreground text-sm">未找到相关内容</div>
           )}
         </div>
       )}

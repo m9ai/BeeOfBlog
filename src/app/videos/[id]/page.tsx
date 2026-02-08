@@ -5,13 +5,13 @@ import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import { PostContent } from '@/components/posts/PostContent'
 import { GiscusComments } from '@/components/comments/GiscusComments'
+import { ShareButton } from '@/components/ShareButton'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { 
-  Calendar, 
-  Eye, 
-  ArrowLeft, 
-  Share2, 
+import {
+  Calendar,
+  Eye,
+  ArrowLeft,
   Video,
   Play,
   ExternalLink,
@@ -23,76 +23,85 @@ export async function generateStaticParams() {
   const supabase = createStaticClient()
   const { data: videos } = await supabase
     .from('posts')
-    .select('slug')
+    .select('id')
     .eq('type', 'video')
     .eq('status', 'published')
-  
+
   return videos?.map((video) => ({
-    slug: video.slug,
+    id: video.id,
   })) || []
 }
 
-async function getVideo(slug: string) {
+async function getVideo(id: string) {
   const supabase = await createClient()
-  
+
   const { data, error } = await supabase
     .from('posts')
     .select(`
       *,
       category:categories(*)
     `)
-    .eq('slug', slug)
+    .eq('id', id)
     .eq('type', 'video')
     .eq('status', 'published')
     .single()
-  
+
   if (error || !data) {
     return null
   }
-  
+
   // Increment view count
   await supabase
     .from('posts')
     .update({ view_count: (data.view_count || 0) + 1 })
     .eq('id', data.id)
-  
+
   return data
 }
 
-async function getAdjacentVideos() {
+async function getAdjacentVideos(currentId: string) {
   const supabase = await createClient()
-  
+
+  // Get current video's created_at
+  const { data: currentVideo } = await supabase
+    .from('posts')
+    .select('created_at')
+    .eq('id', currentId)
+    .single()
+
+  if (!currentVideo) return { prevVideo: null, nextVideo: null }
+
   const { data: prevVideo } = await supabase
     .from('posts')
-    .select('slug, title')
+    .select('id, title')
     .eq('type', 'video')
     .eq('status', 'published')
-    .lt('created_at', new Date().toISOString())
+    .lt('created_at', currentVideo.created_at)
     .order('created_at', { ascending: false })
     .limit(1)
     .single()
-  
+
   const { data: nextVideo } = await supabase
     .from('posts')
-    .select('slug, title')
+    .select('id, title')
     .eq('type', 'video')
     .eq('status', 'published')
-    .gt('created_at', new Date().toISOString())
+    .gt('created_at', currentVideo.created_at)
     .order('created_at', { ascending: true })
     .limit(1)
     .single()
-  
+
   return { prevVideo, nextVideo }
 }
 
-export default async function VideoDetailPage({ params }: { params: { slug: string } }) {
-  const video = await getVideo(params.slug)
-  
+export default async function VideoDetailPage({ params }: { params: { id: string } }) {
+  const video = await getVideo(params.id)
+
   if (!video) {
     notFound()
   }
-  
-  const { prevVideo, nextVideo } = await getAdjacentVideos()
+
+  const { prevVideo, nextVideo } = await getAdjacentVideos(params.id)
 
   return (
     <div className="min-h-screen">
@@ -135,10 +144,9 @@ export default async function VideoDetailPage({ params }: { params: { slug: stri
             <Eye className="w-4 h-4" />
             {video.view_count} 播放
           </span>
-          <Button variant="ghost" size="sm" className="gap-1 ml-auto">
-            <Share2 className="w-4 h-4" />
-            分享
-          </Button>
+          <div className="ml-auto">
+            <ShareButton title={video.title} url={`/videos/${video.id}`} />
+          </div>
         </div>
 
         {/* Video Player / Cover */}
@@ -194,7 +202,7 @@ export default async function VideoDetailPage({ params }: { params: { slug: stri
         {/* Navigation */}
         <div className="flex items-center justify-between mt-12 pt-8 border-t border-border">
           {prevVideo ? (
-            <Link href={`/videos/${prevVideo.slug}`}>
+            <Link href={`/videos/${prevVideo.id}`}>
               <Button variant="ghost" className="gap-2 pl-0">
                 <ChevronLeft className="w-4 h-4" />
                 <div className="text-left">
@@ -208,9 +216,9 @@ export default async function VideoDetailPage({ params }: { params: { slug: stri
           ) : (
             <div />
           )}
-          
+
           {nextVideo ? (
-            <Link href={`/videos/${nextVideo.slug}`}>
+            <Link href={`/videos/${nextVideo.id}`}>
               <Button variant="ghost" className="gap-2 pr-0">
                 <div className="text-right">
                   <div className="text-xs text-muted-foreground">下一个视频</div>
@@ -229,7 +237,7 @@ export default async function VideoDetailPage({ params }: { params: { slug: stri
         {/* Comments */}
         <div className="mt-12 pt-8 border-t border-border">
           <h2 className="text-xl font-semibold mb-6">评论</h2>
-          <GiscusComments slug={video.slug} />
+          <GiscusComments slug={video.slug || video.id} />
         </div>
       </article>
     </div>

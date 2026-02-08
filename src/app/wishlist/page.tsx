@@ -3,25 +3,66 @@ import { WishlistForm } from '@/components/wishlist/WishlistForm'
 import { WishlistList } from '@/components/wishlist/WishlistList'
 import { Heart, MessageSquare, Sparkles } from 'lucide-react'
 
-async function getWishlist() {
+const ITEMS_PER_PAGE = 10
+
+async function getWishlist(page: number = 1, statusFilter: string = 'all') {
   const supabase = await createClient()
   
-  const { data, error } = await supabase
+  const from = (page - 1) * ITEMS_PER_PAGE
+  const to = from + ITEMS_PER_PAGE - 1
+  
+  // 构建查询
+  let query = supabase
     .from('wishlist')
-    .select('*')
+    .select('*', { count: 'exact' })
     .order('created_at', { ascending: false })
-    .limit(20)
+  
+  // 添加状态过滤
+  if (statusFilter !== 'all') {
+    query = query.eq('status', statusFilter)
+  }
+  
+  // 获取分页数据
+  const { data, error, count } = await query.range(from, to)
   
   if (error) {
     console.error('Error fetching wishlist:', error)
-    return []
+    return { items: [], total: 0, totalPages: 0, stats: { total: 0, pending: 0, processing: 0, completed: 0 } }
   }
   
-  return data || []
+  const total = count || 0
+  const totalPages = Math.ceil(total / ITEMS_PER_PAGE)
+  
+  // 获取全量统计数据（所有状态的数量）
+  const { data: allData } = await supabase
+    .from('wishlist')
+    .select('status')
+  
+  const stats = {
+    total: allData?.length || 0,
+    pending: allData?.filter((w) => w.status === 'pending').length || 0,
+    processing: allData?.filter((w) => w.status === 'processing').length || 0,
+    completed: allData?.filter((w) => w.status === 'completed').length || 0,
+  }
+  
+  return { 
+    items: data || [], 
+    total, 
+    totalPages,
+    currentPage: page,
+    stats,
+    statusFilter
+  }
 }
 
-export default async function WishlistPage() {
-  const wishlist = await getWishlist()
+interface WishlistPageProps {
+  searchParams: { page?: string; status?: string }
+}
+
+export default async function WishlistPage({ searchParams }: WishlistPageProps) {
+  const currentPage = parseInt(searchParams.page || '1', 10)
+  const statusFilter = searchParams.status || 'all'
+  const { items, total, totalPages, stats } = await getWishlist(currentPage, statusFilter)
 
   return (
     <div className="min-h-screen">
@@ -76,7 +117,14 @@ export default async function WishlistPage() {
 
           {/* Wishlist List */}
           <div className="order-1 lg:order-2">
-            <WishlistList wishlist={wishlist} />
+            <WishlistList 
+              wishlist={items} 
+              currentPage={currentPage}
+              totalPages={totalPages}
+              total={total}
+              stats={stats}
+              statusFilter={statusFilter}
+            />
           </div>
         </div>
       </section>
