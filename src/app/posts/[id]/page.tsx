@@ -19,6 +19,12 @@ import {
 
 export async function generateStaticParams() {
   const supabase = createStaticClient()
+  
+  // 如果环境变量未设置，返回空数组
+  if (!supabase) {
+    return []
+  }
+  
   const { data: posts } = await supabase
     .from('posts')
     .select('id')
