@@ -290,7 +290,7 @@ export default function AdminPage() {
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center justify-end gap-2">
-                        <Link href={`/${post.type === 'video' ? 'videos' : 'posts'}/${post.slug}`} target="_blank">
+                        <Link href={`/${post.type === 'video' ? 'videos' : 'posts'}/${post.id}`} target="_blank">
                           <Button variant="ghost" size="icon">
                             {post.status === 'published' ? (
                               <Eye className="w-4 h-4" />
