@@ -86,15 +86,6 @@ export function Footer() {
               <Twitter className="w-5 h-5" />
             </a>
             <a
-              href="https://github.com/m9ai"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-foreground transition-colors"
-              aria-label="GitHub"
-            >
-              <Github className="w-5 h-5" />
-            </a>
-            <a
               href="mailto:zhangjian@m9ai.work"
               className="hover:text-foreground transition-colors"
               aria-label="Email"
