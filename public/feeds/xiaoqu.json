@@ -1,0 +1,1614 @@
+[
+  {
+    "name": "博山小区",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海浦东东诚物业管理有限公司",
+      "manager": "赵挺",
+      "phone": "58857629",
+      "address": "博山路11弄45号107室"
+    },
+    "committee": {
+      "name": "博山居委"
+    }
+  },
+  {
+    "name": "翠璟名庭",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海万科物业服务有限公司",
+      "manager": "郭晓盟",
+      "phone": "68922080",
+      "address": "昌邑路1500弄9号楼一层"
+    },
+    "committee": {
+      "name": "翠璟滨江居委"
+    }
+  },
+  {
+    "name": "滨江璟园",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海万科物业服务有限公司",
+      "manager": "倪佳勇",
+      "phone": "58807688",
+      "address": "滨江大道399弄22号2楼"
+    },
+    "committee": {
+      "name": "翠璟滨江居委"
+    }
+  },
+  {
+    "name": "中新家园",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海圆誉和物业管理有限公司",
+      "manager": "徐磊",
+      "phone": "50778139",
+      "address": "灵山路785弄2-3号"
+    },
+    "committee": {
+      "name": "第五大道居委"
+    }
+  },
+  {
+    "name": "东方中华园",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "龙湖物业服务集团有限公司上海分公司",
+      "manager": "武厚元",
+      "phone": "50688990",
+      "address": "羽山路600弄34号101室"
+    },
+    "committee": {
+      "name": "第五大道居委"
+    }
+  },
+  {
+    "name": "申立苑二期",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海心廉物业管理有限公司",
+      "manager": "沈紫杰",
+      "phone": "64072258",
+      "address": "灵山路708弄保安室"
+    },
+    "committee": {
+      "name": "第五大道居委"
+    }
+  },
+  {
+    "name": "中星景园",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海奥林匹克物业管理有限公司",
+      "manager": "文万勇",
+      "phone": "18001936340",
+      "address": "灵山路717弄1号101室"
+    },
+    "committee": {
+      "name": "第五大道居委"
+    }
+  },
+  {
+    "name": "益达公寓",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海心廉物业管理有限公司",
+      "manager": "张柱干",
+      "phone": "61080506",
+      "address": "杨高中路1819弄"
+    },
+    "committee": {
+      "name": "崮二居委"
+    }
+  },
+  {
+    "name": "罗山怡景苑",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海润美物业管理有限公司",
+      "manager": "王惠娟",
+      "phone": "68565939",
+      "address": "杨高中路1708弄15号2楼"
+    },
+    "committee": {
+      "name": "崮二居委"
+    }
+  },
+  {
+    "name": "崮山一街坊",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海理家物业管理有限公司",
+      "manager": "徐伟华",
+      "phone": "58337038",
+      "address": "灵山路1396弄35号"
+    },
+    "committee": {
+      "name": "崮二居委"
+    }
+  },
+  {
+    "name": "崮山二街坊",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海心廉物业管理有限公司",
+      "manager": "李明坤",
+      "phone": "68566708",
+      "address": "灵山路1415弄43号102室"
+    },
+    "committee": {
+      "name": "崮二居委"
+    }
+  },
+  {
+    "name": "翡翠湾",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海鹤清物业管理有限公司",
+      "manager": "王毅钟",
+      "phone": "58331636",
+      "address": "张杨路2242弄3号临"
+    },
+    "committee": {
+      "name": "崮洋居委"
+    }
+  },
+  {
+    "name": "明珠苑",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海瑞玺物业管理有限公司",
+      "manager": "吴朗高",
+      "phone": "58932663",
+      "address": "张杨路2238弄21号2楼"
+    },
+    "committee": {
+      "name": "崮洋居委"
+    }
+  },
+  {
+    "name": "张杨花苑",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海鹤清物业管理有限公司",
+      "manager": "沈亚杰",
+      "phone": "58331936",
+      "address": "张杨路2228弄14号"
+    },
+    "committee": {
+      "name": "崮洋居委"
+    }
+  },
+  {
+    "name": "广洋华景苑",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海理家物业管理有限公司",
+      "manager": "沈晓琪",
+      "phone": "50339358",
+      "address": "张杨路2600弄12号201室"
+    },
+    "committee": {
+      "name": "崮一居委"
+    }
+  },
+  {
+    "name": "崮山四街坊",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海浦东东诚物业管理有限公司",
+      "manager": "田炯",
+      "phone": "50897323",
+      "address": "羽山路1445弄27号102室"
+    },
+    "committee": {
+      "name": "崮一居委"
+    }
+  },
+  {
+    "name": "崮山三街坊",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海浦东东诚物业管理有限公司",
+      "manager": "田炯",
+      "phone": "50897323",
+      "address": "羽山路1445弄27号102室"
+    },
+    "committee": {
+      "name": "崮一居委"
+    }
+  },
+  {
+    "name": "陆家嘴国际华城",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "绿城物业服务集团有限公司上海分公司",
+      "manager": "陈胜东",
+      "phone": "68550178",
+      "address": "张杨路1515弄19号1楼"
+    },
+    "committee": {
+      "name": "国际华城居委"
+    }
+  },
+  {
+    "name": "弘扬沁园",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海永升物业管理有限公司",
+      "manager": "赵小兵",
+      "phone": "57876676",
+      "address": "苗圃路400弄15号"
+    },
+    "committee": {
+      "name": "海弘居委"
+    }
+  },
+  {
+    "name": "中星海上景庭",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "港联物业服务(上海)有限公司",
+      "manager": "朱金磊",
+      "phone": "58212378",
+      "address": "张杨路1811弄5号101室"
+    },
+    "committee": {
+      "name": "海弘居委"
+    }
+  },
+  {
+    "name": "海联大厦",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海心廉物业管理有限公司",
+      "manager": "武德强",
+      "phone": "13524899777",
+      "address": "浦东大道1464号"
+    },
+    "committee": {
+      "name": "海院居委"
+    }
+  },
+  {
+    "name": "海一小区",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海心廉物业管理有限公司",
+      "manager": "刘德阳",
+      "phone": "61080506",
+      "address": "栖山路467号2楼"
+    },
+    "committee": {
+      "name": "海院居委"
+    }
+  },
+  {
+    "name": "海二小区",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海浦东东诚物业管理有限公司",
+      "manager": "金中",
+      "phone": "58602756",
+      "address": "巨野路60弄4号"
+    },
+    "committee": {
+      "name": "海院居委"
+    }
+  },
+  {
+    "name": "浦海小区",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海浦东东诚物业管理有限公司",
+      "manager": "金中",
+      "phone": "58602756",
+      "address": "巨野路60弄4号"
+    },
+    "committee": {
+      "name": "海院居委"
+    }
+  },
+  {
+    "name": "泾东小区",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海浦东东诚物业管理有限公司",
+      "manager": "赵挺",
+      "phone": "58857629",
+      "address": "博山路11弄45号107室"
+    },
+    "committee": {
+      "name": "泾东居委"
+    }
+  },
+  {
+    "name": "金淙苑",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海圆誉和物业管理有限公司",
+      "manager": "龙晓君",
+      "phone": "50613557",
+      "address": "巨野路197弄2号103室"
+    },
+    "committee": {
+      "name": "泾西居委"
+    }
+  },
+  {
+    "name": "泾西一村",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海圆誉和物业管理有限公司",
+      "manager": "龙晓君",
+      "phone": "50613557",
+      "address": "巨野路197弄2号103室"
+    },
+    "committee": {
+      "name": "泾西居委"
+    }
+  },
+  {
+    "name": "沈家弄路946弄",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海浦东东诚物业管理有限公司",
+      "manager": "田炯",
+      "phone": "50897323",
+      "address": "羽山路1445弄27号102室"
+    },
+    "committee": {
+      "name": "泾西居委"
+    }
+  },
+  {
+    "name": "巨野路109弄",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海浦东东诚物业管理有限公司",
+      "manager": "金中",
+      "phone": "58602756",
+      "address": "巨野路60弄4号"
+    },
+    "committee": {
+      "name": "泾西居委"
+    }
+  },
+  {
+    "name": "泾栖小区",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海国海物业公司",
+      "manager": "曾凡兵",
+      "phone": "58216510",
+      "address": "栖山路130弄1号101室"
+    },
+    "committee": {
+      "name": "泾西居委"
+    }
+  },
+  {
+    "name": "心中家园",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海联讯物业管理有限公司",
+      "manager": "黄海英",
+      "phone": "50283939",
+      "address": "苗圃路303弄5号101室"
+    },
+    "committee": {
+      "name": "泾西居委"
+    }
+  },
+  {
+    "name": "双城苑西苑",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海同海物业管理有限公司",
+      "manager": "华敏",
+      "phone": "68538750",
+      "address": "巨野路455弄内"
+    },
+    "committee": {
+      "name": "巨东居委"
+    }
+  },
+  {
+    "name": "龙威名邸",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海同海物业管理有限公司",
+      "manager": "包建国",
+      "phone": "68538750",
+      "address": "巨野路455弄内"
+    },
+    "committee": {
+      "name": "巨东居委"
+    }
+  },
+  {
+    "name": "巨东小区",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海浦东东诚物业管理有限公司",
+      "manager": "田炯",
+      "phone": "50897323",
+      "address": "羽山路1445弄27号102室"
+    },
+    "committee": {
+      "name": "巨东居委"
+    }
+  },
+  {
+    "name": "巨西小区",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海馨兰物业管理有限公司",
+      "manager": "司兵",
+      "phone": "58995739",
+      "address": "沈家弄路900弄102号"
+    },
+    "committee": {
+      "name": "巨西居委"
+    }
+  },
+  {
+    "name": "中星巨野公寓",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海馨兰物业管理有限公司",
+      "manager": "司兵",
+      "phone": "58995739",
+      "address": "沈家弄路900弄102号"
+    },
+    "committee": {
+      "name": "巨西居委"
+    }
+  },
+  {
+    "name": "巨野公寓",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海馨兰物业管理有限公司",
+      "manager": "司兵",
+      "phone": "58995739",
+      "address": "沈家弄路900弄102号"
+    },
+    "committee": {
+      "name": "巨西居委"
+    }
+  },
+  {
+    "name": "大陆家宅",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海浦东东诚物业管理有限公司",
+      "manager": "金中",
+      "phone": "58602756",
+      "address": "巨野路60弄4号"
+    },
+    "committee": {
+      "name": "巨西居委"
+    }
+  },
+  {
+    "name": "民生四村",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海圆誉和物业管理有限公司",
+      "manager": "徐磊",
+      "phone": "31901440",
+      "address": "民生路324弄103室"
+    },
+    "committee": {
+      "name": "巨西居委"
+    }
+  },
+  {
+    "name": "民生家园",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海浦东东诚物业管理有限公司",
+      "manager": "田炯",
+      "phone": "50897323",
+      "address": "羽山路1445弄27号102室"
+    },
+    "committee": {
+      "name": "巨西居委"
+    }
+  },
+  {
+    "name": "中星张杨苑",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海通力物业管理有限公司",
+      "manager": "艾福弟",
+      "phone": "50303870",
+      "address": "沈家弄路877弄30号101室"
+    },
+    "committee": {
+      "name": "巨杨居委"
+    }
+  },
+  {
+    "name": "沈家弄路901弄",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海千雅物业管理有限公司",
+      "manager": "姜秀萍",
+      "phone": "58852448",
+      "address": "栖山路100弄53号104室"
+    },
+    "committee": {
+      "name": "巨杨居委"
+    }
+  },
+  {
+    "name": "申城公寓",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海辉佑物业管理有限公司",
+      "manager": "徐卉",
+      "phone": "60706678",
+      "address": "巨野路22号109室"
+    },
+    "committee": {
+      "name": "巨野居委"
+    }
+  },
+  {
+    "name": "旭辉雅苑",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海永升物业管理有限公司",
+      "manager": "陈宇",
+      "phone": "50759135",
+      "address": "苗圃路400弄15号"
+    },
+    "committee": {
+      "name": "巨野居委"
+    }
+  },
+  {
+    "name": "巨野小区",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海浦东东诚物业管理有限公司",
+      "manager": "金中",
+      "phone": "58602756",
+      "address": "巨野路60弄4号"
+    },
+    "committee": {
+      "name": "巨野居委"
+    }
+  },
+  {
+    "name": "泾华小区",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海浦东东诚物业管理有限公司",
+      "manager": "金中",
+      "phone": "58602756",
+      "address": "巨野路60弄4号"
+    },
+    "committee": {
+      "name": "巨野居委"
+    }
+  },
+  {
+    "name": "凌高小区",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海心廉物业管理有限公司",
+      "manager": "任中才",
+      "phone": "68390708",
+      "address": "栖山路401弄"
+    },
+    "committee": {
+      "name": "凌高居委"
+    }
+  },
+  {
+    "name": "雅华公寓",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海佳信物业管理有限公司",
+      "manager": "肖裕荣",
+      "phone": "20403225",
+      "address": "栖山路401弄7号临1"
+    },
+    "committee": {
+      "name": "凌高居委"
+    }
+  },
+  {
+    "name": "星宇大楼",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海浦东东诚物业管理有限公司",
+      "manager": "高一鸣",
+      "phone": "50990885",
+      "address": "浦东大道1615弄11号"
+    },
+    "committee": {
+      "name": "凌三居委"
+    }
+  },
+  {
+    "name": "凌联三村",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海浦东东诚物业管理有限公司",
+      "manager": "高一鸣",
+      "phone": "50990885",
+      "address": "浦东大道1615弄11号"
+    },
+    "committee": {
+      "name": "凌三居委"
+    }
+  },
+  {
+    "name": "凌四小区",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海心廉物业管理有限公司",
+      "manager": "倪爱娣",
+      "phone": "61046040",
+      "address": "浦东大道1851弄55号-1"
+    },
+    "committee": {
+      "name": "凌四居委"
+    }
+  },
+  {
+    "name": "和达家园",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海龙平物业管理服务有限公司",
+      "manager": "吕晓光",
+      "phone": "58521499",
+      "address": "浦东大道1819弄6-1临"
+    },
+    "committee": {
+      "name": "凌四居委"
+    }
+  },
+  {
+    "name": "浦发滨江荟庭E23",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海浦发有家物业管理有限公司",
+      "manager": "胡磊",
+      "phone": "50882121",
+      "address": "崮山北路100弄前台"
+    },
+    "committee": {
+      "name": "凌四居委"
+    }
+  },
+  {
+    "name": "浦发滨江荟庭E24-1",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "融创物业服务集团有限公司上海分公司",
+      "manager": "龚云云",
+      "phone": "13641856906",
+      "address": "崮山北路99弄12号2楼"
+    },
+    "committee": {
+      "name": "凌四居委"
+    }
+  },
+  {
+    "name": "洋邑茗苑",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海古北物业管理有限公司",
+      "manager": "贺佳宾",
+      "phone": "50800399",
+      "address": "崮山北路88号"
+    },
+    "committee": {
+      "name": "凌四居委"
+    }
+  },
+  {
+    "name": "凌联一村",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海浦东东诚物业管理有限公司",
+      "manager": "高一鸣",
+      "phone": "50990885",
+      "address": "浦东大道1615弄11号"
+    },
+    "committee": {
+      "name": "凌一居委"
+    }
+  },
+  {
+    "name": "陆家嘴花园二期",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海陆家嘴物业管理有限公司",
+      "manager": "姜燕",
+      "phone": "58853254",
+      "address": "羽山路308弄45号101室"
+    },
+    "committee": {
+      "name": "陆家嘴第二居委"
+    }
+  },
+  {
+    "name": "陆家嘴花园一期",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海陆家嘴物业管理有限公司",
+      "manager": "颜景斌",
+      "phone": "56530975",
+      "address": "桃林路815弄下沉广场"
+    },
+    "committee": {
+      "name": "陆家嘴居委"
+    }
+  },
+  {
+    "name": "金博尚品苑",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海东莲物业管理有限公司",
+      "manager": "魏东升",
+      "phone": "50152036",
+      "address": "张杨路1528弄2号1楼"
+    },
+    "committee": {
+      "name": "陆家嘴居委"
+    }
+  },
+  {
+    "name": "证大宽域",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海家佳物业管理有限公司",
+      "manager": "周立峰",
+      "phone": "13311861735",
+      "address": "张扬路1500弄物业办公室"
+    },
+    "committee": {
+      "name": "陆家嘴居委"
+    }
+  },
+  {
+    "name": "东银公寓",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海富都物业管理有限公司",
+      "manager": "殷申勇",
+      "phone": "50499639",
+      "address": "张杨路1550弄4号楼201室"
+    },
+    "committee": {
+      "name": "陆家嘴居委"
+    }
+  },
+  {
+    "name": "环球广场",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海怡美物业管理有限公司",
+      "manager": "朱意盛",
+      "phone": "58214475",
+      "address": "桃林路18号B101室"
+    },
+    "committee": {
+      "name": "玫瑰园居委"
+    }
+  },
+  {
+    "name": "珠江玫瑰花园",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "深圳市盛孚物业管理有限公司上海分公司",
+      "manager": "于民",
+      "phone": "50836061",
+      "address": "浦东大道1097弄14号1楼C座"
+    },
+    "committee": {
+      "name": "玫瑰园居委"
+    }
+  },
+  {
+    "name": "名门滨江苑",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海复欣物业管理有限公司",
+      "manager": "张国萍",
+      "phone": "50473672",
+      "address": "浦东大道1093弄1号"
+    },
+    "committee": {
+      "name": "玫瑰园居委"
+    }
+  },
+  {
+    "name": "惠扬大厦",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海海鸿福船物业管理有限公司",
+      "manager": "包汝青",
+      "phone": "58521811",
+      "address": "浦东大道1139弄1号楼"
+    },
+    "committee": {
+      "name": "玫瑰园居委"
+    }
+  },
+  {
+    "name": "璟悦名邸",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海古北物业管理有限公司",
+      "manager": "陈佳露",
+      "phone": "50800399",
+      "address": "昌邑路998弄10号201室"
+    },
+    "committee": {
+      "name": "玫瑰园居委"
+    }
+  },
+  {
+    "name": "八方大厦",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海八方物业管理有限公司",
+      "manager": "诸晓华",
+      "phone": "58529027",
+      "address": "张杨路1591号105室"
+    },
+    "committee": {
+      "name": "民杨居委"
+    }
+  },
+  {
+    "name": "生安花苑",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海联讯物业管理有限公司",
+      "manager": "陆宏钧",
+      "phone": "58213317",
+      "address": "张杨路1673弄7-8号底楼"
+    },
+    "committee": {
+      "name": "民杨居委"
+    }
+  },
+  {
+    "name": "桃林公寓",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海德鑫物业管理有限公司",
+      "manager": "朱一帆",
+      "phone": "58858712",
+      "address": "张杨路1647弄3号106室"
+    },
+    "committee": {
+      "name": "民杨居委"
+    }
+  },
+  {
+    "name": "金露苑",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海联讯物业管理有限公司",
+      "manager": "陆宏钧",
+      "phone": "58213317",
+      "address": "张杨路1673弄7-8号底楼"
+    },
+    "committee": {
+      "name": "民杨居委"
+    }
+  },
+  {
+    "name": "东珂花苑",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海联讯物业管理有限公司",
+      "manager": "陆宏钧（当日有主管接待）",
+      "phone": "50208718",
+      "address": "张杨路1621号"
+    },
+    "committee": {
+      "name": "民杨居委"
+    }
+  },
+  {
+    "name": "名门世家",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海罗恒房产经营有限公司",
+      "manager": "王建军",
+      "phone": "68535526",
+      "address": "崮山路322弄15号3楼"
+    },
+    "committee": {
+      "name": "名门世家居委"
+    }
+  },
+  {
+    "name": "名门河滨花园",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海罗恒房产经营有限公司",
+      "manager": "王国庆",
+      "phone": "50931270",
+      "address": "博山路200弄20号"
+    },
+    "committee": {
+      "name": "名门世家居委"
+    }
+  },
+  {
+    "name": "崮山路250-264号",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海罗恒房产经营有限公司",
+      "manager": "王建军",
+      "phone": "68535526",
+      "address": "崮山路322弄15号3楼"
+    },
+    "committee": {
+      "name": "名门世家居委"
+    }
+  },
+  {
+    "name": "铂悦滨江",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海永升物业管理有限公司",
+      "manager": "陈宇",
+      "phone": "50759135",
+      "address": "苗圃路400弄15号"
+    },
+    "committee": {
+      "name": "名门世家居委"
+    }
+  },
+  {
+    "name": "栖山小区50-63号",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海千雅物业管理有限公司",
+      "manager": "姜秀萍",
+      "phone": "58852448",
+      "address": "栖山路100弄53号104室"
+    },
+    "committee": {
+      "name": "栖山居委"
+    }
+  },
+  {
+    "name": "栖山小区",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海浦东东诚物业管理有限公司",
+      "manager": "金中",
+      "phone": "58602756",
+      "address": "巨野路60弄4号"
+    },
+    "committee": {
+      "name": "栖山居委"
+    }
+  },
+  {
+    "name": "中星怡景花园",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海沙田物业管理有限公司",
+      "manager": "严佳男",
+      "phone": "58604265",
+      "address": "苗圃路600弄24号"
+    },
+    "committee": {
+      "name": "森洋居委"
+    }
+  },
+  {
+    "name": "森林湾公寓",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海尚诚物业管理有限公司",
+      "manager": "王征",
+      "phone": "58213528",
+      "address": "羽山路1001弄1号甲"
+    },
+    "committee": {
+      "name": "森洋居委"
+    }
+  },
+  {
+    "name": "森林湾家园",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海馨兰物业管理有限公司",
+      "manager": "龚祎",
+      "phone": "58528956",
+      "address": "羽山路967弄1号"
+    },
+    "committee": {
+      "name": "森洋居委"
+    }
+  },
+  {
+    "name": "泾苑-景宏嘉园",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海天颐物业管理有限公司",
+      "manager": "柴文素",
+      "phone": "58219456",
+      "address": "羽山路998弄7号一层"
+    },
+    "committee": {
+      "name": "森洋居委"
+    }
+  },
+  {
+    "name": "东晶国际公寓",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海华辰物业管理有限公司",
+      "manager": "王杰",
+      "phone": "58527035",
+      "address": "浦东大道988弄3号303-306室"
+    },
+    "committee": {
+      "name": "上海滩花园居委"
+    }
+  },
+  {
+    "name": "裕龙花园",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海万科物业服务有限公司",
+      "manager": "管永杰",
+      "phone": "68557300",
+      "address": "乳山路505弄42号"
+    },
+    "committee": {
+      "name": "上海滩花园居委"
+    }
+  },
+  {
+    "name": "巨洋豪园",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海方圆物业管理有限公司",
+      "manager": "张居山",
+      "phone": "50930983",
+      "address": "浦东大道1200号1楼"
+    },
+    "committee": {
+      "name": "上海滩花园居委"
+    }
+  },
+  {
+    "name": "陆家嘴美丽苑",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "绿城物业服务集团有限公司上海分公司",
+      "manager": "李一龙",
+      "phone": "50586960",
+      "address": "羽山路373号一楼"
+    },
+    "committee": {
+      "name": "山水国际居委"
+    }
+  },
+  {
+    "name": "盛世年华花园",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "深圳市金地物业管理有限公司上海分公司",
+      "manager": "赵彪",
+      "phone": "50871970",
+      "address": "羽山路100弄3-5楼"
+    },
+    "committee": {
+      "name": "盛世年华居委"
+    }
+  },
+  {
+    "name": "尚海郦景名苑",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海古北物业管理有限公司",
+      "manager": "陈庆花",
+      "phone": "50196660",
+      "address": "桃林路299弄67号"
+    },
+    "committee": {
+      "name": "尚海郦景居委"
+    }
+  },
+  {
+    "name": "馨澜公寓",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海古北物业管理有限公司",
+      "manager": "翁剑桦",
+      "phone": "58858098",
+      "address": "民生路318弄5号103室"
+    },
+    "committee": {
+      "name": "尚海郦景居委"
+    }
+  },
+  {
+    "name": "雅景公寓",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海民申物业管理有限公司",
+      "manager": "高杰",
+      "phone": "58851780",
+      "address": "羽山路400弄1号1楼"
+    },
+    "committee": {
+      "name": "桃二居委"
+    }
+  },
+  {
+    "name": "桃林二小区",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海浦东新区潍坊物业有限公司",
+      "manager": "朱海捷",
+      "phone": "58214374",
+      "address": "灵山路701弄28号105室"
+    },
+    "committee": {
+      "name": "桃二居委"
+    }
+  },
+  {
+    "name": "新天家园",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海六角物业管理有限公司",
+      "manager": "贲桂来",
+      "phone": "68534231",
+      "address": "桃林路1141弄5号楼101室"
+    },
+    "committee": {
+      "name": "桃一居委"
+    }
+  },
+  {
+    "name": "桃林一小区",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海心廉物业管理有限公司",
+      "manager": "陈述宏",
+      "phone": "58212271",
+      "address": "灵山路600弄50号"
+    },
+    "committee": {
+      "name": "桃一居委"
+    }
+  },
+  {
+    "name": "洋泾花园城",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海联讯物业管理有限公司",
+      "manager": "杨卫丽",
+      "phone": "58856271",
+      "address": "苗圃路60弄"
+    },
+    "committee": {
+      "name": "维多利居委"
+    }
+  },
+  {
+    "name": "东方城市公寓",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海联讯物业管理有限公司",
+      "manager": "庄严",
+      "phone": "51909108",
+      "address": "苗圃路60弄"
+    },
+    "committee": {
+      "name": "维多利居委"
+    }
+  },
+  {
+    "name": "维多利华庭",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海招商局物业管理有限公司",
+      "manager": "解玉叶",
+      "phone": "58567812",
+      "address": "苗圃路218弄"
+    },
+    "committee": {
+      "name": "维多利居委"
+    }
+  },
+  {
+    "name": "苗圃路138弄",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海圆誉和物业管理有限公司",
+      "manager": "龙晓君",
+      "phone": "50613557",
+      "address": "巨野路197弄2号103室"
+    },
+    "committee": {
+      "name": "维多利居委"
+    }
+  },
+  {
+    "name": "西镇小区",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海东方物业有限公司",
+      "manager": "张秋",
+      "phone": "58211988",
+      "address": "定水路50弄18号103室"
+    },
+    "committee": {
+      "name": "西镇居委"
+    }
+  },
+  {
+    "name": "海光·海炼大楼",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海尚诚物业管理有限公司",
+      "manager": "何莹",
+      "phone": "58857837",
+      "address": "北洋泾路601号0004室"
+    },
+    "committee": {
+      "name": "西镇居委"
+    }
+  },
+  {
+    "name": "绿地泾南公寓",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海撼崴物业管理有限公司",
+      "manager": "李士全",
+      "phone": "68530771",
+      "address": "杨高中路2168弄55号101室"
+    },
+    "committee": {
+      "name": "星海居委"
+    }
+  },
+  {
+    "name": "新城海上名园",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海申城物业管理有限公司",
+      "manager": "邓凤雷",
+      "phone": "58604145",
+      "address": "灵山路866弄物业办公室"
+    },
+    "committee": {
+      "name": "星海居委"
+    }
+  },
+  {
+    "name": "中星恬园",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海公益物业管理有限公司",
+      "manager": "黄刚",
+      "phone": "50136502",
+      "address": "民生路999弄18号"
+    },
+    "committee": {
+      "name": "星海居委"
+    }
+  },
+  {
+    "name": "申舟明阳苑",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海撼巍物业管理有限公司",
+      "manager": "李士全",
+      "phone": "50930848",
+      "address": "民生路1001弄物业办公室"
+    },
+    "committee": {
+      "name": "星海居委"
+    }
+  },
+  {
+    "name": "申舟明林苑",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海申舟物业管理有限公司",
+      "manager": "方宏萍",
+      "phone": "50930848",
+      "address": "灵山路858弄2号201室"
+    },
+    "committee": {
+      "name": "星海居委"
+    }
+  },
+  {
+    "name": "海灵小区",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海心廉物业管理有限公司",
+      "manager": "沈紫杰",
+      "phone": "60472228",
+      "address": "灵山路708弄保安室"
+    },
+    "committee": {
+      "name": "星海居委"
+    }
+  },
+  {
+    "name": "申立苑",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海心廉物业管理有限公司",
+      "manager": "沈紫杰",
+      "phone": "60472228",
+      "address": "灵山路708弄保安室"
+    },
+    "committee": {
+      "name": "星海居委"
+    }
+  },
+  {
+    "name": "阳光二村",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海浦东东诚物业管理有限公司",
+      "manager": "韩晓雅",
+      "phone": "58858784",
+      "address": "凌家弄路89号"
+    },
+    "committee": {
+      "name": "阳二居委"
+    }
+  },
+  {
+    "name": "凌多小区",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海东方物业有限公司",
+      "manager": "王俊文",
+      "phone": "58606797",
+      "address": "栖山路400弄19号103室"
+    },
+    "committee": {
+      "name": "阳二居委"
+    }
+  },
+  {
+    "name": "阳栖小区",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海心廉物业管理有限公司",
+      "manager": "刘德阳",
+      "phone": "61080506",
+      "address": "栖山路467号2楼"
+    },
+    "committee": {
+      "name": "阳三居委"
+    }
+  },
+  {
+    "name": "阳光三村",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海浦东东诚物业管理有限公司",
+      "manager": "韩晓雅",
+      "phone": "58858784",
+      "address": "凌家弄路89号"
+    },
+    "committee": {
+      "name": "阳三居委"
+    }
+  },
+  {
+    "name": "海三小区",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海家佳物业有限公司",
+      "manager": "张叶平",
+      "phone": "58526459",
+      "address": "崮山路251弄物业办公室"
+    },
+    "committee": {
+      "name": "阳三居委"
+    }
+  },
+  {
+    "name": "龙珠公寓",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海秉福物业服务有限公司",
+      "manager": "王海亮",
+      "phone": "58601188",
+      "address": "浦东大道2123号"
+    },
+    "committee": {
+      "name": "永安居委"
+    }
+  },
+  {
+    "name": "上安大厦",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海伟发物业有限公司",
+      "manager": "李伟苹",
+      "phone": "50282157",
+      "address": "浦东大道2220号105室"
+    },
+    "committee": {
+      "name": "永安居委"
+    }
+  },
+  {
+    "name": "鼎隆小区",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海心廉物业管理有限公司",
+      "manager": "刘德阳",
+      "phone": "61080506",
+      "address": "栖山路467号2楼"
+    },
+    "committee": {
+      "name": "永安居委"
+    }
+  },
+  {
+    "name": "永安新村",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海浦东东诚物业管理有限公司",
+      "manager": "韩晓雅",
+      "phone": "58858784",
+      "address": "凌家弄路89号"
+    },
+    "committee": {
+      "name": "永安居委"
+    }
+  },
+  {
+    "name": "羽北小区",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海中星集团申城物业有限公司",
+      "manager": "孙中琦",
+      "phone": "58851074",
+      "address": "巨野路482弄11号甲"
+    },
+    "committee": {
+      "name": "羽北居委"
+    }
+  },
+  {
+    "name": "海苑大厦",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海家佳物业有限公司",
+      "manager": "顾敏姿",
+      "phone": "58526459",
+      "address": "张杨路1662弄8号105室"
+    },
+    "committee": {
+      "name": "羽北居委"
+    }
+  },
+  {
+    "name": "双城苑东苑",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海同海物业管理有限公司",
+      "manager": "左毛毛",
+      "phone": "50937931",
+      "address": "苗圃路438弄地下室"
+    },
+    "committee": {
+      "name": "羽洋居委"
+    }
+  },
+  {
+    "name": "张杨南苑",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海圆誉和物业管理有限公司",
+      "manager": "徐磊",
+      "phone": "50281471",
+      "address": "羽山路951弄15号"
+    },
+    "committee": {
+      "name": "羽洋居委"
+    }
+  },
+  {
+    "name": "南洋苑",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海浦东东诚物业管理有限公司",
+      "manager": "田炯",
+      "phone": "50897323",
+      "address": "羽山路1445弄27号102室"
+    },
+    "committee": {
+      "name": "羽洋居委"
+    }
+  },
+  {
+    "name": "新城名庭",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海理家物业管理有限公司",
+      "manager": "沈坚",
+      "phone": "50677170",
+      "address": "羽山路851弄6号101室"
+    },
+    "committee": {
+      "name": "羽洋居委"
+    }
+  },
+  {
+    "name": "华阳苑",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海馨兰物业管理有限公司",
+      "manager": "娄建君",
+      "phone": "58525044",
+      "address": "张杨路2100弄3号F层业委会办公室"
+    },
+    "committee": {
+      "name": "羽洋居委"
+    }
+  },
+  {
+    "name": "中新公寓",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海馨蔷物业管理有限公司",
+      "manager": "徐斌",
+      "phone": "50282132",
+      "address": "南洋泾路268号"
+    },
+    "committee": {
+      "name": "羽洋居委"
+    }
+  },
+  {
+    "name": "新城名园",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海同海物业管理有限公司",
+      "manager": "左毛毛",
+      "phone": "50937931",
+      "address": "苗圃路438弄地下室"
+    },
+    "committee": {
+      "name": "羽洋居委"
+    }
+  },
+  {
+    "name": "海防新村",
+    "yeweihui": {"secretary":"","tel":""},
+    "property": {
+      "name": "上海浦东东诚物业管理有限公司",
+      "manager": "韩晓雅",
+      "phone": "58858616",
+      "address": "凌家弄路89号"
+    },
+    "committee": {
+      "name": "海防居委"
+    }
+  }
+]
