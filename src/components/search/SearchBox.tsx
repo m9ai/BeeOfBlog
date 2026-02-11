@@ -2,12 +2,14 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
-import { Search, X, Loader2, Heart, FileText, Video } from 'lucide-react'
+import { Search, X, Loader2, Heart, FileText, Video, Phone, Building2, Home } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { createClient } from '@/lib/supabase/client'
 import { useDebounce } from '@/hooks/useDebounce'
 import { Badge } from '@/components/ui/badge'
+import jiedaoData from '@/../../public/feeds/jiedao.json'
+import xiaoquData from '@/../../public/feeds/xiaoqu.json'
 
 interface PostResult {
   id: string
@@ -27,7 +29,17 @@ interface WishlistResult {
   source: 'wishlist'
 }
 
-type SearchResult = PostResult | WishlistResult
+interface ServiceResult {
+  name: string
+  phone: string
+  type: 'jiedao' | 'xiaoqu'
+  category?: string
+  propertyName?: string
+  committeeName?: string
+  source: 'service'
+}
+
+type SearchResult = PostResult | WishlistResult | ServiceResult
 
 const categoryLabels: Record<string, string> = {
   old_renovation: '小区旧改',
@@ -83,6 +95,7 @@ export function SearchBox() {
       const searchTerm = debouncedQuery.trim()
 
       try {
+        // 搜索数据库内容
         const [postsResult, wishlistResult] = await Promise.all([
           supabase
             .from('posts')
@@ -99,6 +112,39 @@ export function SearchBox() {
             .abortSignal(abortControllerRef.current.signal),
         ])
 
+        // 搜索便民信息
+        const jiedaoResults = jiedaoData
+          .filter((item: any) =>
+            item.name.includes(searchTerm) ||
+            item.phone.includes(searchTerm) ||
+            item.category.includes(searchTerm)
+          )
+          .slice(0, 3)
+          .map((item: any) => ({
+            name: item.name,
+            phone: item.phone,
+            type: 'jiedao' as const,
+            category: item.category,
+            source: 'service' as const,
+          }))
+
+        const xiaoquResults = xiaoquData
+          .filter((item: any) =>
+            item.name.includes(searchTerm) ||
+            item.property.name.includes(searchTerm) ||
+            item.property.phone.includes(searchTerm) ||
+            item.committee.name.includes(searchTerm)
+          )
+          .slice(0, 3)
+          .map((item: any) => ({
+            name: item.name,
+            phone: item.property.phone,
+            type: 'xiaoqu' as const,
+            propertyName: item.property.name,
+            committeeName: item.committee.name,
+            source: 'service' as const,
+          }))
+
         const combinedResults: SearchResult[] = []
 
         if (!postsResult.error && postsResult.data) {
@@ -112,6 +158,9 @@ export function SearchBox() {
             ...wishlistResult.data.map((item) => ({ ...item, source: 'wishlist' as const }))
           )
         }
+
+        // 添加便民信息到结果
+        combinedResults.push(...jiedaoResults, ...xiaoquResults)
 
         setResults(combinedResults)
       } catch (err) {
@@ -145,8 +194,10 @@ export function SearchBox() {
     if (result.source === 'post') {
       const path = result.type === 'video' ? `/videos/${result.id}` : `/posts/${result.id}`
       router.push(path)
-    } else {
+    } else if (result.source === 'wishlist') {
       router.push(`/wishlist/${result.id}`)
+    } else if (result.source === 'service') {
+      router.push(`/services?q=${encodeURIComponent(result.name)}`)
     }
     setShowResults(false)
     setQuery('')
@@ -161,6 +212,13 @@ export function SearchBox() {
   function getResultIcon(result: SearchResult) {
     if (result.source === 'wishlist') {
       return <Heart className="w-4 h-4 text-red-500" />
+    }
+    if (result.source === 'service') {
+      return result.type === 'jiedao' ? (
+        <Building2 className="w-4 h-4 text-green-500" />
+      ) : (
+        <Home className="w-4 h-4 text-orange-500" />
+      )
     }
     return result.type === 'video' ? (
       <Video className="w-4 h-4 text-purple-500" />
@@ -178,6 +236,21 @@ export function SearchBox() {
         </Badge>
       )
     }
+    if (result.source === 'service') {
+      return (
+        <Badge
+          variant="outline"
+          className={`text-xs ${
+            result.type === 'jiedao'
+              ? 'bg-green-500/10 text-green-600 border-green-200'
+              : 'bg-orange-500/10 text-orange-600 border-orange-200'
+          }`}
+        >
+          <Phone className="w-3 h-3 mr-1" />
+          {result.type === 'jiedao' ? '街道' : '小区'}
+        </Badge>
+      )
+    }
     return (
       <Badge
         variant="outline"
@@ -192,6 +265,23 @@ export function SearchBox() {
     )
   }
 
+  function getResultDescription(result: SearchResult) {
+    if (result.source === 'post') {
+      return result.excerpt || '暂无描述'
+    }
+    if (result.source === 'wishlist') {
+      return result.content.slice(0, 50) + '...'
+    }
+    if (result.source === 'service') {
+      if (result.type === 'jiedao') {
+        return `${result.category} · ${result.phone}`
+      } else {
+        return `${result.propertyName} · ${result.phone}`
+      }
+    }
+    return ''
+  }
+
   return (
     <div ref={containerRef} className="relative w-full max-w-md">
       <form onSubmit={handleSubmit} className="relative">
@@ -199,7 +289,7 @@ export function SearchBox() {
         <Input
           ref={inputRef}
           type="text"
-          placeholder="搜索文章、视频或心愿单..."
+          placeholder="搜索文章、视频、心愿单或便民电话..."
           value={query}
           onChange={(e) => {
             setQuery(e.target.value)
@@ -247,11 +337,9 @@ export function SearchBox() {
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="font-medium text-sm truncate">{result.title}</h4>
+                    <h4 className="font-medium text-sm truncate">{result.source === 'service' ? result.name : result.title}</h4>
                     <p className="text-xs text-muted-foreground truncate">
-                      {result.source === 'post'
-                        ? result.excerpt || '暂无描述'
-                        : result.content.slice(0, 50) + '...'}
+                      {getResultDescription(result)}
                     </p>
                   </div>
                   {getResultBadge(result)}

@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
-import { Video, FileText, Menu, X, Home, User, Shield, Heart } from 'lucide-react'
+import { Video, FileText, Menu, X, Home, User, Shield, Heart, Phone } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { createClient } from '@/lib/supabase/client'
 import { SearchBox } from '@/components/search/SearchBox'
@@ -41,6 +41,7 @@ export function Header() {
     { href: '/', label: '首页', icon: Home },
     { href: '/videos', label: '视频号', icon: Video },
     { href: '/posts', label: '公众号', icon: FileText },
+    { href: '/services', label: '便民', icon: Phone },
     { href: '/wishlist', label: '心愿单', icon: Heart },
   ]
 
@@ -128,14 +129,6 @@ export function Header() {
                 {item.label}
               </Link>
             ))}
-            <Link
-              href="/wishlist"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary transition-all"
-            >
-              <Heart className="w-5 h-5" />
-              心愿单
-            </Link>
             <Link
               href="/admin"
               onClick={() => setMobileMenuOpen(false)}
