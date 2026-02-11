@@ -6,10 +6,11 @@ import { SetupAdminForm } from './SetupAdminForm'
 const SETUP_SECRET_KEY = process.env.SETUP_SECRET_KEY
 
 interface SetupPageProps {
-  searchParams: { key?: string }
+  searchParams: Promise<{ key?: string }>
 }
 
-export default async function SetupAdminPage({ searchParams }: SetupPageProps) {
+export default async function SetupAdminPage(props: SetupPageProps) {
+  const searchParams = await props.searchParams
   // 验证密钥
   if (!SETUP_SECRET_KEY || searchParams.key !== SETUP_SECRET_KEY) {
     redirect('/admin/login')

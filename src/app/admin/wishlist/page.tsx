@@ -80,10 +80,11 @@ async function getWishlist(
 }
 
 interface AdminWishlistPageProps {
-  searchParams: { page?: string; status?: string; priority?: string; category?: string }
+  searchParams: Promise<{ page?: string; status?: string; priority?: string; category?: string }>
 }
 
-export default async function AdminWishlistPage({ searchParams }: AdminWishlistPageProps) {
+export default async function AdminWishlistPage(props: AdminWishlistPageProps) {
+  const searchParams = await props.searchParams
   const isAdmin = await checkAdmin()
   
   if (!isAdmin) {

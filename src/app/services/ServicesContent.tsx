@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { Phone, Building2, Home as HomeIcon, Search } from 'lucide-react'
+import { Phone, Building2, Home as HomeIcon, Search, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent } from '@/components/ui/card'
@@ -169,8 +169,20 @@ export default function ServicesContent() {
             placeholder="搜索小区名称、物业、电话..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 h-12"
+            className="pl-10 pr-10 h-12"
           />
+          {searchQuery && (
+            <button
+              onClick={() => {
+                setSearchQuery('')
+                setSelectedLetter('')
+              }}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="清空搜索"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          )}
         </div>
 
         <div className="flex gap-2 justify-center">

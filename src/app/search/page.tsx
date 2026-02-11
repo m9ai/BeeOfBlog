@@ -8,7 +8,7 @@ import { format } from 'date-fns'
 import { zhCN } from 'date-fns/locale'
 
 interface SearchPageProps {
-  searchParams: { q?: string }
+  searchParams: Promise<{ q?: string }>
 }
 
 async function searchPosts(query: string) {
@@ -72,7 +72,8 @@ const statusColors: Record<string, string> = {
   rejected: 'bg-red-500/10 text-red-600',
 }
 
-export default async function SearchPage({ searchParams }: SearchPageProps) {
+export default async function SearchPage(props: SearchPageProps) {
+  const searchParams = await props.searchParams
   const query = searchParams.q || ''
   const [posts, wishlist] = query
     ? await Promise.all([searchPosts(query), searchWishlist(query)])

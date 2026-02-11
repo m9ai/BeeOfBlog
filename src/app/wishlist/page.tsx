@@ -56,10 +56,11 @@ async function getWishlist(page: number = 1, statusFilter: string = 'all') {
 }
 
 interface WishlistPageProps {
-  searchParams: { page?: string; status?: string }
+  searchParams: Promise<{ page?: string; status?: string }>
 }
 
-export default async function WishlistPage({ searchParams }: WishlistPageProps) {
+export default async function WishlistPage(props: WishlistPageProps) {
+  const searchParams = await props.searchParams
   const currentPage = parseInt(searchParams.page || '1', 10)
   const statusFilter = searchParams.status || 'all'
   const { items, total, totalPages, stats } = await getWishlist(currentPage, statusFilter)
