@@ -155,7 +155,7 @@
   },
   {
     "name": "翡翠湾",
-    "yeweihui": {"secretary":"","tel":""},
+    "yeweihui": {"secretary":"王老师","tel":""},
     "property": {
       "name": "上海鹤清物业管理有限公司",
       "manager": "王毅钟",
@@ -164,12 +164,12 @@
     },
     "committee": {
       "name": "崮洋居委",
-      "tel": ""
+      "tel": "58331228"
     }
   },
   {
     "name": "明珠苑",
-    "yeweihui": {"secretary":"","tel":""},
+    "yeweihui": {"secretary":"王老师","tel":""},
     "property": {
       "name": "上海瑞玺物业管理有限公司",
       "manager": "吴朗高",
@@ -178,12 +178,12 @@
     },
     "committee": {
       "name": "崮洋居委",
-      "tel": ""
+      "tel": "58331228"
     }
   },
   {
     "name": "张杨花苑",
-    "yeweihui": {"secretary":"","tel":""},
+    "yeweihui": {"secretary":"王老师","tel":""},
     "property": {
       "name": "上海鹤清物业管理有限公司",
       "manager": "沈亚杰",
@@ -192,12 +192,12 @@
     },
     "committee": {
       "name": "崮洋居委",
-      "tel": ""
+      "tel": "58331228"
     }
   },
   {
     "name": "广洋华景苑",
-    "yeweihui": {"secretary":"","tel":""},
+    "yeweihui": {"secretary":"朱老师","tel":""},
     "property": {
       "name": "上海理家物业管理有限公司",
       "manager": "沈晓琪",
@@ -206,12 +206,12 @@
     },
     "committee": {
       "name": "崮一居委",
-      "tel": ""
+      "tel": "50332066"
     }
   },
   {
     "name": "崮山四街坊",
-    "yeweihui": {"secretary":"","tel":""},
+    "yeweihui": {"secretary":"朱老师","tel":""},
     "property": {
       "name": "上海浦东东诚物业管理有限公司",
       "manager": "田炯",
@@ -220,12 +220,12 @@
     },
     "committee": {
       "name": "崮一居委",
-      "tel": ""
+      "tel": "50332066"
     }
   },
   {
     "name": "崮山三街坊",
-    "yeweihui": {"secretary":"","tel":""},
+    "yeweihui": {"secretary":"朱老师","tel":""},
     "property": {
       "name": "上海浦东东诚物业管理有限公司",
       "manager": "田炯",
@@ -234,12 +234,12 @@
     },
     "committee": {
       "name": "崮一居委",
-      "tel": ""
+      "tel": "50332066"
     }
   },
   {
     "name": "陆家嘴国际华城",
-    "yeweihui": {"secretary":"","tel":""},
+    "yeweihui": {"secretary":"李老师","tel":""},
     "property": {
       "name": "绿城物业服务集团有限公司上海分公司",
       "manager": "陈胜东",
@@ -248,12 +248,12 @@
     },
     "committee": {
       "name": "国际华城居委",
-      "tel": ""
+      "tel": "68554702"
     }
   },
   {
     "name": "弘扬沁园",
-    "yeweihui": {"secretary":"","tel":""},
+    "yeweihui": {"secretary":"盛老师","tel":""},
     "property": {
       "name": "上海永升物业管理有限公司",
       "manager": "赵小兵",
@@ -262,12 +262,12 @@
     },
     "committee": {
       "name": "海弘居委",
-      "tel": ""
+      "tel": "50280365"
     }
   },
   {
     "name": "中星海上景庭",
-    "yeweihui": {"secretary":"","tel":""},
+    "yeweihui": {"secretary":"盛老师","tel":""},
     "property": {
       "name": "港联物业服务(上海)有限公司",
       "manager": "朱金磊",
@@ -276,12 +276,12 @@
     },
     "committee": {
       "name": "海弘居委",
-      "tel": ""
+      "tel": "50280365"
     }
   },
   {
     "name": "海联大厦",
-    "yeweihui": {"secretary":"","tel":""},
+    "yeweihui": {"secretary":"沙老师","tel":""},
     "property": {
       "name": "上海心廉物业管理有限公司",
       "manager": "武德强",
@@ -290,12 +290,12 @@
     },
     "committee": {
       "name": "海院居委",
-      "tel": ""
+      "tel": "58854218"
     }
   },
   {
     "name": "海一小区",
-    "yeweihui": {"secretary":"","tel":""},
+    "yeweihui": {"secretary":"沙老师","tel":""},
     "property": {
       "name": "上海心廉物业管理有限公司",
       "manager": "刘德阳",
@@ -304,12 +304,12 @@
     },
     "committee": {
       "name": "海院居委",
-      "tel": ""
+      "tel": "58854218"
     }
   },
   {
     "name": "海二小区",
-    "yeweihui": {"secretary":"","tel":""},
+    "yeweihui": {"secretary":"沙老师","tel":""},
     "property": {
       "name": "上海浦东东诚物业管理有限公司",
       "manager": "金中",
@@ -318,12 +318,12 @@
     },
     "committee": {
       "name": "海院居委",
-      "tel": ""
+      "tel": "58854218"
     }
   },
   {
     "name": "浦海小区",
-    "yeweihui": {"secretary":"","tel":""},
+    "yeweihui": {"secretary":"沙老师","tel":""},
     "property": {
       "name": "上海浦东东诚物业管理有限公司",
       "manager": "金中",
@@ -332,7 +332,7 @@
     },
     "committee": {
       "name": "海院居委",
-      "tel": ""
+      "tel": "58854218"
     }
   },
   {
