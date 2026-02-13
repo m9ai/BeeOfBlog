@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Heart, MessageCircle, Video, Mail, Github, Twitter } from 'lucide-react'
+import { Heart, MessageCircle, Video, FolderCode, Mail, Github, Twitter } from 'lucide-react'
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
@@ -43,6 +43,22 @@ export function Footer() {
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Video className="w-4 h-4 text-orange-500" />
               <span>微信视频号</span>
+            </div>
+          </div>
+          {/* WeChat Video Channel */}
+          <div className="flex flex-col items-center gap-3">
+            <div className="w-32 h-32 rounded-xl overflow-hidden bg-white p-2 shadow-lg">
+              <Image
+                src="/images/bee-wx-micro-app-qr.jpg"
+                alt="微信小程序"
+                width={120}
+                height={120}
+                className="w-full h-full object-contain"
+              />
+            </div>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <FolderCode className="w-4 h-4 text-orange-500" />
+              <span>微信小程序</span>
             </div>
           </div>
         </div>

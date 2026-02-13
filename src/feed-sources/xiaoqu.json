@@ -15,7 +15,7 @@
   },
   {
     "name": "翠璟名庭",
-    "yeweihui": {"secretary":"","tel":""},
+    "yeweihui": {"secretary":"龚老师","tel":""},
     "property": {
       "name": "上海万科物业服务有限公司",
       "manager": "郭晓盟",
@@ -519,7 +519,7 @@
   },
   {
     "name": "大陆家宅",
-    "yeweihui": {"secretary":"大陆家宅","tel":""},
+    "yeweihui": {"secretary":"王老师","tel":""},
     "property": {
       "name": "上海浦东东诚物业管理有限公司",
       "manager": "金中",
