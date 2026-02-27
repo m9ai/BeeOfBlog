@@ -41,6 +41,7 @@ export default function EditPostPage() {
     type: 'article' as 'video' | 'article',
     video_url: '',
     external_link: '',
+    wechat_source: '',
   })
 
   useEffect(() => {
@@ -124,6 +125,7 @@ export default function EditPostPage() {
         type: draft.type as 'video' | 'article',
         video_url: draft.video_url || '',
         external_link: draft.external_link || '',
+        wechat_source: draft.wechat_source || '',
       })
     } else {
       // 没有草稿，使用已发布数据
@@ -138,6 +140,7 @@ export default function EditPostPage() {
         type: post.type as 'video' | 'article',
         video_url: post.video_url || '',
         external_link: post.external_link || '',
+        wechat_source: post.wechat_source || '',
       })
     }
     
@@ -164,6 +167,7 @@ export default function EditPostPage() {
       video_url: formData.video_url,
       external_link: formData.external_link,
       updated_at: new Date().toISOString(),
+      wechat_source: formData.wechat_source,
     }
 
     // 使用 upsert：有则更新，无则插入
@@ -200,6 +204,7 @@ export default function EditPostPage() {
         external_link: formData.external_link,
         status: 'published',
         updated_at: new Date().toISOString(),
+        wechat_source: formData.wechat_source,
       })
       .eq('id', postId)
 
@@ -395,6 +400,17 @@ export default function EditPostPage() {
               onChange={e => setFormData(prev => ({ ...prev, excerpt: e.target.value }))}
               placeholder="简短描述内容..."
               rows={2}
+            />
+          </div>
+
+          {/* Wechat Source */}
+          <div className="space-y-2">
+            <Label htmlFor="wechat_source">微信公众号或视频号链接</Label>
+            <Input
+              id="wechat_source"
+              value={formData.wechat_source}
+              onChange={e => setFormData(prev => ({ ...prev, wechat_source: e.target.value }))}
+              placeholder="https://mp.weixin.qq.com/s/pIjD8ey8G3mWFJhmaX1ewg"
             />
           </div>
 

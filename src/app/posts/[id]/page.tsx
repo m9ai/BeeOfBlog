@@ -16,6 +16,7 @@ import {
   ChevronLeft,
   ChevronRight
 } from 'lucide-react'
+import QRCodeComponent from '@/components/QRCodeComponent'
 
 export async function generateStaticParams() {
   const supabase = createStaticClient()
@@ -152,6 +153,13 @@ export default async function PostDetailPage({ params }: { params: { id: string 
             <ShareButton title={post.title} url={`/posts/${post.id}`} />
           </div>
         </div>
+        {/* Scan in Wechat */}
+        {
+          post.wechat_source && (<div className='flex flex-col items-center mb-8'>
+            <QRCodeComponent url={post.wechat_source} title={post.title} />
+            <p>请用微信扫码查看</p>
+          </div>)
+        }
 
         {/* Cover Image */}
         {post.cover_image && (

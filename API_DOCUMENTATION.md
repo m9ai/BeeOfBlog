@@ -20,6 +20,7 @@
 | view_count | number | 浏览次数 |
 | created_at | string | 创建时间 |
 | updated_at | string | 更新时间 |
+| wechat_source | string | 微信公众号文章或视频号作品链接 |
 
 ### 1.2 Category (分类)
 

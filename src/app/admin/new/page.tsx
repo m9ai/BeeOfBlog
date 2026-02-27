@@ -37,6 +37,7 @@ export default function NewPostPage() {
     video_url: '',
     external_link: '',
     status: 'draft' as 'published' | 'draft',
+    wechat_source: '',
   })
 
   useEffect(() => {
@@ -325,6 +326,17 @@ export default function NewPostPage() {
               onChange={e => setFormData(prev => ({ ...prev, excerpt: e.target.value }))}
               placeholder="简短描述内容..."
               rows={2}
+            />
+          </div>
+
+          {/* Wechat Source */}
+          <div className="space-y-2">
+            <Label htmlFor="wechat_source">微信公众号或视频号链接</Label>
+            <Input
+              id="wechat_source"
+              value={formData.wechat_source}
+              onChange={e => setFormData(prev => ({ ...prev, wechat_source: e.target.value }))}
+              placeholder="https://mp.weixin.qq.com/s/pIjD8ey8G3mWFJhmaX1ewg"
             />
           </div>
 
