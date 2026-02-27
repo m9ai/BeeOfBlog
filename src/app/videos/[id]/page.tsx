@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import Image from 'next/image'
 import { createClient } from '@/lib/supabase/server'
 import { createStaticClient } from '@/lib/supabase/static'
 import { PostContent } from '@/components/posts/PostContent'
@@ -13,11 +12,11 @@ import {
   Eye,
   ArrowLeft,
   Video,
-  Play,
-  ExternalLink,
   ChevronLeft,
   ChevronRight
 } from 'lucide-react'
+import QRCodeComponent from '@/components/QRCodeComponent'
+import VideoComponent from './VideoComponent'
 
 export async function generateStaticParams() {
   const supabase = createStaticClient()
@@ -155,48 +154,19 @@ export default async function VideoDetailPage({ params }: { params: { id: string
           </div>
         </div>
 
-        {/* Video Player / Cover */}
-        <div className="relative aspect-video rounded-xl overflow-hidden mb-8 bg-secondary">
-          {video.video_url ? (
-            <iframe
-              src={video.video_url}
-              className="absolute inset-0 w-full h-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          ) : video.cover_image ? (
-            <>
-              <Image
-                src={video.cover_image}
-                alt={video.title}
-                fill
-                className="object-cover"
-                priority
-              />
-              <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                <div className="w-20 h-20 rounded-full bg-primary/90 flex items-center justify-center cursor-pointer hover:scale-110 transition-transform">
-                  <Play className="w-8 h-8 text-primary-foreground ml-1" />
-                </div>
-              </div>
-            </>
-          ) : null}
-        </div>
+         {/* Scan in Wechat */}
+        {
+          video.wechat_source && (<div className='flex flex-col items-center mb-8'>
+            <QRCodeComponent url={video.wechat_source} title={video.title} />
+            <p>请微信扫码在视频号中看</p>
+          </div>)
+        }
 
-        {/* External Link */}
-        {video.external_link && (
-          <div className="mb-8">
-            <a
-              href={video.external_link}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Button className="gap-2">
-                <ExternalLink className="w-4 h-4" />
-                在视频号中观看
-              </Button>
-            </a>
-          </div>
-        )}
+        {/* Video Player / Cover */}
+        {
+          video.cover_image && <VideoComponent cover_image={video.cover_image} title={video.title} />
+        }
+        
 
         {/* Description */}
         {video.content && (
