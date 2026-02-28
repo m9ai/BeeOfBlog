@@ -5,6 +5,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { PageTransition } from "@/components/ui/PageTransition";
 import { PWARegister } from "@/components/PWARegister";
+import { StructuredData } from "@/components/StructuredData";
 import { Toaster } from "sonner";
 
 const geistSans = localFont({
@@ -27,8 +28,42 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "洋泾小蜜蜂 | 视频号作品 & 公众号文章",
-  description: "个人视频号作品及公众号文章展示博客，分享技术、生活与创意",
+  title: {
+    default: "洋泾小蜜蜂 - 社区服务平台",
+    template: "%s | 洋泾小蜜蜂"
+  },
+  description: "专注洋泾社区服务，提供便民信息、社区活动、邻里互助等服务，打造温馨和谐的社区家园",
+  keywords: ["洋泾", "社区", "便民服务", "邻里互助", "社区活动"],
+  authors: [{ name: "洋泾小蜜蜂" }],
+  creator: "洋泾小蜜蜂",
+  publisher: "洋泾小蜜蜂",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  alternates: {
+    canonical: process.env.NEXT_PUBLIC_SITE_URL || "https://your-domain.com",
+  },
+  openGraph: {
+    title: "洋泾小蜜蜂 - 社区服务平台",
+    description: "专注洋泾社区服务，提供便民信息、社区活动、邻里互助等服务",
+    url: process.env.NEXT_PUBLIC_SITE_URL || "https://your-domain.com",
+    siteName: "洋泾小蜜蜂",
+    locale: "zh_CN",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "洋泾小蜜蜂 - 社区服务平台",
+    description: "专注洋泾社区服务，提供便民信息、社区活动、邻里互助等服务",
+  },
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
@@ -59,6 +94,25 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
+        {/* Google Analytics */}
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}', {
+                page_path: window.location.pathname,
+              });
+            `,
+          }}
+        />
+        
+        {/* Microsoft Clarity */}
         <script
           type="text/javascript"
           dangerouslySetInnerHTML={{
@@ -71,6 +125,8 @@ export default function RootLayout({
             `,
           }}
         />
+        
+        <StructuredData />
         <Header />
         <main className="flex-1 pt-16">
           <PageTransition>
