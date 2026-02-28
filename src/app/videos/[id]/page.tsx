@@ -112,7 +112,7 @@ export default async function VideoDetailPage({ params }: { params: { id: string
     <div className="min-h-screen">
       {/* Back Button */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
-        <Link href="/videos">
+        <Link href="/works?tab=videos">
           <Button variant="ghost" size="sm" className="gap-2">
             <ArrowLeft className="w-4 h-4" />
             返回视频列表

@@ -82,11 +82,11 @@ export function Footer() {
             <Link href="/" className="hover:text-foreground transition-colors">
               首页
             </Link>
-            <Link href="/videos" className="hover:text-foreground transition-colors">
-              视频号
+            <Link href="/works" className="hover:text-foreground transition-colors">
+              作品
             </Link>
-            <Link href="/posts" className="hover:text-foreground transition-colors">
-              公众号
+            <Link href="/services" className="hover:text-foreground transition-colors">
+              便民
             </Link>
           </div>
 

@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
-import { Video, FileText, Menu, X, Home, User, Shield, Heart, Phone } from 'lucide-react'
+import { Video, FileText, Menu, X, Home, User, Shield, Heart, Phone, LayoutGrid } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { createClient } from '@/lib/supabase/client'
 import { SearchBox } from '@/components/search/SearchBox'
@@ -39,8 +39,7 @@ export function Header() {
 
   const navItems = [
     { href: '/', label: '首页', icon: Home },
-    { href: '/videos', label: '视频号', icon: Video },
-    { href: '/posts', label: '公众号', icon: FileText },
+    { href: '/works', label: '作品', icon: LayoutGrid },
     { href: '/services', label: '便民', icon: Phone },
     { href: '/wishlist', label: '心愿单', icon: Heart },
   ]
