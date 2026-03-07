@@ -1,6 +1,6 @@
 [
   {
-    "name": "博山小区",
+    "name": "博山小区（博山公寓）",
     "yeweihui": {"secretary":"唐老师","tel":""},
     "property": {
       "name": "上海浦东东诚物业管理有限公司",
@@ -11,7 +11,8 @@
     "committee": {
       "name": "博山居委",
       "tel": "58855107"
-    }
+    },
+    "renew":true
   },
   {
     "name": "翠璟名庭",
@@ -137,7 +138,8 @@
     "committee": {
       "name": "崮二居委",
       "tel": "68568190"
-    }
+    },
+    "renew":true
   },
   {
     "name": "崮山二街坊",
@@ -151,7 +153,8 @@
     "committee": {
       "name": "崮二居委",
       "tel": "68568190"
-    }
+    },
+    "renew":true
   },
   {
     "name": "翡翠湾",
@@ -221,7 +224,8 @@
     "committee": {
       "name": "崮一居委",
       "tel": "50332066"
-    }
+    },
+    "renew":true
   },
   {
     "name": "崮山三街坊",
@@ -235,7 +239,8 @@
     "committee": {
       "name": "崮一居委",
       "tel": "50332066"
-    }
+    },
+    "renew":true
   },
   {
     "name": "陆家嘴国际华城",
@@ -280,7 +285,7 @@
     }
   },
   {
-    "name": "海联大厦",
+    "name": "海联大厦（海联小区）",
     "yeweihui": {"secretary":"沙老师","tel":""},
     "property": {
       "name": "上海心廉物业管理有限公司",
@@ -291,10 +296,11 @@
     "committee": {
       "name": "海院居委",
       "tel": "58854218"
-    }
+    },
+    "renew": true
   },
   {
-    "name": "海一小区",
+    "name": "海一小区（海院新村）",
     "yeweihui": {"secretary":"沙老师","tel":""},
     "property": {
       "name": "上海心廉物业管理有限公司",
@@ -305,7 +311,8 @@
     "committee": {
       "name": "海院居委",
       "tel": "58854218"
-    }
+    },
+    "renew": true
   },
   {
     "name": "海二小区",
@@ -319,7 +326,8 @@
     "committee": {
       "name": "海院居委",
       "tel": "58854218"
-    }
+    },
+    "renew": true
   },
   {
     "name": "浦海小区",
@@ -333,7 +341,8 @@
     "committee": {
       "name": "海院居委",
       "tel": "58854218"
-    }
+    },
+    "renew": true
   },
   {
     "name": "泾东小区",
@@ -347,7 +356,8 @@
     "committee": {
       "name": "泾东居委",
       "tel": "58857627"
-    }
+    },
+    "renew": true
   },
   {
     "name": "金淙苑",
@@ -375,7 +385,8 @@
     "committee": {
       "name": "泾西居委",
       "tel": "58858128"
-    }
+    },
+    "renew": true
   },
   {
     "name": "沈家弄路946弄",
@@ -389,7 +400,8 @@
     "committee": {
       "name": "泾西居委",
       "tel": "58858128"
-    }
+    },
+    "renew": true
   },
   {
     "name": "巨野路109弄",
@@ -417,7 +429,8 @@
     "committee": {
       "name": "泾西居委",
       "tel": "58858128"
-    }
+    },
+    "renew": true
   },
   {
     "name": "心中家园",
@@ -473,7 +486,8 @@
     "committee": {
       "name": "巨东居委",
       "tel": "58212895"
-    }
+    },
+    "renew": true
   },
   {
     "name": "巨西小区",
@@ -487,7 +501,8 @@
     "committee": {
       "name": "巨西居委",
       "tel": "58603770"
-    }
+    },
+    "renew": true
   },
   {
     "name": "中星巨野公寓",
@@ -529,7 +544,8 @@
     "committee": {
       "name": "巨西居委",
       "tel": "58603770"
-    }
+    },
+    "renew": true
   },
   {
     "name": "民生四村",
@@ -543,7 +559,8 @@
     "committee": {
       "name": "巨西居委",
       "tel": "58603770"
-    }
+    },
+    "renew": true
   },
   {
     "name": "民生家园",
@@ -571,7 +588,8 @@
     "committee": {
       "name": "巨杨居委",
       "tel": "58850234"
-    }
+    },
+    "renew": true
   },
   {
     "name": "沈家弄路901弄",
@@ -585,7 +603,8 @@
     "committee": {
       "name": "巨杨居委",
       "tel": "58850234"
-    }
+    },
+    "renew": true
   },
   {
     "name": "申城公寓",
@@ -627,7 +646,8 @@
     "committee": {
       "name": "巨野居委",
       "tel": "58852232"
-    }
+    },
+    "renew": true
   },
   {
     "name": "泾华小区",
@@ -641,7 +661,8 @@
     "committee": {
       "name": "巨野居委",
       "tel": "58852232"
-    }
+    },
+    "renew": true
   },
   {
     "name": "凌高小区",
@@ -655,7 +676,8 @@
     "committee": {
       "name": "凌高居委",
       "tel": "58216883"
-    }
+    },
+    "renew": true
   },
   {
     "name": "雅华公寓",
@@ -686,7 +708,7 @@
     }
   },
   {
-    "name": "凌联三村",
+    "name": "凌联三村（凌三小区）",
     "yeweihui": {"secretary":"董老师","tel":""},
     "property": {
       "name": "上海浦东东诚物业管理有限公司",
@@ -697,7 +719,8 @@
     "committee": {
       "name": "凌三居委",
       "tel": "58853680"
-    }
+    },
+    "renew": true
   },
   {
     "name": "凌四小区",
@@ -711,7 +734,8 @@
     "committee": {
       "name": "凌四居委",
       "tel": "58218321"
-    }
+    },
+    "renew": true
   },
   {
     "name": "和达家园",
@@ -770,7 +794,7 @@
     }
   },
   {
-    "name": "凌联一村",
+    "name": "凌联一村（凌一小区）",
     "yeweihui": {"secretary":"陈老师","tel":""},
     "property": {
       "name": "上海浦东东诚物业管理有限公司",
@@ -781,7 +805,8 @@
     "committee": {
       "name": "凌一居委",
       "tel": "58216752"
-    }
+    },
+    "renew": true
   },
   {
     "name": "陆家嘴花园二期",
@@ -896,7 +921,7 @@
     }
   },
   {
-    "name": "惠扬大厦",
+    "name": "惠扬大厦（惠扬小区）",
     "yeweihui": {"secretary":"黄老师","tel":""},
     "property": {
       "name": "上海海鸿福船物业管理有限公司",
@@ -924,7 +949,7 @@
     }
   },
   {
-    "name": "八方大厦",
+    "name": "八方大厦（八方小区）",
     "yeweihui": {"secretary":"乔老师","tel":""},
     "property": {
       "name": "上海八方物业管理有限公司",
@@ -1033,7 +1058,8 @@
     "committee": {
       "name": "名门世家居委",
       "tel": "58855116"
-    }
+    },
+    "renew": true
   },
   {
     "name": "铂悦滨江",
@@ -1061,7 +1087,8 @@
     "committee": {
       "name": "栖山居委",
       "tel": "50623515"
-    }
+    },
+    "renew": true
   },
   {
     "name": "栖山小区",
@@ -1075,7 +1102,8 @@
     "committee": {
       "name": "栖山居委",
       "tel": "50623515"
-    }
+    },
+    "renew": true
   },
   {
     "name": "中星怡景花园",
@@ -1131,7 +1159,8 @@
     "committee": {
       "name": "森洋居委",
       "tel": "50282910"
-    }
+    },
+    "renew": true
   },
   {
     "name": "东晶国际公寓",
@@ -1257,7 +1286,8 @@
     "committee": {
       "name": "桃二居委",
       "tel": ""
-    }
+    },
+    "renew": true
   },
   {
     "name": "新天家园",
@@ -1285,7 +1315,8 @@
     "committee": {
       "name": "桃一居委",
       "tel": "58218355"
-    }
+    },
+    "renew": true
   },
   {
     "name": "洋泾花园城",
@@ -1341,7 +1372,8 @@
     "committee": {
       "name": "维多利居委",
       "tel": "68551305"
-    }
+    },
+    "renew": true
   },
   {
     "name": "西镇小区",
@@ -1355,7 +1387,8 @@
     "committee": {
       "name": "西镇居委",
       "tel": "58858708"
-    }
+    },
+    "renew": true
   },
   {
     "name": "海光·海炼大楼",
@@ -1369,7 +1402,8 @@
     "committee": {
       "name": "西镇居委",
       "tel": "58858708"
-    }
+    },
+    "renew":true
   },
   {
     "name": "绿地泾南公寓",
@@ -1453,7 +1487,8 @@
     "committee": {
       "name": "星海居委",
       "tel": "50930084"
-    }
+    },
+    "renew":true
   },
   {
     "name": "申立苑",
@@ -1481,7 +1516,8 @@
     "committee": {
       "name": "阳二居委",
       "tel": "58858784"
-    }
+    },
+    "renew":true
   },
   {
     "name": "阳光二村·凌多小区",
@@ -1495,7 +1531,8 @@
     "committee": {
       "name": "阳二居委",
       "tel": "58858784"
-    }
+    },
+    "renew":true
   },
   {
     "name": "阳栖小区",
@@ -1509,7 +1546,8 @@
     "committee": {
       "name": "阳三居委",
       "tel": "58858901"
-    }
+    },
+    "renew":true
   },
   {
     "name": "阳光三村",
@@ -1523,7 +1561,8 @@
     "committee": {
       "name": "阳三居委",
       "tel": "58858901"
-    }
+    },
+    "renew":true
   },
   {
     "name": "海三小区",
@@ -1537,7 +1576,8 @@
     "committee": {
       "name": "阳三居委",
       "tel": "58858901"
-    }
+    },
+    "renew":true
   },
   {
     "name": "龙珠公寓",
@@ -1554,7 +1594,7 @@
     }
   },
   {
-    "name": "上安大厦",
+    "name": "上安大厦（上安小区）",
     "yeweihui": {"secretary":"范老师","tel":""},
     "property": {
       "name": "上海伟发物业有限公司",
@@ -1579,7 +1619,8 @@
     "committee": {
       "name": "永安居委",
       "tel": "58855503"
-    }
+    },
+    "renew":true
   },
   {
     "name": "永安新村",
@@ -1607,10 +1648,11 @@
     "committee": {
       "name": "羽北居委",
       "tel": "58215211"
-    }
+    },
+    "renew":true
   },
   {
-    "name": "海苑大厦",
+    "name": "海苑大厦（海苑小区）",
     "yeweihui": {"secretary":"曾老师","tel":""},
     "property": {
       "name": "上海家佳物业有限公司",
@@ -1621,7 +1663,8 @@
     "committee": {
       "name": "羽北居委",
       "tel": "58215211"
-    }
+    },
+    "renew": true
   },
   {
     "name": "双城苑东苑",
@@ -1649,7 +1692,8 @@
     "committee": {
       "name": "羽洋居委",
       "tel": "68538775"
-    }
+    },
+    "renew": true
   },
   {
     "name": "南洋苑",
@@ -1663,7 +1707,8 @@
     "committee": {
       "name": "羽洋居委",
       "tel": "68538775"
-    }
+    },
+    "renew": true
   },
   {
     "name": "新城名庭",
