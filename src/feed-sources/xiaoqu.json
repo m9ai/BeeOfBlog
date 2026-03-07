@@ -1634,7 +1634,8 @@
     "committee": {
       "name": "永安居委",
       "tel": "58855503"
-    }
+    },
+    "renew":true
   },
   {
     "name": "羽北小区",
@@ -1778,6 +1779,7 @@
     "committee": {
       "name": "海防居委",
       "tel": "58857780"
-    }
+    },
+    "renew": true
   }
 ]
