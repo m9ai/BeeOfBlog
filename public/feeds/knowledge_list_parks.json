@@ -1,0 +1,5 @@
+[
+  { "id": "16", "title": "洋泾港滨水绿地", "category": "parks", "categoryName": "公园绿地", "summary": "沿洋泾港打造的景观步道，适合晨练散步...", "updateTime": "2025-03-05" },
+  { "id": "17", "title": "泾华绿地", "category": "parks", "categoryName": "公园绿地", "summary": "社区公园，设有健身设施和儿童游乐区...", "updateTime": "2025-03-01" },
+  { "id": "18", "title": "社区微花园", "category": "parks", "categoryName": "公园绿地", "summary": "居民共建的微型花园，四季有花...", "updateTime": "2025-02-28" }
+]

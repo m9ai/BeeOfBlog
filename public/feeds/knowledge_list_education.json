@@ -1,0 +1,6 @@
+[
+  { "id": "10", "title": "洋泾实验小学", "category": "education", "categoryName": "教育资源", "summary": "百年老校，教育质量优秀...", "updateTime": "2025-03-01" },
+  { "id": "11", "title": "洋泾中学", "category": "education", "categoryName": "教育资源", "summary": "区重点中学，升学率高...", "updateTime": "2025-02-28" },
+  { "id": "12", "title": "洋泾幼儿园分布", "category": "education", "categoryName": "教育资源", "summary": "街道内各公办民办幼儿园一览...", "updateTime": "2025-02-25" },
+  { "id": "13", "title": "老年大学课程介绍", "category": "education", "categoryName": "教育资源", "summary": "书法、国画、智能手机等课程...", "updateTime": "2025-02-20" }
+]

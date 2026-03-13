@@ -1,0 +1,14 @@
+[
+  { "id": "1", "name": "藏獒", "category": "烈性犬", "description": "体型巨大，攻击性强，不适合城市饲养" },
+  { "id": "2", "name": "比特犬", "category": "烈性犬", "description": "斗犬品种，攻击性强，咬合力大" },
+  { "id": "3", "name": "罗威纳犬", "category": "烈性犬", "description": "护卫犬种，攻击性强，需专业训练" },
+  { "id": "4", "name": "杜宾犬", "category": "烈性犬", "description": "军警用犬，攻击性强，反应敏捷" },
+  { "id": "5", "name": "德国牧羊犬", "category": "烈性犬", "description": "大型工作犬，攻击性强，护主意识强" },
+  { "id": "6", "name": "秋田犬", "category": "烈性犬", "description": "大型犬，攻击性强，对陌生人有敌意" },
+  { "id": "7", "name": "牛头梗", "category": "烈性犬", "description": "斗犬品种，攻击性强，性格倔强" },
+  { "id": "8", "name": "圣伯纳犬", "category": "大型犬", "description": "体型过大，肩高超过规定标准" },
+  { "id": "9", "name": "大白熊犬", "category": "大型犬", "description": "体型过大，肩高超过规定标准" },
+  { "id": "10", "name": "高加索犬", "category": "烈性犬", "description": "体型巨大，攻击性强，领地意识强" },
+  { "id": "11", "name": "日本土佐犬", "category": "烈性犬", "description": "斗犬品种，攻击性强，安静但危险" },
+  { "id": "12", "name": "意大利那不勒斯獒犬", "category": "烈性犬", "description": "护卫犬种，攻击性强，体型庞大" }
+]

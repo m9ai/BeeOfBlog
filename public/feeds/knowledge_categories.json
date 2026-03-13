@@ -1,0 +1,10 @@
+[
+  { "id": "history", "name": "历史沿革", "icon": "📜", "description": "洋泾历史变迁", "docCount": 5, "color": "#8b5cf6" },
+  { "id": "infrastructure", "name": "公建配套", "icon": "🏗️", "description": "道路桥梁建设", "docCount": 8, "color": "#6366f1" },
+  { "id": "transport", "name": "地理交通", "icon": "🚇", "description": "地铁公交线路", "docCount": 6, "color": "#3b82f6" },
+  { "id": "education", "name": "教育资源", "icon": "🎓", "description": "学校幼儿园", "docCount": 12, "color": "#10b981" },
+  { "id": "medical", "name": "医疗资源", "icon": "🏥", "description": "医院卫生站", "docCount": 7, "color": "#f59e0b" },
+  { "id": "culture", "name": "社区文化", "icon": "🎭", "description": "文化场馆活动", "docCount": 4, "color": "#ec4899" },
+  { "id": "parks", "name": "公园绿地", "icon": "🌳", "description": "公园绿化休闲", "docCount": 6, "color": "#22c55e" },
+  { "id": "ip", "name": "代表性IP", "icon": "⭐", "description": "洋泾特色品牌", "docCount": 5, "color": "#f97316" }
+]
