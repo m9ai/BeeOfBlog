@@ -139,6 +139,18 @@ export async function POST(request: NextRequest) {
     const resultPath = join(tmpDir, 'result.json')
     await writeFile(resultPath, JSON.stringify(results, null, 2))
 
+    // 保存完整数据供预览使用
+    const detailPath = join(tmpDir, 'detail.json')
+    const detailData: Record<string, any> = {}
+    for (const [name, data] of Object.entries(results)) {
+      detailData[name] = {
+        primarySchools: data.primarySchools,
+        middleSchools: data.middleSchools,
+        communities: data.communities
+      }
+    }
+    await writeFile(detailPath, JSON.stringify(detailData, null, 2))
+
     return NextResponse.json({
       success: true,
       streets: streetStats
