@@ -39,6 +39,7 @@ export default function EditPostPage() {
     cover_image: '',
     category_id: '',
     type: 'article' as 'video' | 'article',
+    video_id: '',
     video_url: '',
     external_link: '',
     wechat_source: '',
@@ -123,6 +124,7 @@ export default function EditPostPage() {
         cover_image: draft.cover_image || '',
         category_id: draft.category_id || '',
         type: draft.type as 'video' | 'article',
+        video_id: draft.video_id || '',
         video_url: draft.video_url || '',
         external_link: draft.external_link || '',
         wechat_source: draft.wechat_source || '',
@@ -138,6 +140,7 @@ export default function EditPostPage() {
         cover_image: post.cover_image || '',
         category_id: post.category_id || '',
         type: post.type as 'video' | 'article',
+        video_id: post.video_id || '',
         video_url: post.video_url || '',
         external_link: post.external_link || '',
         wechat_source: post.wechat_source || '',
@@ -164,6 +167,7 @@ export default function EditPostPage() {
       cover_image: formData.cover_image,
       category_id: formData.category_id,
       type: formData.type,
+      video_id: formData.video_id,
       video_url: formData.video_url,
       external_link: formData.external_link,
       updated_at: new Date().toISOString(),
@@ -200,6 +204,7 @@ export default function EditPostPage() {
         cover_image: formData.cover_image,
         category_id: formData.category_id,
         type: formData.type,
+        video_id: formData.video_id,
         video_url: formData.video_url,
         external_link: formData.external_link,
         status: 'published',
@@ -414,19 +419,19 @@ export default function EditPostPage() {
             />
           </div>
 
-          {/* Video URL (for videos) */}
+          {/* Video ID (for videos) */}
           {formData.type === 'video' && (
             <>
               <div className="space-y-2">
-                <Label htmlFor="video_url">视频嵌入链接</Label>
+                <Label htmlFor="video_id">视频号作品ID（用于导出）</Label>
                 <Input
-                  id="video_url"
-                  value={formData.video_url}
-                  onChange={e => setFormData(prev => ({ ...prev, video_url: e.target.value }))}
-                  placeholder="https://player.bilibili.com/..."
+                  id="video_id"
+                  value={formData.video_id}
+                  onChange={e => setFormData(prev => ({ ...prev, video_id: e.target.value }))}
+                  placeholder="如: export/UzFfBgAAxN-icDs6FAHbjczT4DCajZmb..."
                 />
               </div>
-              <div className="space-y-2">
+              {/* <div className="space-y-2">
                 <Label htmlFor="external_link">视频号链接</Label>
                 <Input
                   id="external_link"
@@ -434,7 +439,7 @@ export default function EditPostPage() {
                   onChange={e => setFormData(prev => ({ ...prev, external_link: e.target.value }))}
                   placeholder="https://..."
                 />
-              </div>
+              </div> */}
             </>
           )}
 

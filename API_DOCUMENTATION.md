@@ -14,7 +14,7 @@
 | cover_image | string \| null | 封面图 URL |
 | category_id | string \| null | 分类 ID |
 | type | 'video' \| 'article' | 类型 |
-| video_url | string \| null | 视频链接 |
+| video_id | string \| null | 视频号作品ID |
 | external_link | string \| null | 外部链接 |
 | status | 'published' \| 'draft' | 状态 |
 | view_count | number | 浏览次数 |

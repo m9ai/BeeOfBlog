@@ -19,7 +19,8 @@ import {
   LogOut,
   Heart,
   ChevronRight,
-  BookOpen
+  BookOpen,
+  Download
 } from 'lucide-react'
 import type { Tables } from '@/types/database'
 
@@ -141,6 +142,41 @@ export default function AdminPage() {
   async function handleLogout() {
     await supabase.auth.signOut()
     router.push('/admin/login')
+  }
+
+  function handleExport(post: PostWithCategory) {
+    // 根据类型生成不同格式的 JSON
+    let exportData: any
+    
+    if (post.type === 'article') {
+      exportData = {
+        id: post.id,
+        title: post.title,
+        summary: post.excerpt || '',
+        date: new Date(post.created_at).toISOString().split('T')[0],
+        type: 'article',
+        url: post.wechat_source || post.external_link || `https://mp.weixin.qq.com/s/${post.id}`
+      }
+    } else {
+      exportData = {
+        id: post.video_id || post.id,
+        title: post.title,
+        publishTime: new Date(post.created_at).toISOString().split('T')[0],
+        type: 'video',
+        url: post.wechat_source || post.video_url || post.external_link || ''
+      }
+    }
+
+    // 创建并下载文件
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `${post.type}_${post.id}.json`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
   }
 
   if (authChecking || loading) {
@@ -307,6 +343,14 @@ export default function AdminPage() {
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center justify-end gap-2">
+                        <Button 
+                          variant="ghost" 
+                          size="icon"
+                          onClick={() => handleExport(post)}
+                          title="导出JSON"
+                        >
+                          <Download className="w-4 h-4" />
+                        </Button>
                         <Link href={`/${post.type === 'video' ? 'videos' : 'posts'}/${post.id}`} target="_blank">
                           <Button variant="ghost" size="icon">
                             {post.status === 'published' ? (

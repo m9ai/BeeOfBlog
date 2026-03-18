@@ -34,7 +34,7 @@ export default function NewPostPage() {
     cover_image: '',
     category_id: '',
     type: 'article' as 'video' | 'article',
-    video_url: '',
+    video_id: '',
     external_link: '',
     status: 'draft' as 'published' | 'draft',
     wechat_source: '',
@@ -126,11 +126,8 @@ export default function NewPostPage() {
     if (formData.cover_image && !isValidUrl(formData.cover_image)) {
       return '封面图片 URL 格式不正确'
     }
-    if (formData.video_url && !isValidUrl(formData.video_url)) {
-      return '视频嵌入链接格式不正确'
-    }
     if (formData.external_link && !isValidUrl(formData.external_link)) {
-      return '视频号链接格式不正确'
+      return '外部链接格式不正确'
     }
     return null
   }
@@ -331,28 +328,32 @@ export default function NewPostPage() {
 
           {/* Wechat Source */}
           <div className="space-y-2">
-            <Label htmlFor="wechat_source">微信公众号或视频号链接</Label>
+            <Label htmlFor="wechat_source">微信公众号或视频号链接
+              <span className="text-destructive">*</span>
+            </Label>
             <Input
               id="wechat_source"
               value={formData.wechat_source}
               onChange={e => setFormData(prev => ({ ...prev, wechat_source: e.target.value }))}
-              placeholder="https://mp.weixin.qq.com/s/pIjD8ey8G3mWFJhmaX1ewg"
+              placeholder="eg: https://mp.weixin.qq.com/s/pIjD8ey8G3mWFJhmaX1ewg"
             />
           </div>
 
-          {/* Video URL (for videos) */}
+          {/* Video ID (for videos) */}
           {formData.type === 'video' && (
             <>
               <div className="space-y-2">
-                <Label htmlFor="video_url">视频嵌入链接</Label>
+                <Label htmlFor="video_id">视频号作品ID（用于导出）
+                  <span className="text-destructive">*</span>
+                </Label>
                 <Input
-                  id="video_url"
-                  value={formData.video_url}
-                  onChange={e => setFormData(prev => ({ ...prev, video_url: e.target.value }))}
-                  placeholder="https://player.bilibili.com/..."
+                  id="video_id"
+                  value={formData.video_id}
+                  onChange={e => setFormData(prev => ({ ...prev, video_id: e.target.value }))}
+                  placeholder="如: export/UzFfBgAAxN-icDs6FAHbjczT4DCajZmb..."
                 />
               </div>
-              <div className="space-y-2">
+              {/* <div className="space-y-2">
                 <Label htmlFor="external_link">视频号链接</Label>
                 <Input
                   id="external_link"
@@ -360,7 +361,7 @@ export default function NewPostPage() {
                   onChange={e => setFormData(prev => ({ ...prev, external_link: e.target.value }))}
                   placeholder="https://..."
                 />
-              </div>
+              </div> */}
             </>
           )}
 

@@ -48,8 +48,10 @@ export interface Database {
           cover_image: string | null
           category_id: string | null
           type: 'video' | 'article'
+          video_id: string | null
           video_url: string | null
           external_link: string | null
+          wechat_source: string | null
           status: 'published' | 'draft'
           view_count: number
           created_at: string
@@ -64,8 +66,10 @@ export interface Database {
           cover_image?: string | null
           category_id?: string | null
           type: 'video' | 'article'
+          video_id?: string | null
           video_url?: string | null
           external_link?: string | null
+          wechat_source?: string | null
           status?: 'published' | 'draft'
           view_count?: number
           created_at?: string
@@ -80,8 +84,10 @@ export interface Database {
           cover_image?: string | null
           category_id?: string | null
           type?: 'video' | 'article'
+          video_id?: string | null
           video_url?: string | null
           external_link?: string | null
+          wechat_source?: string | null
           status?: 'published' | 'draft'
           view_count?: number
           created_at?: string
