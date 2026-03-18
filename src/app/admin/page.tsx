@@ -20,7 +20,8 @@ import {
   Heart,
   ChevronRight,
   BookOpen,
-  Download
+  Download,
+  School
 } from 'lucide-react'
 import type { Tables } from '@/types/database'
 
@@ -225,7 +226,7 @@ export default function AdminPage() {
 
       {/* Navigation Cards */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <Link href="/admin">
             <div className="bg-card border rounded-xl p-6 hover:shadow-md transition-shadow">
               <div className="flex items-center justify-between">
@@ -252,6 +253,22 @@ export default function AdminPage() {
                   <div>
                     <h2 className="text-lg font-semibold">知识库管理</h2>
                     <p className="text-sm text-muted-foreground">管理小程序知识库</p>
+                  </div>
+                </div>
+                <ChevronRight className="w-5 h-5 text-muted-foreground" />
+              </div>
+            </div>
+          </Link>
+          <Link href="/admin/school-zone">
+            <div className="bg-card border rounded-xl p-6 hover:shadow-md transition-shadow">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center">
+                    <School className="w-6 h-6 text-green-500" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-semibold">学区管理</h2>
+                    <p className="text-sm text-muted-foreground">上传学区划分表</p>
                   </div>
                 </div>
                 <ChevronRight className="w-5 h-5 text-muted-foreground" />
