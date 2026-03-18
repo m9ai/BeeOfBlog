@@ -1,5 +1,20 @@
 [
-  { "id": "4", "title": "洋泾社区卫生服务中心", "category": "medical", "categoryName": "医疗资源", "summary": "中心提供基本医疗、公共卫生服务...", "updateTime": "2025-02-20" },
-  { "id": "14", "title": "社区卫生服务站分布", "category": "medical", "categoryName": "医疗资源", "summary": "各居委会卫生服务站地址及联系方式...", "updateTime": "2025-02-18" },
-  { "id": "15", "title": "家庭医生签约服务", "category": "medical", "categoryName": "医疗资源", "summary": "签约家庭医生享受优先预约、上门服务等...", "updateTime": "2025-02-15" }
+  {
+    "id": "med_1",
+    "title": "洋泾社区卫生服务中心",
+    "category": "medical",
+    "categoryName": "医疗资源",
+    "summary": "中心提供基本医疗、公共卫生服务，是居民健康的守门人...",
+    "updateTime": "2025-02-20",
+    "url": ""
+  },
+  {
+    "id": "med_2",
+    "title": "上海市第七人民医院",
+    "category": "medical",
+    "categoryName": "医疗资源",
+    "summary": "三级甲等中西医结合医院...",
+    "updateTime": "2025-03-01",
+    "url": ""
+  }
 ]

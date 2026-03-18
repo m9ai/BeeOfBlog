@@ -1,6 +1,23 @@
 [
-  { "id": "1", "title": "洋泾名称的由来", "category": "history", "summary": "洋泾因洋泾港而得名，历史悠久，可追溯至明代...", "updateTime": "2025-03-01" },
-  { "id": "2", "title": "洋泾老街的记忆", "category": "history", "summary": "曾经的洋泾老街是浦东最繁华的商业街，有浦东南京路之称...", "updateTime": "2025-02-28" },
-  { "id": "3", "title": "地铁14号线洋泾站", "category": "transport", "summary": "14号线洋泾站位于张杨路巨野路口，极大地方便了居民出行...", "updateTime": "2025-03-05" },
-  { "id": "4", "title": "洋泾社区卫生服务中心", "category": "medical", "summary": "中心提供基本医疗、公共卫生服务，是居民健康的守门人...", "updateTime": "2025-02-20" }
+  {
+    "id": "1",
+    "title": "洋泾名称的由来",
+    "category": "history",
+    "summary": "洋泾因洋泾港而得名，历史悠久，可追溯至明代...",
+    "updateTime": "2025-03-01"
+  },
+  {
+    "id": "2",
+    "title": "洋泾老街的记忆",
+    "category": "history",
+    "summary": "曾经的洋泾老街是浦东最繁华的商业街，有浦东南京路之称...",
+    "updateTime": "2025-02-28"
+  },
+  {
+    "id": "med_1",
+    "title": "洋泾社区卫生服务中心",
+    "category": "medical",
+    "summary": "中心提供基本医疗、公共卫生服务，是居民健康的守门人...",
+    "updateTime": "2025-02-20"
+  }
 ]
