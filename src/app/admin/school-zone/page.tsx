@@ -170,8 +170,8 @@ export default function SchoolZonePage() {
       }
     }
 
-    // 创建 Blob 并下载
-    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' })
+    // 创建 Blob 并下载（使用紧凑格式减小文件大小）
+    const blob = new Blob([JSON.stringify(exportData)], { type: 'application/json' })
     const url = URL.createObjectURL(blob)
     const link = document.createElement('a')
     link.href = url

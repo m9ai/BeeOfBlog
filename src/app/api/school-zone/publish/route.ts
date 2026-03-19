@@ -32,9 +32,10 @@ export async function POST(request: NextRequest) {
       const fileName = `${streetName}.json`
       const filePath = join(targetDir, fileName)
       
+      // 使用紧凑格式（无空格）以减小文件大小，便于网络传输
       await writeFile(
         filePath, 
-        JSON.stringify(streetData, null, 2), 
+        JSON.stringify(streetData), 
         'utf-8'
       )
       fileCount++
