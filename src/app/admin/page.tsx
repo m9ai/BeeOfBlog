@@ -6,11 +6,11 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { 
-  Plus, 
-  Edit2, 
-  Trash2, 
-  Video, 
+import {
+  Plus,
+  Edit2,
+  Trash2,
+  Video,
   FileText,
   Eye,
   EyeOff,
@@ -21,7 +21,8 @@ import {
   ChevronRight,
   BookOpen,
   Download,
-  School
+  School,
+  MapPin
 } from 'lucide-react'
 import type { Tables } from '@/types/database'
 
@@ -292,6 +293,22 @@ export default function AdminPage() {
                         </span>
                       )}
                     </p>
+                  </div>
+                </div>
+                <ChevronRight className="w-5 h-5 text-muted-foreground" />
+              </div>
+            </div>
+          </Link>
+          <Link href="/admin/facilities">
+            <div className="bg-card border rounded-xl p-6 hover:shadow-md transition-shadow">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center">
+                    <MapPin className="w-6 h-6 text-blue-500" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-semibold">设施配置</h2>
+                    <p className="text-sm text-muted-foreground">配置社区便民设施信息</p>
                   </div>
                 </div>
                 <ChevronRight className="w-5 h-5 text-muted-foreground" />
