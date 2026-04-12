@@ -1,1 +1,196 @@
-{"updateDate":"2024年","categories":[{"id":"water","name":"水电气","icon":"💧","items":[{"id":"1","name":"自来水-第一阶梯","description":"户年用水量0-220立方米(含)","unit":"元/立方米","price":"2.25元"},{"id":"2","name":"自来水-第二阶梯","description":"户年用水量220-300立方米(含)","unit":"元/立方米","price":"4.00元"},{"id":"3","name":"自来水-第三阶梯","description":"户年用水量300立方米以上","unit":"元/立方米","price":"6.99元"},{"id":"4","name":"污水处理费","description":"居民用户","unit":"元/立方米","price":"2.00元"},{"id":"5","name":"综合水价-第一阶梯","description":"0-220立方米(含)","unit":"元/立方米","price":"4.05元"},{"id":"6","name":"综合水价-第二阶梯","description":"220-300立方米(含)","unit":"元/立方米","price":"5.80元"},{"id":"7","name":"综合水价-第三阶梯","description":"300立方米以上","unit":"元/立方米","price":"8.79元"},{"id":"8","name":"电费-第一档(未分时)","description":"户年用电量0-3120度(含)","unit":"元/度","price":"0.617元"},{"id":"9","name":"电费-第二档(未分时)","description":"户年用电量3120-4800度(含)","unit":"元/度","price":"0.667元"},{"id":"10","name":"电费-第三档(未分时)","description":"户年用电量4800度以上","unit":"元/度","price":"0.917元"},{"id":"11","name":"电费-峰时","description":"第一档峰时","unit":"元/度","price":"0.617元"},{"id":"12","name":"电费-谷时","description":"第一档谷时","unit":"元/度","price":"0.307元"},{"id":"13","name":"燃气-第一阶梯","description":"户年用气量0-310立方米(含)","unit":"元/立方米","price":"3.00元"},{"id":"14","name":"燃气-第二阶梯","description":"户年用气量310-520立方米(含)","unit":"元/立方米","price":"3.30元"},{"id":"15","name":"燃气-第三阶梯","description":"户年用气量520立方米以上","unit":"元/立方米","price":"4.20元"}]},{"id":"transport","name":"公共汽（电）车、轨道交通","icon":"🚌","items":[{"id":"16","name":"公交票价-普通车","description":"常规线路","unit":"元","price":"2.00元"},{"id":"17","name":"公交票价-空调车","description":"常规线路","unit":"元","price":"2.00元"},{"id":"18","name":"地铁票价-起步价","description":"0-6公里","unit":"元","price":"3.00元"},{"id":"19","name":"地铁票价-6-16公里","description":"6-16公里","unit":"元","price":"4.00元"},{"id":"20","name":"地铁票价-16-26公里","description":"16-26公里","unit":"元","price":"5.00元"},{"id":"21","name":"地铁票价-26-36公里","description":"26-36公里","unit":"元","price":"6.00元"},{"id":"22","name":"地铁票价-36-46公里","description":"36-46公里","unit":"元","price":"7.00元"},{"id":"23","name":"地铁票价-46-56公里","description":"46-56公里","unit":"元","price":"8.00元"},{"id":"24","name":"地铁票价-56公里以上","description":"每增加20公里","unit":"元","price":"+1.00元"}]},{"id":"taxi","name":"市域巡游出租车","icon":"🚕","items":[{"id":"25","name":"起租价","description":"3公里","unit":"元","price":"16.00元"},{"id":"26","name":"超起租里程运价","description":"3公里以上","unit":"元/公里","price":"2.70元"},{"id":"27","name":"低速等候费","description":"每4分钟","unit":"元","price":"2.70元"},{"id":"28","name":"夜间加价","description":"23:00-次日5:00","unit":"","price":"上浮30%"},{"id":"29","name":"节假日附加费","description":"重大节假日","unit":"元/次","price":"1.00元"}]},{"id":"ferry","name":"黄浦江过江轮渡","icon":"⛴️","items":[{"id":"30","name":"行人","description":"普通轮渡","unit":"元/次","price":"2.00元"},{"id":"31","name":"自行车","description":"含骑车人","unit":"元/次","price":"2.80元"},{"id":"32","name":"助动车','description':'含骑车人','unit':'元/次','price':'3.00元"},{"id":"33","name":"摩托车','description':'含骑车人','unit':'元/次','price':'4.00元"}]},{"id":"tv","name":"有线电视","icon":"📺","items":[{"id":"34","name":"有线电视收视维护费','description':'居民用户','unit':'元/户·月','price':'23.00元"},{"id":"35","name":"有线电视初装费','description':'新装用户','unit':'元/户','price':'300.00元"},{"id":"36","name":"高清机顶盒','description':'购置','unit':'元/台','price':'400.00元"},{"id":"37","name":"高清机顶盒','description':'租赁','unit':'元/台·月','price':'15.00元"}]},{"id":"certificate","name":"证件申领","icon":"🪪","items":[{"id":"38","name":"居民身份证','description':'首次申领','unit':'元/证','price':'免费"},{"id":"39","name":"居民身份证','description':'换领','unit':'元/证','price':'20.00元"},{"id":"40","name":"居民身份证','description':'补领','unit':'元/证','price':'40.00元"},{"id":"41","name":"护照','description':'普通护照','unit':'元/本','price':'120.00元"},{"id":"42","name":"往来港澳通行证','description':'证件费','unit':'元/本','price':'60.00元"},{"id":"43","name":"往来台湾通行证','description':'证件费','unit':'元/本','price':'60.00元"},{"id":"44","name":"机动车驾驶证','description':'补证、换证','unit':'元/证','price':'10.00元"},{"id":"45","name":"机动车行驶证','description':'补证、换证','unit':'元/证','price':'10.00元"}]},{"id":"medical","name":"医疗服务","icon":"🏥","items":[{"id":"46","name":"普通门诊诊查费','description':'三级医院','unit':'元/次','price':'18.00元"},{"id":"47","name":"普通门诊诊查费','description':'二级医院','unit':'元/次','price':'15.00元"},{"id":"48","name":"普通门诊诊查费','description':'一级医院','unit':'元/次','price':'12.00元"},{"id":"49","name':'专家门诊诊查费','description':'三级医院副主任医师','unit':'元/次','price':'25.00元"},{"id":"50","name':'专家门诊诊查费','description':'三级医院主任医师','unit':'元/次','price':'35.00元"},{"id":"51","name':'急诊诊查费','description':'三级医院','unit':'元/次','price':'21.00元"},{"id":"52","name':'住院床位费','description':'三级医院普通病房','unit':'元/床·日','price':'45.00元"},{"id":"53","name':'住院床位费','description':'二级医院普通病房','unit':'元/床·日','price':'35.00元"},{"id":"54","name':'住院床位费','description':'一级医院普通病房','unit':'元/床·日','price':'25.00元"}]},{"id":"education","name":"教育","icon":"🎓","items":[{"id":"55","name":"公办幼儿园保育教育费','description':'市级示范园','unit':'元/月','price':'700.00元"},{"id":"56","name":"公办幼儿园保育教育费','description':'一级园','unit':'元/月','price':'225.00元"},{"id":"57","name":"公办幼儿园保育教育费','description':'二级园','unit':'元/月','price':'175.00元"},{"id":"58","name":"公办幼儿园保育教育费','description':'三级园','unit':'元/月','price':'125.00元"},{"id":"59","name":"公办高中学费','description':'一般高中','unit':'元/学期','price':'900.00元"},{"id":"60","name":"公办高中学费','description':'区重点高中','unit':'元/学期','price':'1200.00元"},{"id":"61","name":"公办高中学费','description':'市重点高中','unit':'元/学期','price':'1500.00元"},{"id":"62","name":"公办高校学费','description':'一般专业','unit':'元/学年','price':'5000.00元"},{"id":"63","name":"公办高校学费','description':'艺术类专业','unit':'元/学年','price':'10000.00元"}]},{"id":"scenic","name":"景区门票","icon":"🏞️","items":[{"id":"64","name":"东方明珠','description':'主观光层','unit':'元/人','price':'199.00元"},{"id":"65","name":"上海迪士尼','description':'常规日','unit':'元/人','price':'475.00元"},{"id":"66","name":"上海迪士尼','description':'特别常规日','unit':'元/人','price':'599.00元"},{"id":"67","name":"上海迪士尼','description':'高峰日','unit':'元/人','price':'719.00元"},{"id":"68","name":"上海迪士尼','description':'特别高峰日','unit':'元/人','price':'799.00元"},{"id":"69","name":"上海野生动物园','description':'成人票','unit':'元/人','price':'165.00元"},{"id":"70","name":"上海科技馆','description':'成人票','unit':'元/人','price':'45.00元"},{"id":"71","name":"上海博物馆','description':'常设展览','unit':'元/人','price':'免费"},{"id":"72","name":"豫园','description':'成人票','unit':'元/人','price':'40.00元"},{"id":"73","name":"朱家角古镇','description':'联票','unit':'元/人','price':'60.00元"}]},{"id":"highway","name":"高速公路","icon":"🛣️","items":[{"id":"74","name":"高速公路通行费','description':'小型客车','unit':'元/公里','price':'0.60元"},{"id":"75","name":"高速公路通行费','description':'中型客车','unit':'元/公里','price':'0.90元"},{"id":"76","name":"高速公路通行费','description':'大型客车','unit':'元/公里','price':'1.20元"},{"id":"77","name":"高速公路通行费','description':'小型货车','unit':'元/公里','price":"0.60元"},{"id":"78","name":"高速公路通行费','description":"中型货车','unit':'元/公里','price':'0.90元"},{"id":"79","name":"高速公路通行费','description":"大型货车','unit':'元/公里','price':'1.20元"}]},{"id":"rescue","name":"高速公路清障救援","icon":"🚑","items":[{"id":"80","name":"小型车清障费','description':'基价','unit':'元/次','price':'200.00元"},{"id":"81","name":"小型车清障费','description':'拖行费','unit':'元/公里','price':'10.00元"},{"id":"82","name":"中型车清障费','description':'基价','unit':'元/次','price':'300.00元"},{"id":"83","name':'中型车清障费','description':'拖行费','unit':'元/公里','price':'15.00元"},{"id":"84","name':'大型车清障费','description':'基价','unit':'元/次','price':'400.00元"},{"id":"85","name':'大型车清障费','description':'拖行费','unit':'元/公里','price':'20.00元"}]},{"id":"parking","name":"机动车停放","icon":"🅿️","items":[{"id":"86","name':'道路停车-首小时','description':'内环线内','unit':'元/小时','price':'15.00元"},{"id":"87","name':'道路停车-首小时后','description':'内环线内','unit':'元/半小时','price':'10.00元"},{"id":"88","name':'道路停车-首小时','description':'内外环线间','unit':'元/小时','price':'10.00元"},{"id":"89","name':'道路停车-首小时后','description':'内外环线间','unit':'元/半小时','price':'6.00元"},{"id":"90","name':'公共停车场-内环线内','description':'白天','unit':'元/小时','price':'10.00元"},{"id":"91","name':'公共停车场-内外环线间','description':'白天','unit':'元/小时','price':'6.00元"},{"id":"92","name':'公共停车场-外环线外','description':'白天','unit':'元/小时','price':'3.00元"},{"id":"93","name':'住宅小区停车','description':'包月','unit':'元/月','price':'150-300元"}]},{"id":"property","name":"不动产登记","icon":"🏠","items":[{"id":"94","name':'不动产登记费','description':'住宅类','unit':'元/件','price':'80.00元"},{"id":"95","name':'不动产登记费','description':'非住宅类','unit':'元/件','price':'550.00元"},{"id":"96","name':'契税','description':'首套房90㎡以下','unit':'%','price':'1%'},{"id":"97","name':'契税','description':'首套房90㎡以上','unit':'%','price':'1.5%'},{"id":"98","name':'契税','description':'二套房','unit':'%','price':'3%'},{"id":"99","name':'印花税','description':'个人销售或购买住房','unit':'','price':'免征"},{"id":"100","name':'印花税','description':'其他','unit':'%','price':'0.05%"}]}]}
+{
+  "updateDate": "2026年",
+  "categories": [
+    {
+      "id": "water",
+      "name": "水电气",
+      "icon": "💧",
+      "items": [
+        {"id": "1", "name": "自来水-第一阶梯", "description": "户年用水量0-220立方米(含)", "unit": "元/立方米", "price": "2.25元"},
+        {"id": "2", "name": "自来水-第二阶梯", "description": "户年用水量220-300立方米(含)", "unit": "元/立方米", "price": "4.00元"},
+        {"id": "3", "name": "自来水-第三阶梯", "description": "户年用水量300立方米以上", "unit": "元/立方米", "price": "6.99元"},
+        {"id": "4", "name": "污水处理费", "description": "居民用户", "unit": "元/立方米", "price": "2.00元"},
+        {"id": "5", "name": "综合水价-第一阶梯", "description": "0-220立方米(含)", "unit": "元/立方米", "price": "4.05元"},
+        {"id": "6", "name": "综合水价-第二阶梯", "description": "220-300立方米(含)", "unit": "元/立方米", "price": "5.80元"},
+        {"id": "7", "name": "综合水价-第三阶梯", "description": "300立方米以上", "unit": "元/立方米", "price": "8.79元"},
+        {"id": "8", "name": "电费-第一档(未分时)", "description": "户年用电量0-3120度(含)", "unit": "元/度", "price": "0.617元"},
+        {"id": "9", "name": "电费-第二档(未分时)", "description": "户年用电量3120-4800度(含)", "unit": "元/度", "price": "0.667元"},
+        {"id": "10", "name": "电费-第三档(未分时)", "description": "户年用电量4800度以上", "unit": "元/度", "price": "0.917元"},
+        {"id": "11", "name": "电费-峰时", "description": "第一档峰时", "unit": "元/度", "price": "0.617元"},
+        {"id": "12", "name": "电费-谷时", "description": "第一档谷时", "unit": "元/度", "price": "0.307元"},
+        {"id": "13", "name": "燃气-第一阶梯", "description": "户年用气量0-310立方米(含)", "unit": "元/立方米", "price": "3.00元"},
+        {"id": "14", "name": "燃气-第二阶梯", "description": "户年用气量310-520立方米(含)", "unit": "元/立方米", "price": "3.30元"},
+        {"id": "15", "name": "燃气-第三阶梯", "description": "户年用气量520立方米以上", "unit": "元/立方米", "price": "4.20元"}
+      ]
+    },
+    {
+      "id": "transport",
+      "name": "公共汽（电）车、轨道交通",
+      "icon": "🚌",
+      "items": [
+        {"id": "16", "name": "公交票价-普通车", "description": "常规线路", "unit": "元", "price": "2.00元"},
+        {"id": "17", "name": "公交票价-空调车", "description": "常规线路", "unit": "元", "price": "2.00元"},
+        {"id": "18", "name": "地铁票价-起步价", "description": "0-6公里", "unit": "元", "price": "3.00元"},
+        {"id": "19", "name": "地铁票价-6-16公里", "description": "6-16公里", "unit": "元", "price": "4.00元"},
+        {"id": "20", "name": "地铁票价-16-26公里", "description": "16-26公里", "unit": "元", "price": "5.00元"},
+        {"id": "21", "name": "地铁票价-26-36公里", "description": "26-36公里", "unit": "元", "price": "6.00元"},
+        {"id": "22", "name": "地铁票价-36-46公里", "description": "36-46公里", "unit": "元", "price": "7.00元"},
+        {"id": "23", "name": "地铁票价-46-56公里", "description": "46-56公里", "unit": "元", "price": "8.00元"},
+        {"id": "24", "name": "地铁票价-56公里以上", "description": "每增加20公里", "unit": "元", "price": "+1.00元"}
+      ]
+    },
+    {
+      "id": "taxi",
+      "name": "市域巡游出租车",
+      "icon": "🚕",
+      "items": [
+        {"id": "25", "name": "起租价", "description": "3公里", "unit": "元", "price": "16.00元"},
+        {"id": "26", "name": "超起租里程运价", "description": "3公里以上", "unit": "元/公里", "price": "2.70元"},
+        {"id": "27", "name": "低速等候费", "description": "每4分钟", "unit": "元", "price": "2.70元"},
+        {"id": "28", "name": "夜间加价", "description": "23:00-次日5:00", "unit": "", "price": "上浮30%"},
+        {"id": "29", "name": "节假日附加费", "description": "重大节假日", "unit": "元/次", "price": "1.00元"}
+      ]
+    },
+    {
+      "id": "ferry",
+      "name": "黄浦江过江轮渡",
+      "icon": "⛴️",
+      "items": [
+        {"id": "30", "name": "行人", "description": "普通轮渡", "unit": "元/次", "price": "2.00元"},
+        {"id": "31", "name": "自行车", "description": "含骑车人", "unit": "元/次", "price": "2.80元"},
+        {"id": "32", "name": "助动车", "description": "含骑车人", "unit": "元/次", "price": "3.00元"},
+        {"id": "33", "name": "摩托车", "description": "含骑车人", "unit": "元/次", "price": "4.00元"}
+      ]
+    },
+    {
+      "id": "tv",
+      "name": "有线电视",
+      "icon": "📺",
+      "items": [
+        {"id": "34", "name": "有线电视收视维护费", "description": "居民用户", "unit": "元/户·月", "price": "23.00元"},
+        {"id": "35", "name": "有线电视初装费", "description": "新装用户", "unit": "元/户", "price": "300.00元"},
+        {"id": "36", "name": "高清机顶盒", "description": "购置", "unit": "元/台", "price": "400.00元"},
+        {"id": "37", "name": "高清机顶盒", "description": "租赁", "unit": "元/台·月", "price": "15.00元"}
+      ]
+    },
+    {
+      "id": "certificate",
+      "name": "证件申领",
+      "icon": "🪪",
+      "items": [
+        {"id": "38", "name": "居民身份证", "description": "首次申领", "unit": "元/证", "price": "免费"},
+        {"id": "39", "name": "居民身份证", "description": "换领", "unit": "元/证", "price": "20.00元"},
+        {"id": "40", "name": "居民身份证", "description": "补领", "unit": "元/证", "price": "40.00元"},
+        {"id": "41", "name": "护照", "description": "普通护照", "unit": "元/本", "price": "120.00元"},
+        {"id": "42", "name": "往来港澳通行证", "description": "证件费", "unit": "元/本", "price": "60.00元"},
+        {"id": "43", "name": "往来台湾通行证", "description": "证件费", "unit": "元/本", "price": "60.00元"},
+        {"id": "44", "name": "机动车驾驶证", "description": "补证、换证", "unit": "元/证", "price": "10.00元"},
+        {"id": "45", "name": "机动车行驶证", "description": "补证、换证", "unit": "元/证", "price": "10.00元"}
+      ]
+    },
+    {
+      "id": "medical",
+      "name": "医疗服务",
+      "icon": "🏥",
+      "items": [
+        {"id": "46", "name": "普通门诊诊查费", "description": "三级医院", "unit": "元/次", "price": "18.00元"},
+        {"id": "47", "name": "普通门诊诊查费", "description": "二级医院", "unit": "元/次", "price": "15.00元"},
+        {"id": "48", "name": "普通门诊诊查费", "description": "一级医院", "unit": "元/次", "price": "12.00元"},
+        {"id": "49", "name": "专家门诊诊查费", "description": "三级医院副主任医师", "unit": "元/次", "price": "25.00元"},
+        {"id": "50", "name": "专家门诊诊查费", "description": "三级医院主任医师", "unit": "元/次", "price": "35.00元"},
+        {"id": "51", "name": "急诊诊查费", "description": "三级医院", "unit": "元/次", "price": "21.00元"},
+        {"id": "52", "name": "住院床位费", "description": "三级医院普通病房", "unit": "元/床·日", "price": "45.00元"},
+        {"id": "53", "name": "住院床位费", "description": "二级医院普通病房", "unit": "元/床·日", "price": "35.00元"},
+        {"id": "54", "name": "住院床位费", "description": "一级医院普通病房", "unit": "元/床·日", "price": "25.00元"}
+      ]
+    },
+    {
+      "id": "education",
+      "name": "教育",
+      "icon": "🎓",
+      "items": [
+        {"id": "55", "name": "公办幼儿园保育教育费", "description": "市级示范园", "unit": "元/月", "price": "700.00元"},
+        {"id": "56", "name": "公办幼儿园保育教育费", "description": "一级园", "unit": "元/月", "price": "225.00元"},
+        {"id": "57", "name": "公办幼儿园保育教育费", "description": "二级园", "unit": "元/月", "price": "175.00元"},
+        {"id": "58", "name": "公办幼儿园保育教育费", "description": "三级园", "unit": "元/月", "price": "125.00元"},
+        {"id": "59", "name": "公办高中学费", "description": "一般高中", "unit": "元/学期", "price": "900.00元"},
+        {"id": "60", "name": "公办高中学费", "description": "区重点高中", "unit": "元/学期", "price": "1200.00元"},
+        {"id": "61", "name": "公办高中学费", "description": "市重点高中", "unit": "元/学期", "price": "1500.00元"},
+        {"id": "62", "name": "公办高校学费", "description": "一般专业", "unit": "元/学年", "price": "5000.00元"},
+        {"id": "63", "name": "公办高校学费", "description": "艺术类专业", "unit": "元/学年", "price": "10000.00元"}
+      ]
+    },
+    {
+      "id": "scenic",
+      "name": "景区门票",
+      "icon": "🏞️",
+      "items": [
+        {"id": "64", "name": "东方明珠", "description": "主观光层", "unit": "元/人", "price": "199.00元"},
+        {"id": "65", "name": "上海迪士尼", "description": "常规日", "unit": "元/人", "price": "475.00元"},
+        {"id": "66", "name": "上海迪士尼", "description": "特别常规日", "unit": "元/人", "price": "599.00元"},
+        {"id": "67", "name": "上海迪士尼", "description": "高峰日", "unit": "元/人", "price": "719.00元"},
+        {"id": "68", "name": "上海迪士尼", "description": "特别高峰日", "unit": "元/人", "price": "799.00元"},
+        {"id": "69", "name": "上海野生动物园", "description": "成人票", "unit": "元/人", "price": "165.00元"},
+        {"id": "70", "name": "上海科技馆", "description": "成人票", "unit": "元/人", "price": "45.00元"},
+        {"id": "71", "name": "上海博物馆", "description": "常设展览", "unit": "元/人", "price": "免费"},
+        {"id": "72", "name": "豫园", "description": "成人票", "unit": "元/人", "price": "40.00元"},
+        {"id": "73", "name": "朱家角古镇", "description": "联票", "unit": "元/人", "price": "60.00元"}
+      ]
+    },
+    {
+      "id": "highway",
+      "name": "高速公路",
+      "icon": "🛣️",
+      "items": [
+        {"id": "74", "name": "高速公路通行费", "description": "小型客车", "unit": "元/公里", "price": "0.60元"},
+        {"id": "75", "name": "高速公路通行费", "description": "中型客车", "unit": "元/公里", "price": "0.90元"},
+        {"id": "76", "name": "高速公路通行费", "description": "大型客车", "unit": "元/公里", "price": "1.20元"},
+        {"id": "77", "name": "高速公路通行费", "description": "小型货车", "unit": "元/公里", "price": "0.60元"},
+        {"id": "78", "name": "高速公路通行费", "description": "中型货车", "unit": "元/公里", "price": "0.90元"},
+        {"id": "79", "name": "高速公路通行费", "description": "大型货车", "unit": "元/公里", "price": "1.20元"}
+      ]
+    },
+    {
+      "id": "rescue",
+      "name": "高速公路清障救援",
+      "icon": "🚑",
+      "items": [
+        {"id": "80", "name": "小型车清障费", "description": "基价", "unit": "元/次", "price": "200.00元"},
+        {"id": "81", "name": "小型车清障费", "description": "拖行费", "unit": "元/公里", "price": "10.00元"},
+        {"id": "82", "name": "中型车清障费", "description": "基价", "unit": "元/次", "price": "300.00元"},
+        {"id": "83", "name": "中型车清障费", "description": "拖行费", "unit": "元/公里", "price": "15.00元"},
+        {"id": "84", "name": "大型车清障费", "description": "基价", "unit": "元/次", "price": "400.00元"},
+        {"id": "85", "name": "大型车清障费", "description": "拖行费", "unit": "元/公里", "price": "20.00元"}
+      ]
+    },
+    {
+      "id": "parking",
+      "name": "机动车停放",
+      "icon": "🅿️",
+      "items": [
+        {"id": "86", "name": "道路停车-首小时", "description": "内环线内", "unit": "元/小时", "price": "15.00元"},
+        {"id": "87", "name": "道路停车-首小时后", "description": "内环线内", "unit": "元/半小时", "price": "10.00元"},
+        {"id": "88", "name": "道路停车-首小时", "description": "内外环线间", "unit": "元/小时", "price": "10.00元"},
+        {"id": "89", "name": "道路停车-首小时后", "description": "内外环线间", "unit": "元/半小时", "price": "6.00元"},
+        {"id": "90", "name": "公共停车场-内环线内", "description": "白天", "unit": "元/小时", "price": "10.00元"},
+        {"id": "91", "name": "公共停车场-内外环线间", "description": "白天", "unit": "元/小时", "price": "6.00元"},
+        {"id": "92", "name": "公共停车场-外环线外", "description": "白天", "unit": "元/小时", "price": "3.00元"},
+        {"id": "93", "name": "住宅小区停车", "description": "包月", "unit": "元/月", "price": "150-300元"}
+      ]
+    },
+    {
+      "id": "property",
+      "name": "不动产登记",
+      "icon": "🏠",
+      "items": [
+        {"id": "94", "name": "不动产登记费", "description": "住宅类", "unit": "元/件", "price": "80.00元"},
+        {"id": "95", "name": "不动产登记费", "description": "非住宅类", "unit": "元/件", "price": "550.00元"},
+        {"id": "96", "name": "契税", "description": "首套房90㎡以下", "unit": "%", "price": "1%"},
+        {"id": "97", "name": "契税", "description": "首套房90㎡以上", "unit": "%", "price": "1.5%"},
+        {"id": "98", "name": "契税", "description": "二套房", "unit": "%", "price": "3%"},
+        {"id": "99", "name": "印花税", "description": "个人销售或购买住房", "unit": "", "price": "免征"},
+        {"id": "100", "name": "印花税", "description": "其他", "unit": "%", "price": "0.05%"}
+      ]
+    }
+  ]
+}
