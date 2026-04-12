@@ -1,0 +1,1740 @@
+{
+  "updateDate": "2026年04月10日",
+  "district": "浦东新区",
+  "markets": [
+    {
+      "market": "大润发超市(三林店)",
+      "prices": [
+        {
+          "name": "芹菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3.95,
+          "trend": "stable"
+        },
+        {
+          "name": "生菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.19,
+          "trend": "stable"
+        },
+        {
+          "name": "黄瓜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 1.98,
+          "trend": "stable"
+        },
+        {
+          "name": "西红柿",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3.28,
+          "trend": "stable"
+        },
+        {
+          "name": "土豆",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 1.98,
+          "trend": "stable"
+        },
+        {
+          "name": "茄子",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3.58,
+          "trend": "stable"
+        },
+        {
+          "name": "刀豆",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 7.9,
+          "trend": "stable"
+        },
+        {
+          "name": "萝卜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 0.99,
+          "trend": "stable"
+        },
+        {
+          "name": "冬瓜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 1.28,
+          "trend": "stable"
+        },
+        {
+          "name": "胡萝卜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 1.99,
+          "trend": "stable"
+        },
+        {
+          "name": "青椒",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.98,
+          "trend": "stable"
+        },
+        {
+          "name": "莴苣",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3.45,
+          "trend": "stable"
+        },
+        {
+          "name": "生姜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 5.9,
+          "trend": "stable"
+        },
+        {
+          "name": "蒜头",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 5,
+          "trend": "stable"
+        },
+        {
+          "name": "洋葱",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.58,
+          "trend": "stable"
+        },
+        {
+          "name": "西兰花",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3.58,
+          "trend": "stable"
+        },
+        {
+          "name": "西葫芦",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 1.98,
+          "trend": "stable"
+        }
+      ]
+    },
+    {
+      "market": "南季生鲜超市",
+      "prices": [
+        {
+          "name": "青菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.08,
+          "trend": "stable"
+        },
+        {
+          "name": "鸡毛菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4.58,
+          "trend": "stable"
+        },
+        {
+          "name": "杭白菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3.68,
+          "trend": "stable"
+        },
+        {
+          "name": "卷心菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4.58,
+          "trend": "stable"
+        },
+        {
+          "name": "菠菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3.88,
+          "trend": "stable"
+        },
+        {
+          "name": "芹菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4.38,
+          "trend": "stable"
+        },
+        {
+          "name": "生菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4.58,
+          "trend": "stable"
+        },
+        {
+          "name": "韭菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4.98,
+          "trend": "stable"
+        },
+        {
+          "name": "米苋",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 5.68,
+          "trend": "stable"
+        },
+        {
+          "name": "蕹菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4.58,
+          "trend": "stable"
+        },
+        {
+          "name": "草头",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4.88,
+          "trend": "stable"
+        },
+        {
+          "name": "大白菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 1.68,
+          "trend": "stable"
+        },
+        {
+          "name": "黄瓜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 5.28,
+          "trend": "stable"
+        },
+        {
+          "name": "西红柿",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3.88,
+          "trend": "stable"
+        },
+        {
+          "name": "土豆",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.38,
+          "trend": "stable"
+        },
+        {
+          "name": "茄子",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4.28,
+          "trend": "stable"
+        },
+        {
+          "name": "刀豆",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 5.68,
+          "trend": "stable"
+        },
+        {
+          "name": "萝卜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 1.28,
+          "trend": "stable"
+        },
+        {
+          "name": "冬瓜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 1.98,
+          "trend": "stable"
+        },
+        {
+          "name": "胡萝卜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.58,
+          "trend": "stable"
+        },
+        {
+          "name": "青椒",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3.88,
+          "trend": "stable"
+        },
+        {
+          "name": "尖椒",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 9.08,
+          "trend": "stable"
+        },
+        {
+          "name": "花菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4.28,
+          "trend": "stable"
+        },
+        {
+          "name": "莴苣",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3.98,
+          "trend": "stable"
+        },
+        {
+          "name": "豇豆",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 6.88,
+          "trend": "stable"
+        },
+        {
+          "name": "茭白",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 5.98,
+          "trend": "stable"
+        },
+        {
+          "name": "鲜香菇",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 11.98,
+          "trend": "stable"
+        },
+        {
+          "name": "蒜苔",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 8.28,
+          "trend": "stable"
+        },
+        {
+          "name": "生姜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 9.88,
+          "trend": "stable"
+        },
+        {
+          "name": "蒜头",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 9.88,
+          "trend": "stable"
+        },
+        {
+          "name": "洋葱",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 1.68,
+          "trend": "stable"
+        },
+        {
+          "name": "西兰花",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 5.88,
+          "trend": "stable"
+        },
+        {
+          "name": "西葫芦",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4.58,
+          "trend": "stable"
+        }
+      ]
+    },
+    {
+      "market": "世纪联华超市(南汇店)",
+      "prices": [
+        {
+          "name": "青菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 1.88,
+          "trend": "stable"
+        },
+        {
+          "name": "卷心菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 1.39,
+          "trend": "stable"
+        },
+        {
+          "name": "菠菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3.79,
+          "trend": "stable"
+        },
+        {
+          "name": "芹菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.99,
+          "trend": "stable"
+        },
+        {
+          "name": "生菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.48,
+          "trend": "stable"
+        },
+        {
+          "name": "大白菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 1.49,
+          "trend": "stable"
+        },
+        {
+          "name": "黄瓜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.39,
+          "trend": "stable"
+        },
+        {
+          "name": "西红柿",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3.28,
+          "trend": "stable"
+        },
+        {
+          "name": "土豆",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 1.88,
+          "trend": "stable"
+        },
+        {
+          "name": "茄子",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4.99,
+          "trend": "stable"
+        },
+        {
+          "name": "萝卜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 0.99,
+          "trend": "stable"
+        },
+        {
+          "name": "冬瓜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.98,
+          "trend": "stable"
+        },
+        {
+          "name": "胡萝卜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.3,
+          "trend": "stable"
+        },
+        {
+          "name": "青椒",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 6.98,
+          "trend": "stable"
+        },
+        {
+          "name": "尖椒",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 6.98,
+          "trend": "stable"
+        },
+        {
+          "name": "花菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 1.99,
+          "trend": "stable"
+        },
+        {
+          "name": "莴苣",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 1.99,
+          "trend": "stable"
+        },
+        {
+          "name": "茭白",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4.98,
+          "trend": "stable"
+        },
+        {
+          "name": "鲜香菇",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 5.98,
+          "trend": "stable"
+        },
+        {
+          "name": "蒜苔",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 11.98,
+          "trend": "stable"
+        },
+        {
+          "name": "生姜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 7.98,
+          "trend": "stable"
+        },
+        {
+          "name": "蒜头",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 10.95,
+          "trend": "stable"
+        },
+        {
+          "name": "洋葱",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.58,
+          "trend": "stable"
+        },
+        {
+          "name": "西兰花",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.98,
+          "trend": "stable"
+        },
+        {
+          "name": "西葫芦",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 6.98,
+          "trend": "stable"
+        }
+      ]
+    },
+    {
+      "market": "高东集贸市场",
+      "prices": [
+        {
+          "name": "青菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2,
+          "trend": "stable"
+        },
+        {
+          "name": "鸡毛菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3.1,
+          "trend": "stable"
+        },
+        {
+          "name": "杭白菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2,
+          "trend": "stable"
+        },
+        {
+          "name": "卷心菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 1.9,
+          "trend": "stable"
+        },
+        {
+          "name": "菠菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3.7,
+          "trend": "stable"
+        },
+        {
+          "name": "芹菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3.3,
+          "trend": "stable"
+        },
+        {
+          "name": "生菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.8,
+          "trend": "stable"
+        },
+        {
+          "name": "韭菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.8,
+          "trend": "stable"
+        },
+        {
+          "name": "米苋",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4.4,
+          "trend": "stable"
+        },
+        {
+          "name": "蕹菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 5.1,
+          "trend": "stable"
+        },
+        {
+          "name": "大白菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 1.5,
+          "trend": "stable"
+        },
+        {
+          "name": "黄瓜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3.3,
+          "trend": "stable"
+        },
+        {
+          "name": "西红柿",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3.9,
+          "trend": "stable"
+        },
+        {
+          "name": "土豆",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.1,
+          "trend": "stable"
+        },
+        {
+          "name": "茄子",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4.2,
+          "trend": "stable"
+        },
+        {
+          "name": "刀豆",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 6.6,
+          "trend": "stable"
+        },
+        {
+          "name": "萝卜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 1.4,
+          "trend": "stable"
+        },
+        {
+          "name": "冬瓜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2,
+          "trend": "stable"
+        },
+        {
+          "name": "胡萝卜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.8,
+          "trend": "stable"
+        },
+        {
+          "name": "青椒",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4.4,
+          "trend": "stable"
+        },
+        {
+          "name": "尖椒",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4.4,
+          "trend": "stable"
+        },
+        {
+          "name": "花菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3.1,
+          "trend": "stable"
+        },
+        {
+          "name": "莴苣",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2,
+          "trend": "stable"
+        },
+        {
+          "name": "豇豆",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4.7,
+          "trend": "stable"
+        },
+        {
+          "name": "茭白",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 7,
+          "trend": "stable"
+        },
+        {
+          "name": "鲜香菇",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 10,
+          "trend": "stable"
+        },
+        {
+          "name": "鲜蘑菇",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 10,
+          "trend": "stable"
+        },
+        {
+          "name": "蒜苔",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 7,
+          "trend": "stable"
+        },
+        {
+          "name": "生姜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 7,
+          "trend": "stable"
+        },
+        {
+          "name": "蒜头",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 7,
+          "trend": "stable"
+        },
+        {
+          "name": "洋葱",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2,
+          "trend": "stable"
+        },
+        {
+          "name": "西兰花",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4.5,
+          "trend": "stable"
+        },
+        {
+          "name": "西葫芦",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3,
+          "trend": "stable"
+        }
+      ]
+    },
+    {
+      "market": "航盛农贸市场",
+      "prices": [
+        {
+          "name": "青菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.5,
+          "trend": "stable"
+        },
+        {
+          "name": "鸡毛菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4.5,
+          "trend": "stable"
+        },
+        {
+          "name": "杭白菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3.5,
+          "trend": "stable"
+        },
+        {
+          "name": "卷心菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2,
+          "trend": "stable"
+        },
+        {
+          "name": "菠菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4,
+          "trend": "stable"
+        },
+        {
+          "name": "芹菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4,
+          "trend": "stable"
+        },
+        {
+          "name": "生菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.5,
+          "trend": "stable"
+        },
+        {
+          "name": "韭菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4,
+          "trend": "stable"
+        },
+        {
+          "name": "米苋",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 7,
+          "trend": "stable"
+        },
+        {
+          "name": "蕹菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 9,
+          "trend": "stable"
+        },
+        {
+          "name": "草头",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 12,
+          "trend": "stable"
+        },
+        {
+          "name": "大白菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2,
+          "trend": "stable"
+        },
+        {
+          "name": "黄瓜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4,
+          "trend": "stable"
+        },
+        {
+          "name": "西红柿",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4.5,
+          "trend": "stable"
+        },
+        {
+          "name": "土豆",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3,
+          "trend": "stable"
+        },
+        {
+          "name": "茄子",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 6,
+          "trend": "stable"
+        },
+        {
+          "name": "刀豆",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 12,
+          "trend": "stable"
+        },
+        {
+          "name": "萝卜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 1.5,
+          "trend": "stable"
+        },
+        {
+          "name": "冬瓜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.5,
+          "trend": "stable"
+        },
+        {
+          "name": "胡萝卜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3,
+          "trend": "stable"
+        },
+        {
+          "name": "青椒",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 8,
+          "trend": "stable"
+        },
+        {
+          "name": "尖椒",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 5,
+          "trend": "stable"
+        },
+        {
+          "name": "花菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4,
+          "trend": "stable"
+        },
+        {
+          "name": "莴苣",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.5,
+          "trend": "stable"
+        },
+        {
+          "name": "豇豆",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 7,
+          "trend": "stable"
+        },
+        {
+          "name": "茭白",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 8,
+          "trend": "stable"
+        },
+        {
+          "name": "鲜香菇",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 12,
+          "trend": "stable"
+        },
+        {
+          "name": "鲜蘑菇",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 12,
+          "trend": "stable"
+        },
+        {
+          "name": "蒜苔",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 8,
+          "trend": "stable"
+        },
+        {
+          "name": "生姜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 8,
+          "trend": "stable"
+        },
+        {
+          "name": "蒜头",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 8,
+          "trend": "stable"
+        },
+        {
+          "name": "洋葱",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.5,
+          "trend": "stable"
+        },
+        {
+          "name": "西兰花",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4.5,
+          "trend": "stable"
+        },
+        {
+          "name": "西葫芦",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3.5,
+          "trend": "stable"
+        }
+      ]
+    },
+    {
+      "market": "羽山农贸市场",
+      "prices": [
+        {
+          "name": "青菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3,
+          "trend": "stable"
+        },
+        {
+          "name": "鸡毛菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3,
+          "trend": "stable"
+        },
+        {
+          "name": "杭白菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3,
+          "trend": "stable"
+        },
+        {
+          "name": "卷心菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3,
+          "trend": "stable"
+        },
+        {
+          "name": "菠菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 7,
+          "trend": "stable"
+        },
+        {
+          "name": "芹菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 5,
+          "trend": "stable"
+        },
+        {
+          "name": "生菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4.5,
+          "trend": "stable"
+        },
+        {
+          "name": "韭菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4.5,
+          "trend": "stable"
+        },
+        {
+          "name": "米苋",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4,
+          "trend": "stable"
+        },
+        {
+          "name": "蕹菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4,
+          "trend": "stable"
+        },
+        {
+          "name": "大白菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.5,
+          "trend": "stable"
+        },
+        {
+          "name": "黄瓜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 6,
+          "trend": "stable"
+        },
+        {
+          "name": "西红柿",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 7.5,
+          "trend": "stable"
+        },
+        {
+          "name": "土豆",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.5,
+          "trend": "stable"
+        },
+        {
+          "name": "茄子",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 8,
+          "trend": "stable"
+        },
+        {
+          "name": "刀豆",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 7,
+          "trend": "stable"
+        },
+        {
+          "name": "萝卜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.5,
+          "trend": "stable"
+        },
+        {
+          "name": "冬瓜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.5,
+          "trend": "stable"
+        },
+        {
+          "name": "胡萝卜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.5,
+          "trend": "stable"
+        },
+        {
+          "name": "青椒",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 7,
+          "trend": "stable"
+        },
+        {
+          "name": "尖椒",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 7,
+          "trend": "stable"
+        },
+        {
+          "name": "花菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 5.5,
+          "trend": "stable"
+        },
+        {
+          "name": "莴苣",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3,
+          "trend": "stable"
+        },
+        {
+          "name": "豇豆",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 5,
+          "trend": "stable"
+        },
+        {
+          "name": "茭白",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 10,
+          "trend": "stable"
+        },
+        {
+          "name": "鲜香菇",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 13,
+          "trend": "stable"
+        },
+        {
+          "name": "鲜蘑菇",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 13,
+          "trend": "stable"
+        },
+        {
+          "name": "蒜苔",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 7,
+          "trend": "stable"
+        },
+        {
+          "name": "生姜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 8,
+          "trend": "stable"
+        },
+        {
+          "name": "蒜头",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 8,
+          "trend": "stable"
+        },
+        {
+          "name": "洋葱",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3,
+          "trend": "stable"
+        },
+        {
+          "name": "西兰花",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 6,
+          "trend": "stable"
+        },
+        {
+          "name": "西葫芦",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 5,
+          "trend": "stable"
+        }
+      ]
+    },
+    {
+      "market": "云莲农贸市场",
+      "prices": [
+        {
+          "name": "青菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 1.98,
+          "trend": "stable"
+        },
+        {
+          "name": "鸡毛菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3.26,
+          "trend": "stable"
+        },
+        {
+          "name": "杭白菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3,
+          "trend": "stable"
+        },
+        {
+          "name": "卷心菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.05,
+          "trend": "stable"
+        },
+        {
+          "name": "菠菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3.85,
+          "trend": "stable"
+        },
+        {
+          "name": "芹菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3.5,
+          "trend": "stable"
+        },
+        {
+          "name": "生菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.9,
+          "trend": "stable"
+        },
+        {
+          "name": "韭菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3.6,
+          "trend": "stable"
+        },
+        {
+          "name": "米苋",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4.5,
+          "trend": "stable"
+        },
+        {
+          "name": "蕹菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4.9,
+          "trend": "stable"
+        },
+        {
+          "name": "草头",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 9.65,
+          "trend": "stable"
+        },
+        {
+          "name": "大白菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 1.5,
+          "trend": "stable"
+        },
+        {
+          "name": "黄瓜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3.6,
+          "trend": "stable"
+        },
+        {
+          "name": "西红柿",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4.1,
+          "trend": "stable"
+        },
+        {
+          "name": "土豆",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.12,
+          "trend": "stable"
+        },
+        {
+          "name": "茄子",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4.26,
+          "trend": "stable"
+        },
+        {
+          "name": "刀豆",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 6.75,
+          "trend": "stable"
+        },
+        {
+          "name": "萝卜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 1.42,
+          "trend": "stable"
+        },
+        {
+          "name": "冬瓜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.08,
+          "trend": "stable"
+        },
+        {
+          "name": "胡萝卜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 1.6,
+          "trend": "stable"
+        },
+        {
+          "name": "青椒",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4.55,
+          "trend": "stable"
+        },
+        {
+          "name": "尖椒",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4.7,
+          "trend": "stable"
+        },
+        {
+          "name": "花菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3.2,
+          "trend": "stable"
+        },
+        {
+          "name": "莴苣",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.08,
+          "trend": "stable"
+        },
+        {
+          "name": "豇豆",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4.75,
+          "trend": "stable"
+        },
+        {
+          "name": "茭白",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 6.5,
+          "trend": "stable"
+        },
+        {
+          "name": "鲜香菇",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 8.2,
+          "trend": "stable"
+        },
+        {
+          "name": "鲜蘑菇",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 8.5,
+          "trend": "stable"
+        },
+        {
+          "name": "蒜苔",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 7.25,
+          "trend": "stable"
+        },
+        {
+          "name": "生姜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 7.5,
+          "trend": "stable"
+        },
+        {
+          "name": "蒜头",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 6.3,
+          "trend": "stable"
+        },
+        {
+          "name": "洋葱",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2,
+          "trend": "stable"
+        },
+        {
+          "name": "西兰花",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3.55,
+          "trend": "stable"
+        },
+        {
+          "name": "西葫芦",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3.2,
+          "trend": "stable"
+        }
+      ]
+    },
+    {
+      "market": "张桥农贸市场",
+      "prices": [
+        {
+          "name": "青菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2,
+          "trend": "stable"
+        },
+        {
+          "name": "鸡毛菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3,
+          "trend": "stable"
+        },
+        {
+          "name": "杭白菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.3,
+          "trend": "stable"
+        },
+        {
+          "name": "卷心菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2,
+          "trend": "stable"
+        },
+        {
+          "name": "菠菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3.5,
+          "trend": "stable"
+        },
+        {
+          "name": "芹菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3.5,
+          "trend": "stable"
+        },
+        {
+          "name": "生菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3,
+          "trend": "stable"
+        },
+        {
+          "name": "韭菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3.5,
+          "trend": "stable"
+        },
+        {
+          "name": "米苋",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 7,
+          "trend": "stable"
+        },
+        {
+          "name": "蕹菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 8,
+          "trend": "stable"
+        },
+        {
+          "name": "大白菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 1.5,
+          "trend": "stable"
+        },
+        {
+          "name": "黄瓜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3.5,
+          "trend": "stable"
+        },
+        {
+          "name": "西红柿",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4.5,
+          "trend": "stable"
+        },
+        {
+          "name": "土豆",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.5,
+          "trend": "stable"
+        },
+        {
+          "name": "茄子",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 5,
+          "trend": "stable"
+        },
+        {
+          "name": "刀豆",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 8,
+          "trend": "stable"
+        },
+        {
+          "name": "萝卜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 1.5,
+          "trend": "stable"
+        },
+        {
+          "name": "冬瓜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.5,
+          "trend": "stable"
+        },
+        {
+          "name": "胡萝卜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2,
+          "trend": "stable"
+        },
+        {
+          "name": "青椒",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 5,
+          "trend": "stable"
+        },
+        {
+          "name": "尖椒",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 6,
+          "trend": "stable"
+        },
+        {
+          "name": "花菜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 3.5,
+          "trend": "stable"
+        },
+        {
+          "name": "莴苣",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2.5,
+          "trend": "stable"
+        },
+        {
+          "name": "豇豆",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 6,
+          "trend": "stable"
+        },
+        {
+          "name": "茭白",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 8,
+          "trend": "stable"
+        },
+        {
+          "name": "鲜香菇",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 12,
+          "trend": "stable"
+        },
+        {
+          "name": "鲜蘑菇",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 12,
+          "trend": "stable"
+        },
+        {
+          "name": "蒜苔",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 6,
+          "trend": "stable"
+        },
+        {
+          "name": "生姜",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 6,
+          "trend": "stable"
+        },
+        {
+          "name": "蒜头",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 6,
+          "trend": "stable"
+        },
+        {
+          "name": "洋葱",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 2,
+          "trend": "stable"
+        },
+        {
+          "name": "西兰花",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4.5,
+          "trend": "stable"
+        },
+        {
+          "name": "西葫芦",
+          "category": "蔬菜",
+          "unit": "500克",
+          "price": 4,
+          "trend": "stable"
+        }
+      ]
+    }
+  ]
+}
