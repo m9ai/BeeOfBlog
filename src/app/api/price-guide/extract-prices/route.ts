@@ -4,11 +4,19 @@ import { existsSync } from 'fs'
 import { join } from 'path'
 import { tmpdir } from 'os'
 import { createWorker } from 'tesseract.js'
-import * as pdfjs from 'pdfjs-dist'
-import * as path from 'path'
 
-// 设置 PDF.js worker
-pdfjs.GlobalWorkerOptions.workerSrc = path.join(process.cwd(), 'node_modules/pdfjs-dist/build/pdf.worker.mjs')
+// 使用 dynamic import 来避免构建时加载 pdfjs-dist
+let pdfjs: any = null
+
+async function getPdfjs() {
+  if (!pdfjs) {
+    pdfjs = await import('pdfjs-dist/legacy/build/pdf.mjs')
+    const path = await import('path')
+    const workerPath = path.join(process.cwd(), 'node_modules/pdfjs-dist/legacy/build/pdf.worker.mjs')
+    pdfjs.GlobalWorkerOptions.workerSrc = 'file://' + workerPath
+  }
+  return pdfjs
+}
 
 interface PriceItem {
   id: string
@@ -67,7 +75,8 @@ export async function POST(request: NextRequest) {
     console.log('[OCR] PDF 已保存，大小:', buffer.length)
 
     // 使用 pdfjs-dist 渲染 PDF
-    const pdf = await pdfjs.getDocument({ data: new Uint8Array(buffer) }).promise
+    const pdfjsLib = await getPdfjs()
+    const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(buffer) }).promise
     const pageCount = pdf.numPages
     console.log('[OCR] PDF 页数:', pageCount)
 
