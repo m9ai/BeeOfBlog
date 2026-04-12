@@ -133,6 +133,7 @@ function parsePriceText(text: string, addLog: (step: string, msg: string) => voi
   
   const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0)
   log(`总行数: ${lines.length}`)
+  log(`前20行预览: ${JSON.stringify(lines.slice(0, 20))}`)
   
   // 初始化类别
   const categories: PriceCategory[] = Object.keys(CATEGORY_KEYWORDS).map((name, index) => ({
@@ -149,26 +150,35 @@ function parsePriceText(text: string, addLog: (step: string, msg: string) => voi
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i]
     
-    // 1. 匹配类别
+    // 1. 匹配类别（更宽松的匹配）
     for (const [catName, keywords] of Object.entries(CATEGORY_KEYWORDS)) {
+      // 直接包含类别名
+      if (line.includes(catName)) {
+        currentCategory = catName
+        lastCategoryLine = i
+        log(`类别 "${catName}" 在行 ${i}: ${line.substring(0, 40)}`)
+        break
+      }
+      // 关键词匹配
       for (const kw of keywords) {
-        if (line.includes(kw)) {
+        if (line.includes(kw) && line.length < 50) { // 类别标题通常较短
           currentCategory = catName
           lastCategoryLine = i
-          log(`类别 "${catName}" 在行 ${i}`)
+          log(`关键词 "${kw}" -> "${catName}" 在行 ${i}`)
           break
         }
       }
     }
     
-    // 2. 提取价格（包含 "元" 的行）
-    if (line.includes('元') && /\d/.test(line)) {
+    // 2. 提取价格（包含数字和"元"或"."的行）
+    const hasPrice = /\d+\.?\d*/.test(line) && (line.includes('元') || /\d\.\d{2}/.test(line))
+    if (hasPrice && currentCategory && i - lastCategoryLine < 50) {
       const item = extractPriceItem(line)
-      if (item && currentCategory) {
+      if (item) {
         const cat = categories.find(c => c.name === currentCategory)
         if (cat && !isDuplicate(cat.items, item)) {
           cat.items.push(item)
-          log(`提取: ${item.name} = ${item.price}`)
+          log(`提取: ${item.name.substring(0, 30)} = ${item.price}`)
         }
       }
     }
@@ -179,20 +189,53 @@ function parsePriceText(text: string, addLog: (step: string, msg: string) => voi
 }
 
 function extractPriceItem(line: string): PriceItem | null {
-  // 匹配价格模式
-  const priceMatch = line.match(/(\d+\.\d{1,2}|\d+)\s*元/)
-  if (!priceMatch) return null
+  // 匹配各种价格模式
+  const pricePatterns = [
+    /(\d+\.\d{2})\s*元/,      // 2.25元
+    /(\d+\.\d{1})\s*元/,      // 0.6元
+    /(\d+)\s*元/,             // 12元
+    /(\d+\.\d{2})/,           // 2.25 (纯数字，可能是价格)
+    /(\d+\.\d{1})/,           // 0.6
+  ]
   
-  const price = priceMatch[0]
-  const priceIndex = line.indexOf(price)
+  let price: string | null = null
+  let priceIndex = -1
   
-  // 提取名称（价格前的文字）
-  let name = priceIndex > 0 ? line.substring(0, priceIndex).trim() : line
-  name = name.replace(/^[\d\s\.\-]+/, '').trim()
+  for (const pattern of pricePatterns) {
+    const match = line.match(pattern)
+    if (match) {
+      price = match[1] + (line.includes('元') ? '元' : '')
+      priceIndex = match.index || line.indexOf(match[1])
+      break
+    }
+  }
+  
+  if (!price) return null
+  
+  // 提取名称（价格前的文字，或整行去除价格部分）
+  let name = ''
+  if (priceIndex > 0) {
+    name = line.substring(0, priceIndex).trim()
+  }
+  // 如果前面没有文字，尝试提取后面的文字
+  if (!name && priceIndex >= 0) {
+    const afterPrice = line.substring(priceIndex + price.length).trim()
+    name = afterPrice.replace(/^[\s\-\/]+/, '')
+  }
+  // 如果还是没有，用整行去掉数字
+  if (!name) {
+    name = line.replace(/[\d\.\-元\/]+/g, ' ').trim()
+  }
+  
+  // 清理名称
+  name = name.replace(/^[\d\s\.\-\/]+/, '').trim()
   
   // 过滤无效内容
-  if (!name || name.length < 2) return null
-  if (/^(第?\d+[页节]|\d{4}年|来源|网址|备注|说明)/.test(name)) return null
+  if (!name || name.length < 2 || name.length > 100) return null
+  if (/^(第?\d+[页节]|\d{4}年|来源|网址|备注|说明|注[:：]|用户类型|户年用)/.test(name)) return null
+  if (/^(第一|第二|第三|1|2|3)[档阶梯]/.test(name)) {
+    // 阶梯名称，保留
+  }
   
   // 提取单位
   const unitMatch = line.match(/\/(立方米|度|次|人|天|月|年|小时|公里|张|件)/)
@@ -202,7 +245,7 @@ function extractPriceItem(line: string): PriceItem | null {
     id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
     name: name.substring(0, 50),
     unit,
-    price,
+    price: price.substring(0, 20),
     notes: undefined
   }
 }
