@@ -45,8 +45,8 @@ const CATEGORY_KEYWORDS: Record<string, string[]> = {
 // Tesseract worker 配置
 const WORKER_PATH = path.join(process.cwd(), 'node_modules/tesseract.js/src/worker-script/node/index.js')
 
-// 配置超时为 10 分钟
-export const maxDuration = 600
+// 配置超时为 5 分钟（Vercel Hobby 计划最大限制）
+export const maxDuration = 300
 export const dynamic = 'force-dynamic'
 
 export async function POST(request: NextRequest) {
