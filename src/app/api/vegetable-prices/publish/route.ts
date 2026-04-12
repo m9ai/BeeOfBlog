@@ -45,14 +45,16 @@ export async function POST(request: NextRequest) {
           markets: districtData.markets || []
         }
         
-        await writeFile(outputPath, JSON.stringify(singleDistrictData, null, 2), 'utf-8')
+        // 生成压缩后的 JSON（去除空格和换行）
+        await writeFile(outputPath, JSON.stringify(singleDistrictData), 'utf-8')
         publishedFiles.push(fileName)
       }
     }
 
     // 同时生成一个包含所有区县的完整数据文件（供后台使用）
     const fullOutputPath = join(outputDir, 'vegetable_prices_full.json')
-    await writeFile(fullOutputPath, JSON.stringify(priceData, null, 2), 'utf-8')
+    // 完整数据也使用压缩格式
+    await writeFile(fullOutputPath, JSON.stringify(priceData), 'utf-8')
     publishedFiles.push('vegetable_prices_full.json')
 
     // 清理临时文件

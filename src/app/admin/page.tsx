@@ -23,7 +23,8 @@ import {
   Download,
   School,
   MapPin,
-  Carrot
+  Carrot,
+  Receipt
 } from 'lucide-react'
 import type { Tables } from '@/types/database'
 
@@ -326,6 +327,22 @@ export default function AdminPage() {
                   <div>
                     <h2 className="text-lg font-semibold">今日菜价</h2>
                     <p className="text-sm text-muted-foreground">上传每日菜价数据</p>
+                  </div>
+                </div>
+                <ChevronRight className="w-5 h-5 text-muted-foreground" />
+              </div>
+            </div>
+          </Link>
+          <Link href="/admin/price-guide">
+            <div className="bg-card border rounded-xl p-6 hover:shadow-md transition-shadow">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center">
+                    <Receipt className="w-6 h-6 text-purple-500" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-semibold">物价指南</h2>
+                    <p className="text-sm text-muted-foreground">管理上海物价指南数据</p>
                   </div>
                 </div>
                 <ChevronRight className="w-5 h-5 text-muted-foreground" />
