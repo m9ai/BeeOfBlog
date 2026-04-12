@@ -70,6 +70,8 @@ export async function POST(request: NextRequest) {
     const categories = rawData[3]?.slice(2) || []
     // 获取商品名称 (第5行，索引4)
     const items = rawData[4]?.slice(2) || []
+    // 获取规格信息 (第6行，索引5)
+    const specs = rawData[5]?.slice(2) || []
     // 获取计量单位 (第7行，索引6)
     const units = rawData[6]?.slice(2) || []
 
@@ -81,10 +83,16 @@ export async function POST(request: NextRequest) {
         // 清理单位字段
         let unit = units[i] || '500g'
         unit = String(unit).replace('元/', '').trim()
+        
+        // 组合名称：品种 + 规格（如有）
+        const spec = specs[i]
+        const specStr = spec && String(spec) !== '-' && String(spec) !== 'nan' ? String(spec).trim() : ''
+        const fullName = specStr ? `${String(item)} (${specStr})` : String(item)
+        
         products.push({
           index: i + 2, // 列索引（从C列开始，索引2）
           category: String(categories[i] || ''),
-          name: String(item),
+          name: fullName,
           unit: unit
         })
       }
