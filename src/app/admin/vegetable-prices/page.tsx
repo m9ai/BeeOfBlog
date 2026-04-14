@@ -62,6 +62,13 @@ interface PriceData {
   districts: DistrictData[]
 }
 
+interface TrendStats {
+  upCount: number
+  downCount: number
+  stableCount: number
+  totalCount: number
+}
+
 // 默认小程序展示的区
 const DEFAULT_DISTRICT = '浦东新区'
 
@@ -74,6 +81,8 @@ export default function VegetablePricesPage() {
   const [selectedDistrict, setSelectedDistrict] = useState<string>('')
   const [publishedFiles, setPublishedFiles] = useState<string[]>([])
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
+  const [trendStats, setTrendStats] = useState<TrendStats | null>(null)
+  const [comparisonDate, setComparisonDate] = useState<string | null>(null)
 
   // 加载当前已发布的数据
   useEffect(() => {
@@ -199,9 +208,22 @@ export default function VegetablePricesPage() {
       
       if (result.success) {
         setPublishedFiles(result.data.publishedFiles || [])
+        setTrendStats(result.data.trendStats || null)
+        setComparisonDate(result.data.comparisonDate || null)
+        
+        // 构建趋势统计信息
+        const stats = result.data.trendStats
+        let trendText = ''
+        if (stats) {
+          trendText = `，价格趋势: ↑${stats.upCount} ↓${stats.downCount} →${stats.stableCount}`
+          if (result.data.comparisonDate) {
+            trendText += ` (与 ${result.data.comparisonDate} 对比)`
+          }
+        }
+        
         setMessage({ 
           type: 'success', 
-          text: `成功发布！共生成 ${result.data.districtCount} 个区县的价格表文件` 
+          text: `成功发布！共生成 ${result.data.districtCount} 个区县的价格表文件${trendText}` 
         })
         // 刷新当前数据
         await loadCurrentData()
@@ -504,6 +526,69 @@ export default function VegetablePricesPage() {
                     )}
                   </div>
                 ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Trend Statistics */}
+        {trendStats && trendStats.totalCount > 0 && (
+          <Card className="bg-gradient-to-r from-orange-50 to-amber-50 border-orange-200">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-orange-800">
+                <RefreshCw className="w-5 h-5" />
+                价格趋势分析
+                {comparisonDate && (
+                  <span className="text-sm font-normal text-orange-600">
+                    (与 {comparisonDate} 数据对比)
+                  </span>
+                )}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="bg-white rounded-lg p-4 border border-orange-100">
+                  <div className="text-sm text-muted-foreground">价格上涨</div>
+                  <div className="text-2xl font-bold text-red-600 flex items-center gap-1">
+                    ↑ {trendStats.upCount}
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    {((trendStats.upCount / trendStats.totalCount) * 100).toFixed(1)}%
+                  </div>
+                </div>
+                <div className="bg-white rounded-lg p-4 border border-orange-100">
+                  <div className="text-sm text-muted-foreground">价格下跌</div>
+                  <div className="text-2xl font-bold text-green-600 flex items-center gap-1">
+                    ↓ {trendStats.downCount}
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    {((trendStats.downCount / trendStats.totalCount) * 100).toFixed(1)}%
+                  </div>
+                </div>
+                <div className="bg-white rounded-lg p-4 border border-orange-100">
+                  <div className="text-sm text-muted-foreground">价格持平</div>
+                  <div className="text-2xl font-bold text-gray-600 flex items-center gap-1">
+                    → {trendStats.stableCount}
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    {((trendStats.stableCount / trendStats.totalCount) * 100).toFixed(1)}%
+                  </div>
+                </div>
+                <div className="bg-white rounded-lg p-4 border border-orange-100">
+                  <div className="text-sm text-muted-foreground">数据总量</div>
+                  <div className="text-2xl font-bold text-orange-700">
+                    {trendStats.totalCount}
+                  </div>
+                  <div className="text-xs text-muted-foreground">条价格数据</div>
+                </div>
+              </div>
+              
+              {/* Trend Legend */}
+              <div className="mt-4 p-3 bg-orange-100/50 rounded-lg text-sm text-orange-700">
+                <p className="font-medium mb-1">趋势判断规则：</p>
+                <p>• 价格上涨 ↑：相比上期价格上涨超过 5%</p>
+                <p>• 价格下跌 ↓：相比上期价格下跌超过 5%</p>
+                <p>• 价格持平 →：价格变化在 ±5% 范围内</p>
               </div>
             </CardContent>
           </Card>
