@@ -51,6 +51,7 @@ export async function POST(request: NextRequest) {
       const street = String(row['对口地段所属街镇'] || '').trim()
       const schoolName = String(row['学校名称'] || '').trim()
       const community = String(row['小区名称'] || '').trim()
+      const areaLocation = String(row['对口地段'] || '').trim()
 
       if (!street || !schoolName) continue
 
@@ -66,8 +67,12 @@ export async function POST(request: NextRequest) {
         }
       }
 
-      if (community && !primarySchoolsMap[street][schoolName].communities.includes(community)) {
-        primarySchoolsMap[street][schoolName].communities.push(community)
+      const communities = primarySchoolsMap[street][schoolName].communities
+      if (community && !communities.includes(community)) {
+        communities.push(community)
+      }
+      if (areaLocation && !communities.includes(areaLocation)) {
+        communities.push(areaLocation)
       }
     }
 
@@ -77,6 +82,7 @@ export async function POST(request: NextRequest) {
       const street = String(row['对口地段所属街镇'] || '').trim()
       const schoolName = String(row['学校名称'] || '').trim()
       const community = String(row['小区名称'] || '').trim()
+      const areaLocation = String(row['对口地段'] || '').trim()
 
       if (!street || !schoolName) continue
 
@@ -92,8 +98,12 @@ export async function POST(request: NextRequest) {
         }
       }
 
-      if (community && !middleSchoolsMap[street][schoolName].communities.includes(community)) {
-        middleSchoolsMap[street][schoolName].communities.push(community)
+      const communities = middleSchoolsMap[street][schoolName].communities
+      if (community && !communities.includes(community)) {
+        communities.push(community)
+      }
+      if (areaLocation && !communities.includes(areaLocation)) {
+        communities.push(areaLocation)
       }
     }
 
