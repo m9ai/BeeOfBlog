@@ -294,11 +294,53 @@ supabase
 # Supabase 配置
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+
+# 微信小程序凭证（用于文本内容安全检测接口）
+WX_APPID=wx_your_appid
+WX_SECRET=your_app_secret
 ```
 
 ---
 
-## 7. 类型定义文件
+## 7. 微信内容安全检测代理
+
+为避免在小程序端暴露 `access_token` / `appsecret`，后端封装了微信
+`wxa/msg_sec_check` 接口，供小程序调用。
+
+### 7.1 检测文本内容
+
+```
+POST /api/wx/msg-sec-check
+Content-Type: application/json
+```
+
+**请求体：**
+
+| 字段 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| content | string | 是 | 待检测文本，<= 2500 字 |
+| scene | number | 否 | 1 资料 / 2 评论 / 3 论坛 / 4 社交日志，默认 1 |
+
+**响应体（包装后的微信结果）：**
+
+```json
+{
+  "success": true,
+  "pass": true,
+  "errcode": 0,
+  "errmsg": "ok",
+  "detail": [],
+  "trace_id": "xxx"
+}
+```
+
+- `pass = true` 表示通过；`pass = false` 表示违规，需要拦截。
+- 当微信接口 / 凭证异常时，接口采用 **fail-open** 策略：`pass = true` 且带
+  `degraded: true` 字段，便于排查而不影响正常用户。
+
+---
+
+## 8. 类型定义文件
 
 所有 TypeScript 类型定义位于 `/src/types/database.ts`，包含：
 
@@ -318,7 +360,7 @@ type Wishlist = Tables<'wishlist'>
 
 ---
 
-## 8. 客户端/服务端 Supabase 客户端
+## 9. 客户端/服务端 Supabase 客户端
 
 ### 8.1 浏览器客户端
 
