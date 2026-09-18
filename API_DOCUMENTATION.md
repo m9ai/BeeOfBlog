@@ -307,6 +307,14 @@ WX_SECRET=your_app_secret
 为避免在小程序端暴露 `access_token` / `appsecret`，后端封装了微信
 `wxa/msg_sec_check` 接口，供小程序调用。
 
+> **前置条件说明（重要）**
+> 调用 `wxa/msg_sec_check` 需要两个必要条件，缺一不可：
+> 1. **access_token**：通过官方推荐的稳定版接口
+>    `POST https://api.weixin.qq.com/cgi-bin/stable_token`（普通模式 `force_refresh=false`）获取，
+>    且必须使用**与小程序的 appid 相同**的 `WX_APPID` / `WX_SECRET`。
+>    （不推荐使用 `GET /cgi-bin/token`：多实例 Serverless 环境下会互相顶掉 token。）
+> 2. **openid**：`msg_sec_check` 请求体**必填**，且必须属于上述 appid。
+
 ### 7.1 检测文本内容
 
 ```
@@ -320,6 +328,27 @@ Content-Type: application/json
 |------|------|------|------|
 | content | string | 是 | 待检测文本，<= 2500 字 |
 | scene | number | 否 | 1 资料 / 2 评论 / 3 论坛 / 4 社交日志，默认 1 |
+| code | string | 否* | `wx.login()` 返回的登录 code，后端通过 code2Session 换取 openid |
+| openid | string | 否* | 已知的用户 openid，优先级高于 code |
+
+> \* 微信 `msg_sec_check` 接口的 `openid` 为**必填**参数，因此 `code` 与 `openid`
+> 至少要传一个，否则无法完成检测（接口会返回 `degraded: true` 并放行）。
+> 推荐小程序端先 `wx.login()` 获取 `code` 并传入，由后端安全地换取 `openid`。
+
+**调用链：**
+
+```
+小程序 wx.login() → code
+      ↓
+POST /api/wx/msg-sec-check { content, scene, code }
+      ↓
+后端 POST /cgi-bin/stable_token  → access_token（与 WX_APPID 同源）
+后端 sns/jscode2session { code } → openid（与 WX_APPID 同源）
+      ↓
+后端 wxa/msg_sec_check { content, version:2, scene, openid }
+      ↓
+errcode=40001/42001 时自动刷新 token 重试一次
+```
 
 **响应体（包装后的微信结果）：**
 
@@ -329,14 +358,29 @@ Content-Type: application/json
   "pass": true,
   "errcode": 0,
   "errmsg": "ok",
+  "openid": "oXXXX-xxxxxxxxxxxxxxxxx",
   "detail": [],
   "trace_id": "xxx"
 }
 ```
 
 - `pass = true` 表示通过；`pass = false` 表示违规，需要拦截。
+- `openid` 会回传，客户端可选择缓存复用，减少 `code2Session` 调用。
 - 当微信接口 / 凭证异常时，接口采用 **fail-open** 策略：`pass = true` 且带
   `degraded: true` 字段，便于排查而不影响正常用户。
+
+**常见错误码：**
+
+| errcode | 说明 | 处理 |
+|---------|------|------|
+| 0 | 检测成功 | 依据 `pass` 判断 |
+| -4 | 缺少 openid/code 或 code2Session 失败 | 客户端需先 `wx.login()` 传 code |
+| -3 | access_token 获取失败 | 检查 `WX_APPID` / `WX_SECRET` 是否正确、AppSecret 是否被冻结 |
+| 40001 | invalid credential（access_token 过期/无效） | 接口已自动刷新 token 重试一次 |
+| 40013 | invalid appid | `WX_APPID` 与小程序 appid 不一致或含异常字符 |
+| 40003 | invalid openid（微信返回） | openid 不合法 / 未传，或 access_token 与 openid 不属于同一 appid |
+| 61010 | code is expired（微信返回） | 用户超 2 小时未访问小程序，需重新 `wx.login()` |
+| 87014 | 内容违规（微信返回） | 拦截并提示用户 |
 
 ---
 
