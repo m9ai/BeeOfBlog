@@ -1,6 +1,7 @@
 import crypto from 'crypto'
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import type { DeliverNotifyPayload } from './wx-msg'
+import { notifyDevOfSale } from './notify'
 
 /**
  * 微信小程序「虚拟支付 - 道具直购」服务端实现
@@ -471,6 +472,21 @@ export async function deliverByNotify(
         stats?.totalCount ?? '-'
       }`
     )
+
+    // 新增发货才推送：避免平台重推/兜底查单时重复打扰；
+    // webhook 失败不影响发货主链路（notify 内部已 try/catch）。
+    if (counted && order) {
+      await notifyDevOfSale({
+        productId: order.product_id,
+        outTradeNo: order.out_trade_no,
+        wxOrderId: order.wx_order_id,
+        openid: order.openid,
+        env: order.env,
+        paidAt: order.paid_at,
+        totalCount: stats?.totalCount,
+      })
+    }
+
     return { ok: true, errmsg: 'success', counted, totalCount: stats?.totalCount }
   } catch (err) {
     console.error('[wx-xpay] 发货失败:', err)
