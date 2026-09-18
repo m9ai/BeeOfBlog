@@ -327,6 +327,7 @@ Content-Type: application/json
 | 字段 | 类型 | 必填 | 说明 |
 |------|------|------|------|
 | content | string | 是 | 待检测文本，<= 2500 字 |
+| appid | string | 否 | 调用方小程序 appid（多小程序共用本接口时必传，后端据此选择凭证） |
 | scene | number | 否 | 1 资料 / 2 评论 / 3 论坛 / 4 社交日志，默认 1 |
 | code | string | 否* | `wx.login()` 返回的登录 code，后端通过 code2Session 换取 openid |
 | openid | string | 否* | 已知的用户 openid，优先级高于 code |
@@ -335,15 +336,23 @@ Content-Type: application/json
 > 至少要传一个，否则无法完成检测（接口会返回 `degraded: true` 并放行）。
 > 推荐小程序端先 `wx.login()` 获取 `code` 并传入，由后端安全地换取 `openid`。
 
+> **多小程序支持**：本接口可被多个小程序共用。code2Session 的 code 只能由
+> 签发它的同一 appid 换取 openid，因此调用方须在请求体携带自己的 `appid`
+> （`wx.getAccountInfoSync().miniProgram.appId`）。后端按优先级解析凭证：
+> 1. 扁平环境变量 `WX_SECRET_<appid>`（推荐，如 `WX_SECRET_wxc9edff70eb75f100`）；
+> 2. `WX_APPS` 单个 JSON 凭证表（可选兼容，部分平台 UI 不支持含引号的值）；
+> 3. `WX_APPID` / `WX_SECRET` 单小程序凭证（未传 `appid` 时的默认回退）。
+
 **调用链：**
 
 ```
 小程序 wx.login() → code
       ↓
-POST /api/wx/msg-sec-check { content, scene, code }
+POST /api/wx/msg-sec-check { content, scene, code, appid }
       ↓
-后端 POST /cgi-bin/stable_token  → access_token（与 WX_APPID 同源）
-后端 sns/jscode2session { code } → openid（与 WX_APPID 同源）
+后端按 appid 解析凭证（WX_SECRET_<appid> / WX_APPS / WX_APPID 三级回退）
+后端 POST /cgi-bin/stable_token  → access_token（与该 appid 同源）
+后端 sns/jscode2session { code } → openid（与该 appid 同源）
       ↓
 后端 wxa/msg_sec_check { content, version:2, scene, openid }
       ↓
