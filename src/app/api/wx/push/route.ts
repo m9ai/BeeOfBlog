@@ -68,10 +68,11 @@ function decryptMessage(encryptB64: string, aesKey: string): { message: string; 
       return null
     }
     const cipher = Buffer.from(encryptB64, 'base64')
-    const iv = cipher.subarray(0, 16)
+    // 微信协议：IV = AESKey 的前 16 字节（不是密文前缀！）
+    const iv = key.subarray(0, 16)
     const decipher = crypto.createDecipheriv('aes-256-cbc', key, iv)
     decipher.setAutoPadding(false)
-    const plain = Buffer.concat([decipher.update(cipher.subarray(16)), decipher.final()])
+    const plain = Buffer.concat([decipher.update(cipher), decipher.final()])
 
     // plain: 16 字节随机串 + 4 字节消息长度(网络序) + 消息体 + receiveid(appid)
     const msgLen = plain.readUInt32BE(16)
