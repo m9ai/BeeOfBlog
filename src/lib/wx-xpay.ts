@@ -58,7 +58,7 @@ export type XpayProduct = {
 
 export const XPAY_PRODUCTS: XpayProduct[] = [
   {
-    productId: 'expect_subway_rocket',
+    productId: 'jinshan_train_award',
     name: '期盼火箭',
     desc: '为「期盼金山通地铁」助力一次',
     priceFen: 100, // ¥1.00，低价降低试水阶段的决策门槛
