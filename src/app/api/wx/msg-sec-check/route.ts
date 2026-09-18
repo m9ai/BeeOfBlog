@@ -31,7 +31,7 @@ import { NextRequest, NextResponse } from 'next/server'
  *   "errcode": number,
  *   "errmsg": string,
  *   "openid"?: string,         // 回传 openid，便于客户端缓存复用
- *   "detail"?: Array<{ errcode: number; err_msg?: string; suggest?: string; label?: number }>,
+ *   "detail"?: Array<{ strategy?: string; errcode: number; err_msg?: string; suggest?: string; label?: number; prob?: number }>,
  *   "trace_id"?: string,
  * }
  */
@@ -95,6 +95,15 @@ async function getAccessToken(appid: string, secret: string): Promise<string> {
 }
 
 // ---------- 调用 msg_sec_check ----------
+type WxSecCheckDetail = {
+  strategy?: string
+  errcode: number
+  err_msg?: string
+  suggest?: string
+  label?: number
+  prob?: number
+}
+
 async function callMsgSecCheck(
   accessToken: string,
   payload: { content: string; scene: number; openid: string }
@@ -102,7 +111,7 @@ async function callMsgSecCheck(
   errcode?: number
   errmsg?: string
   result?: { suggest?: string; label?: number }
-  detail?: Array<{ errcode: number; err_msg?: string; suggest?: string; label?: number }>
+  detail?: WxSecCheckDetail[]
   trace_id?: string
 }> {
   const checkUrl = `https://api.weixin.qq.com/wxa/msg_sec_check?access_token=${encodeURIComponent(accessToken)}`
