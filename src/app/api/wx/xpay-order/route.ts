@@ -22,7 +22,10 @@ import {
  *   好处是服务端不需要存储这个敏感值。
  *
  * ## 请求体
- *   { code: string, productId?: string }
+ *   { code: string, productId?: string, agreeNoRefundAt?: number }
+ *   agreeNoRefundAt：用户勾选「不退款须知」的时间戳（ms）。
+ *   微信虚拟支付投诉仲裁要求商户举证用户购买前主动确认过规则，
+ *   故服务端强校验该字段（缺失/非法直接拒绝下单）并落库留痕。
  *
  * ## 响应体
  *   未配置虚拟支付时（配置缺失 / 尚未开通）：
@@ -68,6 +71,18 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // 0) 不退款须知勾选校验（举证材料，缺了就拒绝——保证确认流程无法被绕过）
+    //    允许 10 分钟内的偏差：勾选到下单之间有登录、签名等网络耗时
+    const agreeAt = Number(body?.agreeNoRefundAt)
+    const now = Date.now()
+    if (!Number.isFinite(agreeAt) || agreeAt > now + 5_000 || agreeAt < now - 10 * 60_000) {
+      return NextResponse.json(
+        { success: false, enabled: true, errcode: -3, errmsg: '请先勾选同意购买须知' },
+        { status: 400 }
+      )
+    }
+    const agreeNoRefundAt = new Date(agreeAt).toISOString()
+
     // 1) 换取 openid + session_key（code 一次性、约 5 分钟有效）
     const { openid, sessionKey } = await code2Session(config.appid, config.secret, code)
 
@@ -100,6 +115,7 @@ export async function POST(request: NextRequest) {
       quantity: 1,
       goodsPrice: product.priceFen,
       attach: signDataObj.attach,
+      agreeNoRefundAt,
     })
 
     console.log(

@@ -318,6 +318,8 @@ export async function insertOrder(
     quantity: number
     goodsPrice: number
     attach: string
+    /** 用户勾选「不退款须知」的时间（ISO）；争议仲裁举证材料 */
+    agreeNoRefundAt: string
   }
 ): Promise<void> {
   const { error } = await getDb(config)
@@ -332,6 +334,7 @@ export async function insertOrder(
       status: 'created',
       attach: row.attach,
       env: config.env,
+      agree_no_refund_at: row.agreeNoRefundAt,
     })
   if (error) {
     throw new Error(`写入订单失败: ${error.message}`)

@@ -6,10 +6,10 @@ import { XPAY_PRODUCTS, code2Session, findXpayProduct, getSupportStats, getXpayC
  *
  * 助力数据：累计助力份数 / 参与人数（可选返回「我的助力份数」）。
  *
- * ## 为什么不带 code 也要能调
- *   班次页每次展示都要显示「N 人已助力」，若每次都先 wx.login 再去统计，
- *   会白白多一次 code2Session。所以统计口径全部在服务端聚合，
- *   端上不带 code 时只返回公共数字；带 code 时额外返回 myCount。
+ * ## code 与 myCount
+ *   myCount（我的助力）必须由 code2Session 解出 openid 才能计算，
+ *   因此端上每次统计都会先 wx.login 带 code 上来（code 单次有效，不可复用）。
+ *   code 缺失或 code2Session 失败时只返回公共数字，myCount 为 0。
  *
  * ## 限定
  *   本接口只暴露聚合数字，不返回任何 openid，避免泄露用户标识。
