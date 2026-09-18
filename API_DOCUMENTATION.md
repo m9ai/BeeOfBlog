@@ -358,22 +358,41 @@ errcode=40001/42001 时自动刷新 token 重试一次
   "pass": true,
   "errcode": 0,
   "errmsg": "ok",
+  "suggest": "pass",
   "openid": "oXXXX-xxxxxxxxxxxxxxxxx",
-  "detail": [],
+  "detail": [
+    { "strategy": "content_model", "errcode": 0, "suggest": "pass", "label": 100, "prob": 90 },
+    { "strategy": "keyword", "errcode": 0 }
+  ],
   "trace_id": "xxx"
 }
 ```
 
-- `pass = true` 表示通过；`pass = false` 表示违规，需要拦截。
+- `pass = true` 表示通过；`pass = false` 表示需要拦截。
+- `suggest` 为微信判定结果：`pass` / `risky` / `review`。
 - `openid` 会回传，客户端可选择缓存复用，减少 `code2Session` 调用。
 - 当微信接口 / 凭证异常时，接口采用 **fail-open** 策略：`pass = true` 且带
   `degraded: true` 字段，便于排查而不影响正常用户。
+
+**拦截策略（收紧）**
+
+本接口产出的内容可被用户分享出去，因此对「疑似违规」也一并拦截：
+
+| 微信返回 | pass | 说明 |
+|----------|------|------|
+| `suggest = 'pass'` | `true` | 放行 |
+| `suggest = 'risky'` | `false` | 确定违规，拦截 |
+| `suggest = 'review'` | `false` | 疑似违规需人工复核，拦截（不放行） |
+| `errcode = 87014` | `false` | 违规，拦截 |
+
+拦截时 `errmsg` 会返回用户可读提示语（如「您输入的内容需人工复核，请修改后再试」），
+客户端可直接展示。
 
 **常见错误码：**
 
 | errcode | 说明 | 处理 |
 |---------|------|------|
-| 0 | 检测成功 | 依据 `pass` 判断 |
+| 0 | 检测成功 | 依据 `pass` / `suggest` 判断 |
 | -4 | 缺少 openid/code 或 code2Session 失败 | 客户端需先 `wx.login()` 传 code |
 | -3 | access_token 获取失败 | 检查 `WX_APPID` / `WX_SECRET` 是否正确、AppSecret 是否被冻结 |
 | 40001 | invalid credential（access_token 过期/无效） | 接口已自动刷新 token 重试一次 |

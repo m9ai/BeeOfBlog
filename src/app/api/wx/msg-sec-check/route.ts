@@ -27,13 +27,28 @@ import { NextRequest, NextResponse } from 'next/server'
  * 响应体（透传并包装微信结果）：
  * {
  *   "success": boolean,
- *   "pass": boolean,           // true 表示通过；false 表示违规
+ *   "pass": boolean,           // true 表示通过；false 表示需拦截（见下方「拦截策略」）
  *   "errcode": number,
- *   "errmsg": string,
+ *   "errmsg": string,          // 拦截时为用户可读提示语
+ *   "suggest"?: string,        // 微信判定：'pass' / 'risky' / 'review'
  *   "openid"?: string,         // 回传 openid，便于客户端缓存复用
  *   "detail"?: Array<{ strategy?: string; errcode: number; err_msg?: string; suggest?: string; label?: number; prob?: number }>,
  *   "trace_id"?: string,
  * }
+ *
+ * 拦截策略（收紧）：
+ *   本接口生成的内容可被用户分享出去，因此对「疑似违规」也拦截：
+ *   - errcode = 87014      → 拦截
+ *   - suggest = 'risky'    → 拦截
+ *   - suggest = 'review'   → 拦截（需人工复核，不放行）
+ *   仅 suggest = 'pass' 视为通过。
+ *
+ * 降级策略（fail-open，有意为之）：
+ *   token 获取失败、code2Session 失败、微信接口异常、网络超时等情况下，
+ *   统一返回 pass=true + degraded=true，不阻断用户。
+ *   理由：本业务的产物（如电子手牌）由用户自行分享给熟人，并非公开广场，
+ *   外流面可控；若改为 fail-closed，微信侧抖动会直接导致用户无法生成内容。
+ *   降级事件均会打 error/warn 日志（含 errcode），可据此监控漏放情况。
  */
 
 // ---------- access_token 缓存 ----------
@@ -284,21 +299,46 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // 微信 suggest: 'risky' / 'pass' / 'review'
-    // errcode=87014 强制视为不通过
+    // 微信 suggest: 'risky'（确定违规）/ 'review'（疑似违规，需人工复核）/ 'pass'
+    //
+    // 判定为「不通过」的情况：
+    //   - errcode = 87014：微信直接判定内容违规
+    //   - suggest = 'risky'：命中违规模型
+    //   - suggest = 'review'：疑似违规。本业务生成的内容可被用户分享出去，
+    //     故对 review 也采取拦截策略（收紧策略，避免疑似违规内容外流）。
     const suggest = wxData.result?.suggest
-    const pass = errcode === 0 && suggest !== 'risky'
+    const blocked = errcode === 87014 || suggest === 'risky' || suggest === 'review'
+    const pass = !blocked
 
-    console.log(
-      `[msg-sec-check] ok: errcode=${errcode} suggest=${suggest ?? '-'} pass=${pass} scene=${scene} trace_id=${wxData.trace_id ?? '-'}`
-    )
+    if (blocked) {
+      console.warn(
+        `[msg-sec-check] blocked: errcode=${errcode} suggest=${suggest ?? '-'} label=${wxData.result?.label ?? '-'} trace_id=${wxData.trace_id ?? '-'}`
+      )
+    } else {
+      console.log(
+        `[msg-sec-check] ok: errcode=${errcode} suggest=${suggest ?? '-'} pass=${pass} scene=${scene} trace_id=${wxData.trace_id ?? '-'}`
+      )
+    }
+
+    // 拦截时给出用户可读的提示（微信 errcode=0 时 errmsg 为 'ok'，不能直接透传给用户）
+    let errmsg = wxData.errmsg || 'ok'
+    if (blocked) {
+      if (wxData.errmsg && wxData.errmsg !== 'ok') {
+        errmsg = wxData.errmsg
+      } else if (suggest === 'review') {
+        errmsg = '您输入的内容需人工复核，请修改后再试'
+      } else {
+        errmsg = '您输入的内容涉嫌违规，请修改后再试'
+      }
+    }
 
     return NextResponse.json(
       {
         success: true,
         pass,
         errcode,
-        errmsg: wxData.errmsg || 'ok',
+        errmsg,
+        suggest,
         openid,
         detail: wxData.detail,
         trace_id: wxData.trace_id,
