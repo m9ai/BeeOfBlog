@@ -280,6 +280,10 @@ export async function POST(request: NextRequest) {
     const suggest = wxData.result?.suggest
     const pass = errcode === 0 && suggest !== 'risky'
 
+    console.log(
+      `[msg-sec-check] ok: errcode=${errcode} suggest=${suggest ?? '-'} pass=${pass} scene=${scene} trace_id=${wxData.trace_id ?? '-'}`
+    )
+
     return NextResponse.json(
       {
         success: true,
