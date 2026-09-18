@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { XPAY_PRODUCT_META, code2Session, getSupportStats, getXpayConfig } from '@/lib/wx-xpay'
+import { XPAY_PRODUCTS, code2Session, findXpayProduct, getSupportStats, getXpayConfig } from '@/lib/wx-xpay'
 
 /**
  * GET /api/wx/xpay-stats?code=xxx
@@ -43,15 +43,25 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    const stats = await getSupportStats(config, config.productId, openid || undefined)
+    // 端上可指定道具（多道具场景）；不传时默认第一个，兼容班次页 banner 的现有调用
+    const productId = request.nextUrl.searchParams.get('productId') || XPAY_PRODUCTS[0]?.productId || ''
+    const product = findXpayProduct(productId)
+    if (!product) {
+      return NextResponse.json(
+        { success: false, enabled: true, errcode: -2, errmsg: '该道具暂未上架', totalCount: 0, supporterCount: 0, myCount: 0 },
+        { status: 400 }
+      )
+    }
+
+    const stats = await getSupportStats(config, product.productId, openid || undefined)
 
     return NextResponse.json({
       success: true,
       enabled: true,
-      productId: config.productId,
-      productName: XPAY_PRODUCT_META[config.productId]?.name || config.productId,
-      productDesc: XPAY_PRODUCT_META[config.productId]?.desc || '',
-      priceFen: config.priceFen,
+      productId: product.productId,
+      productName: product.name,
+      productDesc: product.desc,
+      priceFen: product.priceFen,
       ...stats,
     })
   } catch (error) {

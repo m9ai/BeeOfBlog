@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import {
-  XPAY_PRODUCT_META,
   buildPaySig,
   buildSignature,
   code2Session,
+  findXpayProduct,
   genOutTradeNo,
   getXpayConfig,
   insertOrder,
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json().catch(() => ({}))
     const code: string = (body?.code || '').toString()
-    const productId: string = (body?.productId || '').toString() || config.productId
+    const productId: string = (body?.productId || '').toString()
 
     if (!code) {
       return NextResponse.json(
@@ -59,7 +59,9 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    if (productId !== config.productId) {
+    // 端上只传 productId；价格等一律以服务端注册表为准，绝不接受端上传金额
+    const product = findXpayProduct(productId)
+    if (!product) {
       return NextResponse.json(
         { success: false, enabled: true, errcode: -2, errmsg: '该道具暂未上架' },
         { status: 400 }
@@ -76,13 +78,13 @@ export async function POST(request: NextRequest) {
     //    注意：道具直购的 signData 不允许出现 platform 字段，多字段直接 -15005
     const signDataObj = {
       offerId: config.offerId,
-      buyQuantity: config.buyQuantity,
+      buyQuantity: 1,
       env: config.env,
       currencyType: 'CNY',
-      productId: config.productId,
-      goodsPrice: config.priceFen,
+      productId: product.productId,
+      goodsPrice: product.priceFen,
       outTradeNo,
-      attach: 'train-home',
+      attach: product.attach,
     }
     const signData = JSON.stringify(signDataObj)
 
@@ -94,14 +96,14 @@ export async function POST(request: NextRequest) {
     await insertOrder(config, {
       outTradeNo,
       openid,
-      productId: config.productId,
-      quantity: config.buyQuantity,
-      goodsPrice: config.priceFen,
+      productId: product.productId,
+      quantity: 1,
+      goodsPrice: product.priceFen,
       attach: signDataObj.attach,
     })
 
     console.log(
-      `[wx-xpay-order] 下单 env=${config.env} productId=${config.productId} price=${config.priceFen} outTradeNo=${outTradeNo} openid=${openid}`
+      `[wx-xpay-order] 下单 env=${config.env} productId=${product.productId} price=${product.priceFen} outTradeNo=${outTradeNo} openid=${openid}`
     )
 
     return NextResponse.json({
@@ -112,8 +114,9 @@ export async function POST(request: NextRequest) {
       paySig,
       signature,
       outTradeNo,
-      priceFen: config.priceFen,
-      productName: XPAY_PRODUCT_META[config.productId]?.name || config.productId,
+      productId: product.productId,
+      productName: product.name,
+      priceFen: product.priceFen,
     })
   } catch (error) {
     console.error('[wx-xpay-order] 下单异常:', error)

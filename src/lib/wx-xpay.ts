@@ -35,18 +35,39 @@ import type { DeliverNotifyPayload } from './wx-msg'
 // ---------------------------------------------------------------- 商品定义
 
 /**
- * 在 MP 后台【虚拟支付 → 道具管理】创建道具后，把道具 ID 与价格（分）填到环境变量：
- *   WX_XPAY_PRODUCT_ID、WX_XPAY_PRICE_FEN
- * 这里的默认值仅用于未配置时的兜底展示。
+ * 道具商品注册表：唯一事实来源（代码即配置），支持任意多个道具。
+ *
+ * 新增道具两步：
+ *   1) MP 后台【虚拟支付 → 道具管理】创建道具，记下道具 ID 和价格；
+ *   2) 在这里加一项，保持 productId / priceFen 与后台完全一致
+ *      （价格不一致下单会报 -15013 goodsPrice 道具价格错误）。
+ *
+ * 安全约束：端上下单只传 productId，不传也不信任何金额字段——
+ * 价格、名称一律以本表为准，篡改端上参数最多买到注册表内已有的道具。
  */
-const DEFAULT_PRODUCT_ID = 'expect_subway_rocket'
-const DEFAULT_PRICE_FEN = 100 // ¥1.00，用低价降低试水阶段的决策门槛
+export type XpayProduct = {
+  /** 必须与 MP 后台道具管理里的道具 ID 完全一致 */
+  productId: string
+  name: string
+  desc: string
+  /** 单价（分），必须与 MP 后台配置一致，否则下单报 -15013 */
+  priceFen: number
+  /** 购买入口标记，便于对账区分流量来源 */
+  attach: string
+}
 
-export const XPAY_PRODUCT_META: Record<string, { name: string; desc: string }> = {
-  expect_subway_rocket: {
+export const XPAY_PRODUCTS: XpayProduct[] = [
+  {
+    productId: 'expect_subway_rocket',
     name: '期盼火箭',
     desc: '为「期盼金山通地铁」助力一次',
+    priceFen: 100, // ¥1.00，低价降低试水阶段的决策门槛
+    attach: 'train-home',
   },
+]
+
+export function findXpayProduct(productId: string): XpayProduct | null {
+  return XPAY_PRODUCTS.find(p => p.productId === productId) || null
 }
 
 // ---------------------------------------------------------------- 配置
@@ -57,9 +78,6 @@ export type XpayConfig = {
   offerId: string
   appKey: string
   env: number
-  productId: string
-  priceFen: number
-  buyQuantity: number
   supabaseUrl: string
   supabaseKey: string
 }
@@ -76,16 +94,16 @@ export type XpayConfigResult = {
  */
 export function getXpayConfig(): XpayConfigResult {
   const env = Number(process.env.WX_XPAY_ENV ?? '0') === 1 ? 1 : 0
-  const appKey =
-    env === 1
-      ? process.env.WX_XPAY_APP_KEY_SANDBOX || process.env.WX_XPAY_APP_KEY || ''
-      : process.env.WX_XPAY_APP_KEY || ''
+  // 沙箱与现网是两把不同的 AppKey，禁止互相回退：
+  // 沙箱误用现网 key 会全量 -15005（签名校验失败），排查成本远高于「配置缺失」
+  const appKeyEnvName = env === 1 ? 'WX_XPAY_APP_KEY_SANDBOX' : 'WX_XPAY_APP_KEY'
+  const appKey = process.env[appKeyEnvName] || ''
 
   const required: Array<[string, string]> = [
     ['WX_APPID', process.env.WX_APPID || ''],
     ['WX_SECRET', process.env.WX_SECRET || ''],
     ['WX_XPAY_OFFER_ID', process.env.WX_XPAY_OFFER_ID || ''],
-    ['WX_XPAY_APP_KEY', appKey],
+    [appKeyEnvName, appKey],
     ['NEXT_PUBLIC_SUPABASE_URL', process.env.NEXT_PUBLIC_SUPABASE_URL || ''],
     ['SUPABASE_SERVICE_ROLE_KEY', getServiceRoleKey()],
   ]
@@ -102,9 +120,6 @@ export function getXpayConfig(): XpayConfigResult {
       offerId: process.env.WX_XPAY_OFFER_ID as string,
       appKey,
       env,
-      productId: process.env.WX_XPAY_PRODUCT_ID || DEFAULT_PRODUCT_ID,
-      priceFen: Number(process.env.WX_XPAY_PRICE_FEN || DEFAULT_PRICE_FEN) || DEFAULT_PRICE_FEN,
-      buyQuantity: 1,
       supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL as string,
       supabaseKey: getServiceRoleKey(),
     },
@@ -370,16 +385,19 @@ export async function deliverOrder(
     if (!params.outTradeNo) {
       return { counted: false, order: null }
     }
+    // 推送先于下单落库（极端时序）或本地数据被清过：按注册表补齐价格，仅供对账展示
+    const product = findXpayProduct(params.productId || '')
+    const quantity = params.quantity || 1
     const { data, error } = await db
       .from(TABLE)
       .insert({
         out_trade_no: params.outTradeNo,
         wx_order_id: params.wxOrderId || null,
         openid: params.openid,
-        product_id: params.productId || config.productId,
-        quantity: params.quantity || 1,
-        goods_price: config.priceFen,
-        total_fee: config.priceFen * (params.quantity || 1),
+        product_id: params.productId,
+        quantity,
+        goods_price: product?.priceFen ?? 0,
+        total_fee: (product?.priceFen ?? 0) * quantity,
         status: 'delivered',
         attach: 'push-created',
         env: config.env,
@@ -444,13 +462,16 @@ export async function deliverByNotify(
       quantity: payload.quantity,
     })
 
-    const stats = await getSupportStats(config, order?.product_id || config.productId)
+    const statsProductId = order?.product_id || payload.productId
+    const stats = statsProductId ? await getSupportStats(config, statsProductId) : null
     console.log(
       `[wx-xpay] 发货${counted ? '成功' : '幂等跳过'} outTradeNo=${payload.outTradeNo || '-'} wxOrderId=${
         payload.wxOrderId || '-'
-      } openid=${payload.openid || '-'} productId=${payload.productId || '-'} qty=${payload.quantity} total=${stats.totalCount}`
+      } openid=${payload.openid || '-'} productId=${payload.productId || '-'} qty=${payload.quantity} total=${
+        stats?.totalCount ?? '-'
+      }`
     )
-    return { ok: true, errmsg: 'success', counted, totalCount: stats.totalCount }
+    return { ok: true, errmsg: 'success', counted, totalCount: stats?.totalCount }
   } catch (err) {
     console.error('[wx-xpay] 发货失败:', err)
     return { ok: false, errmsg: (err as Error).message || 'deliver failed', counted: false }
