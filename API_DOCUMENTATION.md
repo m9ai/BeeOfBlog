@@ -295,9 +295,22 @@ supabase
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
 
-# 微信小程序凭证（用于文本内容安全检测接口）
+# 微信小程序凭证（默认小程序 = 金铁班次助手；多小程序见第 8 节）
 WX_APPID=wx_your_appid
 WX_SECRET=your_app_secret
+
+# 多小程序（多租户）凭证：每个小程序一套扁平环境变量，<appid> 为小程序真实 appid
+# WX_SECRET_wxc9edff70eb75f100=洋泾小蜜蜂的secret
+# WX_SECRET_wxca56ef69f60a66a0=健康笔记的secret
+# WX_XPAY_OFFER_ID_wxc9edff70eb75f100=该小程序虚拟支付 offerId
+# WX_XPAY_APP_KEY_wxc9edff70eb75f100=该小程序虚拟支付现网 AppKey
+# WX_XPAY_APP_KEY_SANDBOX_wxc9edff70eb75f100=该小程序虚拟支付沙箱 AppKey
+# WX_MSG_TOKEN_wxc9edff70eb75f100=该小程序消息推送 Token
+# WX_MSG_AES_KEY_wxc9edff70eb75f100=该小程序消息推送 EncodingAESKey（密文模式）
+
+# 消息推送（默认小程序金铁；其余小程序用上面的带后缀变量）
+# WX_MSG_TOKEN=BeeOfYangjingMsg2026
+# WX_MSG_AES_KEY=（密文模式时配置）
 ```
 
 ---
@@ -412,7 +425,72 @@ errcode=40001/42001 时自动刷新 token 重试一次
 
 ---
 
-## 8. 类型定义文件
+## 8. 微信多小程序（多租户）通用架构
+
+本后端同时服务名下多款小程序：**金铁班次助手**（默认，`WX_APPID`）、
+**洋泾小蜜蜂**（`wxc9edff70eb75f100`）、**健康笔记**（`wxca56ef69f60a66a0`）。
+消息推送、虚拟支付、内容安全三条链路全部按 appid 路由租户，共用同一套部署。
+
+### 8.1 配置约定（扁平环境变量）
+
+每个小程序的专属配置用 `<BASE>_<appid>` 命名，任何平台 UI 都支持：
+
+| 变量前缀 | 用途 | 备注 |
+|----------|------|------|
+| `WX_SECRET_<appid>` | AppSecret（code2Session / stable_token） | 三条链路共用 |
+| `WX_XPAY_OFFER_ID_<appid>` | 虚拟支付 offerId（MP 后台「虚拟支付 → 基本配置」） | 开通后获取 |
+| `WX_XPAY_APP_KEY_<appid>` | 虚拟支付现网 AppKey | 与沙箱是两把钥匙 |
+| `WX_XPAY_APP_KEY_SANDBOX_<appid>` | 虚拟支付沙箱 AppKey | 禁与现网混用 |
+| `WX_MSG_TOKEN_<appid>` | 该小程序消息推送 Token | MP 后台「消息推送配置」 |
+| `WX_MSG_AES_KEY_<appid>` | 该小程序消息推送 EncodingAESKey | 密文模式必需 |
+
+- **默认小程序（金铁）**兼容旧的无后缀变量：`WX_SECRET` / `WX_XPAY_OFFER_ID` /
+  `WX_XPAY_APP_KEY[_SANDBOX]` / `WX_MSG_TOKEN` / `WX_MSG_AES_KEY`。
+- **显式传入 appid 的请求绝不静默回退**到别的小程序凭证——拿错凭证必然失败，
+  静默回退会把配置错误伪装成业务降级。
+- access_token 按 appid 分桶缓存（`stable_token` 普通模式），全服务端唯一缓存
+  （`src/lib/wx-apps.ts`），多实例部署安全。
+
+### 8.2 各小程序接入清单（新小程序上线虚拟支付）
+
+1. MP 后台开通虚拟支付（个人主体），记下 offerId 与现网/沙箱 AppKey；
+2. MP 后台【虚拟支付 → 道具管理】创建道具，记下道具 ID 与价格（分）；
+3. Vercel 配置 `WX_SECRET_<appid>` / `WX_XPAY_OFFER_ID_<appid>` /
+   `WX_XPAY_APP_KEY[_SANDBOX]_<appid>` / `WX_MSG_TOKEN_<appid>`（+ 密文模式的
+   `WX_MSG_AES_KEY_<appid>`），**重新部署**生效；
+4. 执行 `supabase/migrations/20260920_xpay_orders_appid.sql`（订单表加 appid 列）；
+5. `src/lib/wx-xpay.ts` 的 `XPAY_PRODUCTS_BY_APP` 为该 appid 添加道具分组
+   （productId / priceFen 必须与 MP 后台完全一致，否则下单报 -15013）；
+6. MP 后台消息推送与虚拟支付发货推送回调地址配
+   `https://yangjing.m9ai.work/api/wx/push?appid=<appid>`（或 `/api/wx/xpay-notify?appid=<appid>`）；
+7. 小程序端调用 API 时携带 `appid`（`wx.getAccountInfoSync().miniProgram.appId`）。
+
+### 8.3 消息推送与发货推送（多租户验签）
+
+- **POST**：按报文 `ToUserName`（接收方 appid）优先匹配租户，其余已配置租户按序
+  补试（错误 Token 必然验签失败，遍历安全）；密文模式额外用对应租户的
+  EncodingAESKey 解密，并核对解密报文尾部的 receiveid。
+- **GET（接入验证）**：报文不带 appid，各小程序回调地址必须带 `?appid=<appid>`
+  区分验签 Token；不带 appid 的地址默认金铁（兼容存量配置）。
+- 发货推送处理按报文 appid 路由租户凭证与道具注册表；配置缺失返回非 0 ErrCode
+  让微信重推（最多 15 次），避免漏记。
+
+### 8.4 虚拟支付 API（均支持多租户）
+
+| 接口 | 方法 | appid 传递方式 | 用途 |
+|------|------|----------------|------|
+| `/api/wx/xpay-order` | POST | 请求体 `appid` | 下单签名（signData + paySig + signature） |
+| `/api/wx/xpay-query` | POST | 请求体 `appid` | 支付结果确认 + 兜底补发货 |
+| `/api/wx/xpay-stats` | GET | query `appid` | 助力统计（按 appid 隔离，互不污染） |
+| `/api/wx/xpay-notify` | POST/GET | 回调 URL `?appid=` | 发货推送接收（GET 接入验证用） |
+| `/api/wx/push` | POST/GET | 回调 URL `?appid=` | 消息/事件推送接收（GET 接入验证用） |
+
+订单表 `xpay_orders` 增加 `appid` 列；存量行 `appid IS NULL` 等价默认小程序（金铁），
+统计口径对默认小程序兼容 NULL，其它小程序绝不包含 NULL 行。
+
+---
+
+## 9. 类型定义文件
 
 所有 TypeScript 类型定义位于 `/src/types/database.ts`，包含：
 
@@ -432,9 +510,9 @@ type Wishlist = Tables<'wishlist'>
 
 ---
 
-## 9. 客户端/服务端 Supabase 客户端
+## 10. 客户端/服务端 Supabase 客户端
 
-### 8.1 浏览器客户端
+### 10.1 浏览器客户端
 
 ```typescript
 import { createClient } from '@/lib/supabase/client'
@@ -442,7 +520,7 @@ import { createClient } from '@/lib/supabase/client'
 const supabase = createClient()
 ```
 
-### 8.2 服务端客户端
+### 10.2 服务端客户端
 
 ```typescript
 import { createClient } from '@/lib/supabase/server'

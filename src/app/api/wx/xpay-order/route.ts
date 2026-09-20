@@ -12,8 +12,13 @@ import {
 /**
  * POST /api/wx/xpay-order
  *
- * 虚拟支付「道具直购」下单签名接口。
+ * 虚拟支付「道具直购」下单签名接口（多小程序租户路由）。
  * 文档：https://developers.weixin.qq.com/miniprogram/dev/platform-capabilities/business-capabilities/virtual-payment/person.html
+ *
+ * ## 多租户
+ *   请求体携带 `appid`（wx.getAccountInfoSync().miniProgram.appId，公开信息），
+ *   服务端据此选择该小程序的 offerId / AppKey 凭证与道具注册表；
+ *   未传 appid 时回退默认小程序（金铁，WX_APPID），兼容旧客户端。
  *
  * ## 为什么 session_key 不落库、不缓存
  *   signature 的密钥就是 session_key，而 session_key 会随每次 code2Session 变化，
@@ -22,7 +27,7 @@ import {
  *   好处是服务端不需要存储这个敏感值。
  *
  * ## 请求体
- *   { code: string, productId?: string, agreeNoRefundAt?: number }
+ *   { code: string, appid?: string, productId?: string, agreeNoRefundAt?: number }
  *   agreeNoRefundAt：用户勾选「不退款须知」的时间戳（ms）。
  *   微信虚拟支付投诉仲裁要求商户举证用户购买前主动确认过规则，
  *   故服务端强校验该字段（缺失/非法直接拒绝下单）并落库留痕。
@@ -39,11 +44,23 @@ import {
  */
 
 export async function POST(request: NextRequest) {
-  const { config, missing } = getXpayConfig()
+  let body: Record<string, unknown> = {}
+  try {
+    body = await request.json().catch(() => ({}))
+  } catch {
+    body = {}
+  }
+  // 调用方小程序 appid：多小程序共用本接口时必传；未传回退默认小程序（金铁）
+  const requestAppid: string = (body?.appid || '').toString().trim()
+
+  const { config, missing } = getXpayConfig(requestAppid || undefined)
 
   if (!config) {
     // 未开通/未配置：不是错误，是「功能未上线」，用 200 返回，避免端上误报网络异常
-    console.warn('[wx-xpay-order] 虚拟支付未配置，缺失:', missing.join(', '))
+    console.warn(
+      `[wx-xpay-order] 虚拟支付未配置 appid=${requestAppid || '(默认)'}，缺失:`,
+      missing.join(', ')
+    )
     return NextResponse.json(
       { success: false, enabled: false, errcode: -100, errmsg: '功能准备中，敬请期待' },
       { status: 200 }
@@ -51,7 +68,6 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const body = await request.json().catch(() => ({}))
     const code: string = (body?.code || '').toString()
     const productId: string = (body?.productId || '').toString()
 
@@ -62,8 +78,9 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // 端上只传 productId；价格等一律以服务端注册表为准，绝不接受端上传金额
-    const product = findXpayProduct(productId)
+    // 端上只传 productId；价格等一律以服务端注册表为准，绝不接受端上传金额。
+    // 道具注册表按 appid 分组，跨小程序同名道具不会互相命中。
+    const product = findXpayProduct(config.appid, productId)
     if (!product) {
       return NextResponse.json(
         { success: false, enabled: true, errcode: -2, errmsg: '该道具暂未上架' },
@@ -119,7 +136,7 @@ export async function POST(request: NextRequest) {
     })
 
     console.log(
-      `[wx-xpay-order] 下单 env=${config.env} productId=${product.productId} price=${product.priceFen} outTradeNo=${outTradeNo} openid=${openid}`
+      `[wx-xpay-order] 下单 appid=${config.appid} env=${config.env} productId=${product.productId} price=${product.priceFen} outTradeNo=${outTradeNo} openid=${openid}`
     )
 
     return NextResponse.json({

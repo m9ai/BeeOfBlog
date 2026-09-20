@@ -13,7 +13,11 @@ import {
 /**
  * POST /api/wx/xpay-query
  *
- * 支付结果确认 + 兜底补发货。
+ * 支付结果确认 + 兜底补发货（多小程序租户路由）。
+ *
+ * ## 多租户
+ *   请求体携带 `appid`（wx.getAccountInfoSync().miniProgram.appId，公开信息），
+ *   服务端据此选择该小程序的凭证；未传时回退默认小程序（金铁，WX_APPID）。
  *
  * ## 为什么需要它
  *   wx.requestVirtualPayment 的 success 回调可能丢失（微信异常退出等），
@@ -22,7 +26,7 @@ import {
  *   也顺手把「推送丢失」的订单补上（发货幂等，重复调用无副作用）。
  *
  * ## 请求体
- *   { code: string, outTradeNo: string }
+ *   { code: string, appid?: string, outTradeNo: string }
  *
  * ## 响应体
  *   { success: true, enabled: true, paid: boolean, platformStatus: number,
@@ -33,9 +37,20 @@ import {
  */
 
 export async function POST(request: NextRequest) {
-  const { config, missing } = getXpayConfig()
+  let body: Record<string, unknown> = {}
+  try {
+    body = await request.json().catch(() => ({}))
+  } catch {
+    body = {}
+  }
+  const requestAppid: string = (body?.appid || '').toString().trim()
+
+  const { config, missing } = getXpayConfig(requestAppid || undefined)
   if (!config) {
-    console.warn('[wx-xpay-query] 虚拟支付未配置，缺失:', missing.join(', '))
+    console.warn(
+      `[wx-xpay-query] 虚拟支付未配置 appid=${requestAppid || '(默认)'}，缺失:`,
+      missing.join(', ')
+    )
     return NextResponse.json(
       { success: false, enabled: false, errcode: -100, errmsg: '功能准备中，敬请期待' },
       { status: 200 }
@@ -43,7 +58,6 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const body = await request.json().catch(() => ({}))
     const code: string = (body?.code || '').toString()
     const outTradeNo: string = (body?.outTradeNo || '').toString()
 

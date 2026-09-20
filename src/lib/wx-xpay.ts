@@ -1,5 +1,11 @@
 import crypto from 'crypto'
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+import {
+  findFlatEnv,
+  getDefaultAppid,
+  getAccessToken,
+  code2Session as code2SessionShared,
+} from './wx-apps'
 import type { DeliverNotifyPayload } from './wx-msg'
 import { notifyDevOfSale } from './notify'
 
@@ -36,12 +42,20 @@ import { notifyDevOfSale } from './notify'
 // ---------------------------------------------------------------- 商品定义
 
 /**
- * 道具商品注册表：唯一事实来源（代码即配置），支持任意多个道具。
+ * 道具商品注册表：唯一事实来源（代码即配置）。
  *
- * 新增道具两步：
- *   1) MP 后台【虚拟支付 → 道具管理】创建道具，记下道具 ID 和价格；
- *   2) 在这里加一项，保持 productId / priceFen 与后台完全一致
- *      （价格不一致下单会报 -15013 goodsPrice 道具价格错误）。
+ * 道具管理是每个小程序 MP 后台各一份，productId 只在单个小程序内唯一，
+ * 因此注册表按小程序分组：
+ *   - 键 'default' = 默认小程序（金铁班次助手，appid 取环境变量 WX_APPID）
+ *   - 其余键 = 对应小程序的 appid（如 wxc9edff70eb75f100）
+ *
+ * 新增道具三步：
+ *   1) 在对应小程序的 MP 后台【虚拟支付 → 道具管理】创建道具，记下道具 ID 和价格；
+ *   2) 在对应 appid 的分组里加一项，保持 productId / priceFen 与后台完全一致
+ *      （价格不一致下单会报 -15013 goodsPrice 道具价格错误）；
+ *   3) 新小程序接入虚拟支付：配好环境变量（WX_SECRET_<appid> /
+ *      WX_XPAY_OFFER_ID_<appid> / WX_XPAY_APP_KEY[_SANDBOX]_<appid>）后，
+ *      在这里为该 appid 建一个分组。
  *
  * 安全约束：端上下单只传 productId，不传也不信任何金额字段——
  * 价格、名称一律以本表为准，篡改端上参数最多买到注册表内已有的道具。
@@ -57,18 +71,37 @@ export type XpayProduct = {
   attach: string
 }
 
-export const XPAY_PRODUCTS: XpayProduct[] = [
-  {
-    productId: 'jinshan_train_award',
-    name: '期盼火箭',
-    desc: '为「期盼金山通地铁」助力一次',
-    priceFen: 100, // ¥1.00，低价降低试水阶段的决策门槛
-    attach: 'train-home',
-  },
-]
+/** 默认小程序（金铁）的保留分组键 */
+const DEFAULT_APP_KEY = 'default'
 
-export function findXpayProduct(productId: string): XpayProduct | null {
-  return XPAY_PRODUCTS.find(p => p.productId === productId) || null
+export const XPAY_PRODUCTS_BY_APP: Record<string, XpayProduct[]> = {
+  // 金铁班次助手（默认小程序）
+  [DEFAULT_APP_KEY]: [
+    {
+      productId: 'jinshan_train_award',
+      name: '期盼火箭',
+      desc: '为「期盼金山通地铁」助力一次',
+      priceFen: 100, // ¥1.00，低价降低试水阶段的决策门槛
+      attach: 'train-home',
+    },
+  ],
+  // 洋泾小蜜蜂 wxc9edff70eb75f100
+  // 健康笔记     wxca56ef69f60a66a0
+}
+
+function registryKey(appid?: string): string {
+  const wanted = (appid || '').trim()
+  return wanted && wanted !== getDefaultAppid() ? wanted.toLowerCase() : DEFAULT_APP_KEY
+}
+
+/** 某个小程序已上架的道具列表 */
+export function listXpayProducts(appid?: string): XpayProduct[] {
+  return XPAY_PRODUCTS_BY_APP[registryKey(appid)] || []
+}
+
+/** 按 appid + productId 查道具；跨小程序同名道具不会互相命中 */
+export function findXpayProduct(appid: string | undefined, productId: string): XpayProduct | null {
+  return listXpayProducts(appid).find(p => p.productId === productId) || null
 }
 
 // ---------------------------------------------------------------- 配置
@@ -90,21 +123,39 @@ export type XpayConfigResult = {
 }
 
 /**
- * 读取虚拟支付配置。任何一个必需项缺失都返回 config = null，
- * 前端据此展示「功能准备中」，保证代码可以先上线、后开通。
+ * 读取虚拟支付配置（按小程序租户路由）。
+ *
+ * 环境变量约定（每个开通虚拟支付的小程序一套）：
+ *   WX_SECRET_<appid>                AppSecret（与 msg-sec-check 共用）
+ *   WX_XPAY_OFFER_ID_<appid>         虚拟支付 offerId（MP 后台「虚拟支付 → 基本配置」）
+ *   WX_XPAY_APP_KEY_<appid>          现网 AppKey
+ *   WX_XPAY_APP_KEY_SANDBOX_<appid>  沙箱 AppKey（与现网是两把钥匙，禁止互相回退）
+ *
+ * 向后兼容：appid 缺省或等于默认小程序（金铁，WX_APPID）时，回退旧的无后缀变量
+ * （WX_SECRET / WX_XPAY_OFFER_ID / WX_XPAY_APP_KEY[_SANDBOX]）。
+ *
+ * 任何一个必需项缺失都返回 config = null，前端据此展示「功能准备中」——
+ * 代码可以先上线、后开通；显式传入的 appid 未配置时绝不静默回退到别的小程序凭证。
  */
-export function getXpayConfig(): XpayConfigResult {
+export function getXpayConfig(requestAppid?: string): XpayConfigResult {
+  const appid = (requestAppid || getDefaultAppid()).trim()
+  const isDefault = appid === getDefaultAppid()
+
   const env = Number(process.env.WX_XPAY_ENV ?? '0') === 1 ? 1 : 0
   // 沙箱与现网是两把不同的 AppKey，禁止互相回退：
   // 沙箱误用现网 key 会全量 -15005（签名校验失败），排查成本远高于「配置缺失」
-  const appKeyEnvName = env === 1 ? 'WX_XPAY_APP_KEY_SANDBOX' : 'WX_XPAY_APP_KEY'
-  const appKey = process.env[appKeyEnvName] || ''
+  const appKeyBase = env === 1 ? 'WX_XPAY_APP_KEY_SANDBOX' : 'WX_XPAY_APP_KEY'
+  const secret = findFlatEnv(appid, 'WX_SECRET') || (isDefault ? process.env.WX_SECRET || '' : '')
+  const offerId =
+    findFlatEnv(appid, 'WX_XPAY_OFFER_ID') ||
+    (isDefault ? process.env.WX_XPAY_OFFER_ID || '' : '')
+  const appKey = findFlatEnv(appid, appKeyBase) || (isDefault ? process.env[appKeyBase] || '' : '')
 
   const required: Array<[string, string]> = [
-    ['WX_APPID', process.env.WX_APPID || ''],
-    ['WX_SECRET', process.env.WX_SECRET || ''],
-    ['WX_XPAY_OFFER_ID', process.env.WX_XPAY_OFFER_ID || ''],
-    [appKeyEnvName, appKey],
+    [isDefault ? 'WX_APPID' : `WX_APPID(${appid})`, appid],
+    [isDefault ? 'WX_SECRET' : `WX_SECRET_${appid}`, secret],
+    [isDefault ? 'WX_XPAY_OFFER_ID' : `WX_XPAY_OFFER_ID_${appid}`, offerId],
+    [isDefault ? appKeyBase : `${appKeyBase}_${appid}`, appKey],
     ['NEXT_PUBLIC_SUPABASE_URL', process.env.NEXT_PUBLIC_SUPABASE_URL || ''],
     ['SUPABASE_SERVICE_ROLE_KEY', getServiceRoleKey()],
   ]
@@ -116,9 +167,9 @@ export function getXpayConfig(): XpayConfigResult {
 
   return {
     config: {
-      appid: process.env.WX_APPID as string,
-      secret: process.env.WX_SECRET as string,
-      offerId: process.env.WX_XPAY_OFFER_ID as string,
+      appid,
+      secret,
+      offerId,
       appKey,
       env,
       supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL as string,
@@ -160,57 +211,18 @@ export function genOutTradeNo(): string {
 
 // ---------------------------------------------------------------- 微信服务端接口
 
-type Code2SessionResult = { openid: string; sessionKey: string }
+/**
+ * wx.login() 的 code 换 openid + session_key（code 一次性、约 5 分钟有效）。
+ * 实现在共享模块 wx-apps（与 msg-sec-check 共用）。
+ */
+export const code2Session = code2SessionShared
 
-/** wx.login() 的 code 换 openid + session_key（code 一次性、约 5 分钟有效） */
-export async function code2Session(appid: string, secret: string, code: string): Promise<Code2SessionResult> {
-  const url =
-    `https://api.weixin.qq.com/sns/jscode2session?appid=${encodeURIComponent(appid)}` +
-    `&secret=${encodeURIComponent(secret)}&js_code=${encodeURIComponent(code)}` +
-    `&grant_type=authorization_code`
-  const res = await fetch(url, { method: 'GET', cache: 'no-store' })
-  const data = (await res.json().catch(() => ({}))) as {
-    openid?: string
-    session_key?: string
-    errcode?: number
-    errmsg?: string
-  }
-  if (!data.openid || !data.session_key) {
-    throw new Error(`code2Session 失败: errcode=${data.errcode} errmsg=${data.errmsg}`)
-  }
-  return { openid: data.openid, sessionKey: data.session_key }
-}
-
-// access_token 缓存（stable_token 普通模式：有效期内重复调用返回同一个 token，
-// 适配 Vercel 多实例部署；与 msg-sec-check 各自持有缓存互不影响）
-type TokenCacheEntry = { token: string; expireAt: number }
-let tokenCache: TokenCacheEntry | null = null
-
-export async function getXpayAccessToken(appid: string, secret: string): Promise<string> {
-  const now = Date.now()
-  if (tokenCache && tokenCache.expireAt > now) {
-    return tokenCache.token
-  }
-
-  const res = await fetch('https://api.weixin.qq.com/cgi-bin/stable_token', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ grant_type: 'client_credential', appid, secret, force_refresh: false }),
-    cache: 'no-store',
-  })
-  const data = (await res.json().catch(() => ({}))) as {
-    access_token?: string
-    expires_in?: number
-    errcode?: number
-    errmsg?: string
-  }
-  if (!data.access_token) {
-    throw new Error(`获取 access_token 失败: errcode=${data.errcode} errmsg=${data.errmsg}`)
-  }
-  const ttlSec = Math.max((data.expires_in || 7200) - 300, 60)
-  tokenCache = { token: data.access_token, expireAt: now + ttlSec * 1000 }
-  return data.access_token
-}
+/**
+ * 获取 access_token（stable_token 普通模式）。
+ * 缓存按 appid 分桶，实现在共享模块 wx-apps——全服务端唯一缓存，
+ * 避免多模块各自缓存导致的实例间 token 互顶。
+ */
+export const getXpayAccessToken = getAccessToken
 
 export type XpayOrderStatus = {
   order_id?: string
@@ -287,6 +299,8 @@ export type XpayOrderStatusText = 'created' | 'paid' | 'delivered' | 'closed'
 export type XpayOrderRow = {
   out_trade_no: string
   wx_order_id: string | null
+  /** 下单小程序 appid；存量老订单为 NULL（等价于默认小程序金铁） */
+  appid: string | null
   openid: string
   product_id: string
   quantity: number
@@ -326,6 +340,8 @@ export async function insertOrder(
     .from(TABLE)
     .insert({
       out_trade_no: row.outTradeNo,
+      wx_order_id: null,
+      appid: config.appid,
       openid: row.openid,
       product_id: row.productId,
       quantity: row.quantity,
@@ -390,13 +406,14 @@ export async function deliverOrder(
       return { counted: false, order: null }
     }
     // 推送先于下单落库（极端时序）或本地数据被清过：按注册表补齐价格，仅供对账展示
-    const product = findXpayProduct(params.productId || '')
+    const product = findXpayProduct(config.appid, params.productId || '')
     const quantity = params.quantity || 1
     const { data, error } = await db
       .from(TABLE)
       .insert({
         out_trade_no: params.outTradeNo,
         wx_order_id: params.wxOrderId || null,
+        appid: config.appid,
         openid: params.openid,
         product_id: params.productId,
         quantity,
@@ -420,13 +437,18 @@ export async function deliverOrder(
     return { counted: false, order: existing }
   }
 
+  const now = new Date().toISOString()
+  const payload: Record<string, unknown> = {
+    status: 'delivered',
+    wx_order_id: params.wxOrderId || existing.wx_order_id,
+    delivered_at: now,
+  }
+  // 发货推送即事实上的支付确认时刻：若尚未记录 paid_at（正常链路 created 直达 delivered，
+  // markOrderPaid 不会被调用），在此一并回填，保证对账/仲裁字段完整。
+  if (!existing.paid_at) payload.paid_at = now
   const { data, error } = await db
     .from(TABLE)
-    .update({
-      status: 'delivered',
-      wx_order_id: params.wxOrderId || existing.wx_order_id,
-      delivered_at: new Date().toISOString(),
-    })
+    .update(payload)
     .eq('out_trade_no', params.outTradeNo)
     .select('*')
     .maybeSingle()
@@ -437,16 +459,21 @@ export async function deliverOrder(
 }
 
 /**
- * 处理平台发货推送：幂等发货 + 累计助力数。
+ * 处理平台发货推送：按报文 appid（ToUserName）路由租户 → 幂等发货 → 累计助力数。
  * 返回 ok=false 时调用方必须回一个非 0 的 ErrCode，让微信重推。
  */
 export async function deliverByNotify(
   payload: DeliverNotifyPayload
 ): Promise<{ ok: boolean; errmsg: string; counted: boolean; totalCount?: number }> {
-  const { config, missing } = getXpayConfig()
+  // 多租户路由：推送报文的 ToUserName 即接收方小程序 appid；
+  // 缺失时回退默认小程序（金铁，兼容存量推送配置）。
+  const { config, missing } = getXpayConfig(payload.appid || undefined)
   if (!config) {
     // 配置缺失属于「我们这边的问题」，返回失败让平台重推，避免漏记用户已支付的助力
-    console.error('[wx-xpay] 发货推送到达但配置缺失:', missing.join(', '))
+    console.error(
+      `[wx-xpay] 发货推送到达但配置缺失 appid=${payload.appid || '-'}:`,
+      missing.join(', ')
+    )
     return { ok: false, errmsg: 'server not configured', counted: false }
   }
 
@@ -469,17 +496,18 @@ export async function deliverByNotify(
     const statsProductId = order?.product_id || payload.productId
     const stats = statsProductId ? await getSupportStats(config, statsProductId) : null
     console.log(
-      `[wx-xpay] 发货${counted ? '成功' : '幂等跳过'} outTradeNo=${payload.outTradeNo || '-'} wxOrderId=${
-        payload.wxOrderId || '-'
-      } openid=${payload.openid || '-'} productId=${payload.productId || '-'} qty=${payload.quantity} total=${
-        stats?.totalCount ?? '-'
-      }`
+      `[wx-xpay] 发货${counted ? '成功' : '幂等跳过'} appid=${config.appid} outTradeNo=${
+        payload.outTradeNo || '-'
+      } wxOrderId=${payload.wxOrderId || '-'} openid=${payload.openid || '-'} productId=${
+        payload.productId || '-'
+      } qty=${payload.quantity} total=${stats?.totalCount ?? '-'}`
     )
 
     // 新增发货才推送：避免平台重推/兜底查单时重复打扰；
     // webhook 失败不影响发货主链路（notify 内部已 try/catch）。
     if (counted && order) {
       await notifyDevOfSale({
+        appid: order.appid || config.appid,
         productId: order.product_id,
         outTradeNo: order.out_trade_no,
         wxOrderId: order.wx_order_id,
@@ -512,7 +540,22 @@ export async function getSupportStats(
   openid?: string
 ): Promise<SupportStats> {
   const db = getDb(config)
-  const { data, error } = await db.from(TABLE).select('openid,quantity').eq('product_id', productId).eq('status', 'delivered')
+  let query = db
+    .from(TABLE)
+    .select('openid,quantity')
+    .eq('product_id', productId)
+    .eq('status', 'delivered')
+
+  // 多租户隔离：只统计该小程序的订单。
+  // 存量老订单 appid 为 NULL（等价默认小程序金铁）——仅默认小程序需要兼容 NULL 行，
+  // 其它小程序的统计绝不包含 NULL，防止跨租户污染。
+  if (config.appid === getDefaultAppid()) {
+    query = query.or(`appid.eq.${config.appid},appid.is.null`)
+  } else {
+    query = query.eq('appid', config.appid)
+  }
+
+  const { data, error } = await query
   if (error) {
     throw new Error(`统计助力数失败: ${error.message}`)
   }

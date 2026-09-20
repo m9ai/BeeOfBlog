@@ -9,9 +9,12 @@
  *       留空则整个通知通道关闭，仅打日志，不影响发货主链路。
  */
 
+import { appDisplayName } from './wx-apps'
 import { findXpayProduct } from './wx-xpay'
 
 export type SaleNotifyInfo = {
+  /** 售出订单所属小程序 appid（多租户标注来源） */
+  appid?: string | null
   productId: string
   outTradeNo: string
   wxOrderId?: string | null
@@ -46,13 +49,14 @@ export async function notifyDevOfSale(info: SaleNotifyInfo): Promise<void> {
     return
   }
 
-  const product = findXpayProduct(info.productId)
+  const product = findXpayProduct(info.appid || undefined, info.productId)
   const productName = product?.name || info.productId
   const priceText = product ? `¥${(product.priceFen / 100).toFixed(2)}` : ''
 
   const lines: string[] = [
     `## 🎯 虚拟支付 · 道具售出`,
     '',
+    `- **小程序**：${appDisplayName(info.appid)}`,
     `- **道具**：${productName} (\`${info.productId}\`)${priceText ? ' ' + priceText : ''}`,
     `- **环境**：<font color="info">${envLabel(info.env)}</font>`,
     `- **商户单号**：\`${info.outTradeNo}\``,

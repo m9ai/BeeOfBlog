@@ -1,4 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
+import {
+  code2Session,
+  getAccessToken,
+  invalidateAccessToken,
+  resolveWxCredential,
+  type WxCredential,
+} from '@/lib/wx-apps'
 
 /**
  * POST /api/wx/msg-sec-check
@@ -58,160 +65,13 @@ import { NextRequest, NextResponse } from 'next/server'
 // code2Session 的 code 只能由签发它的同一 appid 换取 openid，因此必须
 // 按请求方的小程序选择对应凭证。
 //
-// 凭证来源与回退规则（按优先级）：
-//   1) 扁平环境变量（推荐，任何平台 UI 都支持）：
-//      WX_SECRET_<appid>=<secret>
-//      例如：WX_SECRET_wxc9edff70eb75f100=小蜜蜂的secret
-//           WX_SECRET_wxca56ef69f60a66a0=健康笔记的secret
-//   2) 环境变量 WX_APPS：JSON 字符串按 appid 索引多组凭证（部分平台 UI 不支持
-//      含引号/花括号的值，仅作可选兼容）：
-//      {"wxxxxxxxxxxxxxxx":{"secret":"..."},"wxyyyyyyyyyyyyyyy":{"secret":"..."}}
-//   3) 环境变量 WX_APPID + WX_SECRET：单小程序凭证（金铁，默认回退）。
-//
-// 解析规则（兼容旧客户端）：
-//   - 请求未携带 appid（旧版本金铁客户端）→ 默认 WX_APPID / WX_SECRET。
-//   - 请求携带 appid → 必须命中上述任一来源，否则直接报错（不静默回退）。
-//     因为拿错凭证 code2Session 必然失败，静默回退会把配置错误伪装成降级放行。
+// 凭证解析（resolveWxCredential）与 access_token 缓存已下沉到共享模块
+// @/lib/wx-apps，与虚拟支付（wx-xpay）共用——同一 appid 的 token 只取一份。
+// 凭证来源与回退规则详见 wx-apps.ts 头部注释：
+//   WX_SECRET_<appid>（推荐） / WX_APPS JSON 表 / WX_APPID + WX_SECRET（默认小程序回退）。
 //
 // 客户端请求体携带 `appid`（公开信息，可从 wx.getAccountInfoSync() 获取），
 // secret 永远只存在服务端环境变量中。
-type WxCredential = { appid: string; secret: string }
-
-// 从扁平环境变量 WX_SECRET_<appid> 查 secret（大小写兼容）
-function findFlatSecret(appid: string): string | null {
-  if (!appid) return null
-  const prefix = 'WX_SECRET_'
-  // 直接命中
-  const direct = process.env[`${prefix}${appid}`]
-  if (direct) return direct
-  // 大小写兼容：环境变量名可能被平台转成大写
-  const suffix = appid.toLowerCase()
-  for (const key of Object.keys(process.env)) {
-    if (
-      key.length > prefix.length &&
-      key.slice(0, prefix.length).toUpperCase() === prefix &&
-      key.slice(prefix.length).toLowerCase() === suffix
-    ) {
-      return process.env[key] || null
-    }
-  }
-  return null
-}
-
-function resolveCredential(requestAppid?: string): WxCredential {
-  // 未传 appid：默认金铁（WX_APPID）
-  const wanted = (requestAppid || process.env.WX_APPID || '').trim()
-
-  // 来源 1：扁平环境变量 WX_SECRET_<appid>
-  const fromFlat = (): WxCredential | null => {
-    const secret = findFlatSecret(wanted)
-    return secret ? { appid: wanted, secret } : null
-  }
-
-  // 来源 2：WX_APPS JSON 表（可选兼容）
-  const fromApps = (): WxCredential | null => {
-    const appsRaw = process.env.WX_APPS
-    if (!appsRaw) return null
-    try {
-      const apps = JSON.parse(appsRaw) as Record<string, { secret?: string }>
-      const entry = wanted ? apps[wanted] : undefined
-      if (entry?.secret) {
-        return { appid: wanted, secret: entry.secret }
-      }
-      return null
-    } catch (e) {
-      console.error('[msg-sec-check] WX_APPS 环境变量不是合法 JSON，忽略')
-      return null
-    }
-  }
-
-  // 来源 3：单小程序凭证（金铁）
-  const fromSingle = (): WxCredential | null => {
-    const appid = process.env.WX_APPID
-    const secret = process.env.WX_SECRET
-    return appid && secret ? { appid, secret } : null
-  }
-
-  if (requestAppid) {
-    // 明确指定了 appid：必须命中任一来源（或恰好等于单小程序 appid），
-    // 否则视为配置错误，直接报错而非静默回退到别的凭证
-    const cred = fromFlat() || fromApps() || (wanted === process.env.WX_APPID ? fromSingle() : null)
-    if (!cred) {
-      throw new Error(
-        `未找到 appid=${requestAppid} 对应的凭证（请检查 WX_SECRET_${requestAppid} 环境变量配置）`
-      )
-    }
-    return cred
-  }
-
-  // 未传 appid（旧客户端）：扁平变量 / JSON 表优先，回退单小程序凭证，仍无则报错
-  const cred = fromFlat() || fromApps() || fromSingle()
-  if (!cred) {
-    throw new Error('服务端未配置微信凭证（WX_APPS / WX_APPID / WX_SECRET）')
-  }
-  return cred
-}
-
-// ---------- access_token 缓存 ----------
-// 使用官方推荐的「稳定版接口调用凭据」获取 token：
-//   POST https://api.weixin.qq.com/cgi-bin/stable_token
-//   https://developers.weixin.qq.com/miniprogram/dev/server/API/mp-access-token/api_getstableaccesstoken.html
-//
-// 为什么不用 GET /cgi-bin/token：
-//   旧接口每次调用都会生成新的 access_token 并（在短暂宽限期后）使旧 token 失效。
-//   在 Vercel 等多实例 Serverless 环境下，多个实例并发刷新会互相顶掉 token，
-//   导致部分请求拿着已失效的 token 调用 msg_sec_check，出现 40001 / 40003 等错误。
-//   stable_token 普通模式（force_refresh=false）在有效期内重复调用返回同一个 token，
-//   天然适合无中心化存储的多实例部署。
-//
-// 缓存按 appid 分桶：不同小程序的 token 互不干扰。
-type TokenCacheEntry = { token: string; expireAt: number }
-const tokenCacheMap = new Map<string, TokenCacheEntry>()
-
-function invalidateAccessToken(appid: string) {
-  tokenCacheMap.delete(appid)
-}
-
-async function getAccessToken(appid: string, secret: string): Promise<string> {
-  const now = Date.now()
-  const cached = tokenCacheMap.get(appid)
-  if (cached && cached.expireAt > now) {
-    return cached.token
-  }
-
-  const res = await fetch('https://api.weixin.qq.com/cgi-bin/stable_token', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      grant_type: 'client_credential',
-      appid,
-      secret,
-      force_refresh: false, // 普通模式：有效期内不更新 token
-    }),
-    cache: 'no-store',
-  })
-
-  const data = (await res.json().catch(() => ({}))) as {
-    access_token?: string
-    expires_in?: number
-    errcode?: number
-    errmsg?: string
-  }
-
-  if (!data.access_token) {
-    throw new Error(`获取 access_token 失败: errcode=${data.errcode} errmsg=${data.errmsg}`)
-  }
-
-  // 普通模式下 expires_in >= 300（若 token 仍有效会返回剩余有效时间）。
-  // stable_token 与 cgi-bin/token 的 token 互相隔离，缓存仅在本模块内复用。
-  const ttlSec = Math.max((data.expires_in || 7200) - 300, 60)
-
-  tokenCacheMap.set(appid, {
-    token: data.access_token,
-    expireAt: now + ttlSec * 1000,
-  })
-  return data.access_token
-}
 
 // ---------- 调用 msg_sec_check ----------
 type WxSecCheckDetail = {
@@ -255,27 +115,8 @@ async function callMsgSecCheck(
 }
 
 // ---------- openid 换取 ----------
-// 用 wx.login() 返回的 code 调用 code2Session 换取 openid
-// 注意：code 仅能使用一次，有效期约 5 分钟
-async function getOpenidByCode(appid: string, secret: string, code: string): Promise<string> {
-  const url =
-    `https://api.weixin.qq.com/sns/jscode2session?appid=${encodeURIComponent(appid)}` +
-    `&secret=${encodeURIComponent(secret)}&js_code=${encodeURIComponent(code)}` +
-    `&grant_type=authorization_code`
-  const res = await fetch(url, { method: 'GET', cache: 'no-store' })
-  const data = (await res.json().catch(() => ({}))) as {
-    openid?: string
-    session_key?: string
-    unionid?: string
-    errcode?: number
-    errmsg?: string
-  }
-
-  if (!data.openid) {
-    throw new Error(`code2Session 失败: errcode=${data.errcode} errmsg=${data.errmsg}`)
-  }
-  return data.openid
-}
+// 用 wx.login() 返回的 code 调用 code2Session（共享模块 wx-apps）换取 openid。
+// 注意：code 仅能使用一次，有效期约 5 分钟。
 
 // ---------- 主路由 ----------
 
@@ -292,9 +133,9 @@ export async function POST(request: NextRequest) {
 
     let cred: WxCredential
     try {
-      cred = resolveCredential(requestAppid)
+      cred = resolveWxCredential(requestAppid)
     } catch (err) {
-      console.error('[msg-sec-check] resolveCredential error:', err)
+      console.error('[msg-sec-check] resolveWxCredential error:', err)
       return NextResponse.json(
         { success: false, errcode: -1, errmsg: (err as Error).message },
         { status: 500 }
@@ -320,9 +161,9 @@ export async function POST(request: NextRequest) {
     if (!openid) {
       if (code) {
         try {
-          openid = await getOpenidByCode(appid, secret, code)
+          openid = (await code2Session(appid, secret, code)).openid
         } catch (err) {
-          console.error('[msg-sec-check] getOpenidByCode error:', err)
+          console.error('[msg-sec-check] code2Session error:', err)
           // 换取 openid 失败：fail-open，避免影响正常用户；但日志告警
           return NextResponse.json(
             {
