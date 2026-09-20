@@ -85,13 +85,21 @@ export const XPAY_PRODUCTS_BY_APP: Record<string, XpayProduct[]> = {
       attach: 'train-home',
     },
   ],
-  // 洋泾小蜜蜂 wxc9edff70eb75f100
+  'wxc9edff70eb75f100': [
+    { productId: 'make_a_wish', name: '许愿', desc: '许下一个心愿投入许愿池', priceFen: 100, attach: 'wish-pool' },
+    { productId: 'fulfill_vow', name: '还愿', desc: '心愿达成后回池还愿', priceFen: 100, attach: 'wish-pool' },
+    { productId: 'disable_ads', name: '关闭广告位', desc: '关闭小程序内广告展示', priceFen: 100, attach: 'bee-ads' },
+    { productId: 'add_energy', name: '加鸡腿', desc: '给小蜜蜂加鸡腿', priceFen: 5200, attach: 'bee-energy' },
+  ],
   // 健康笔记     wxca56ef69f60a66a0
+  // 许愿池道具见下方 BEE_APP 分组
 }
 
 function registryKey(appid?: string): string {
-  const wanted = (appid || '').trim()
-  return wanted && wanted !== getDefaultAppid() ? wanted.toLowerCase() : DEFAULT_APP_KEY
+  const wanted = (appid || '').trim().toLowerCase()
+  // 显式指定 appid 时直接用 appid 分组，不再与默认 appid 比较——
+  // 避免 WX_APPID 被配成非默认小程序时，显式传 appid 反而命中默认分组。
+  return wanted || DEFAULT_APP_KEY
 }
 
 /** 某个小程序已上架的道具列表 */
@@ -138,8 +146,10 @@ export type XpayConfigResult = {
  * 代码可以先上线、后开通；显式传入的 appid 未配置时绝不静默回退到别的小程序凭证。
  */
 export function getXpayConfig(requestAppid?: string): XpayConfigResult {
-  const appid = (requestAppid || getDefaultAppid()).trim()
-  const isDefault = appid === getDefaultAppid()
+  const requestAppidTrimmed = (requestAppid || '').trim()
+  // 显式传了 appid 就按该小程序的扁平变量读取；没传才回退默认小程序。
+  const isDefault = !requestAppidTrimmed
+  const appid = requestAppidTrimmed || getDefaultAppid()
 
   const env = Number(process.env.WX_XPAY_ENV ?? '0') === 1 ? 1 : 0
   // 沙箱与现网是两把不同的 AppKey，禁止互相回退：
