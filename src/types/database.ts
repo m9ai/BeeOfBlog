@@ -198,6 +198,44 @@ export interface Database {
           created_at?: string
         }
       }
+      mini_wishes: {
+        Row: {
+          id: string
+          openid: string
+          appid: string
+          content: string
+          status: 'pending' | 'fulfilled' | 'deleted'
+          make_trade_no: string
+          fulfill_trade_no: string | null
+          fulfilled_at: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          openid: string
+          appid: string
+          content: string
+          status?: 'pending' | 'fulfilled' | 'deleted'
+          make_trade_no: string
+          fulfill_trade_no?: string | null
+          fulfilled_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          openid?: string
+          appid?: string
+          content?: string
+          status?: 'pending' | 'fulfilled' | 'deleted'
+          make_trade_no?: string
+          fulfill_trade_no?: string | null
+          fulfilled_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
       knowledge_categories: {
         Row: {
           id: string

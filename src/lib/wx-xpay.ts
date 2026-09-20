@@ -161,6 +161,11 @@ export function getXpayConfig(requestAppid?: string): XpayConfigResult {
     (isDefault ? process.env.WX_XPAY_OFFER_ID || '' : '')
   const appKey = findFlatEnv(appid, appKeyBase) || (isDefault ? process.env[appKeyBase] || '' : '')
 
+  // 排查日志：确认读取的是哪个环境变量（不打印敏感值）
+  console.log(
+    `[wx-xpay-config] appid=${appid} isDefault=${isDefault} secretSource=${findFlatEnv(appid, 'WX_SECRET') ? `WX_SECRET_${appid}` : isDefault ? 'WX_SECRET' : 'none'} offerIdSource=${findFlatEnv(appid, 'WX_XPAY_OFFER_ID') ? `WX_XPAY_OFFER_ID_${appid}` : isDefault ? 'WX_XPAY_OFFER_ID' : 'none'}`
+  )
+
   const required: Array<[string, string]> = [
     [isDefault ? 'WX_APPID' : `WX_APPID(${appid})`, appid],
     [isDefault ? 'WX_SECRET' : `WX_SECRET_${appid}`, secret],
