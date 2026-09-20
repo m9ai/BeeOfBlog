@@ -4,7 +4,7 @@
  * 本服务端同时服务名下多款小程序：
  *   - 金铁班次助手（默认小程序，appid 取环境变量 WX_APPID）
  *   - 洋泾小蜜蜂 wxc9edff70eb75f100
- *   - 健康笔记     wxca56ef69f60a66a0
+ *   - 金铁班次助手     wxca56ef69f60a66a0
  *
  * 统一约定：每个小程序的专属配置用扁平环境变量 `<BASE>_<appid>` 提供，
  * 例如 WX_SECRET_wxc9edff70eb75f100 / WX_XPAY_OFFER_ID_wxc9edff70eb75f100。
@@ -63,7 +63,8 @@ export function listAppidsByEnvBase(base: string): string[] {
 /** appid → 展示名（日志 / 开发者通知用）。未知 appid 原样展示。 */
 const APP_NAMES: Record<string, string> = {
   wxc9edff70eb75f100: '洋泾小蜜蜂',
-  wxca56ef69f60a66a0: '健康笔记',
+  wxca56ef69f60a66a0: '金铁班次助手',
+  wx9faa63f28130817a: 'Robot仿真',
 }
 const DEFAULT_APP_NAME = '金铁班次助手'
 

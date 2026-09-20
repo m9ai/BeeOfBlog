@@ -72,7 +72,7 @@ export type XpayProduct = {
 }
 
 /** 默认小程序（金铁）的保留分组键 */
-const DEFAULT_APP_KEY = 'default'
+const DEFAULT_APP_KEY = 'wxca56ef69f60a66a0'
 
 export const XPAY_PRODUCTS_BY_APP: Record<string, XpayProduct[]> = {
   // 金铁班次助手（默认小程序）
