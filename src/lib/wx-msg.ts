@@ -51,6 +51,11 @@ function sha1(...parts: string[]): string {
   return crypto.createHash('sha1').update(parts.sort().join('')).digest('hex')
 }
 
+/** 计算接入验签期望值（诊断用：与微信传来的 signature 比对可定位 Token 是否配置一致） */
+export function computeMsgSignature(token: string, timestamp: string, nonce: string, encrypt?: string): string {
+  return encrypt ? sha1(token, timestamp, nonce, encrypt) : sha1(token, timestamp, nonce)
+}
+
 export function verifyMsgSignature(
   token: string,
   timestamp: string,

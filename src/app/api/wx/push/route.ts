@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import {
   XPAY_DELIVER_EVENT,
   XPAY_REFUND_EVENT,
+  computeMsgSignature,
   getMsgTokenFor,
   parseDeliverNotify,
   parseWxPushMessage,
@@ -65,7 +66,10 @@ export async function GET(request: NextRequest) {
   const token = getMsgTokenFor(appid)
   if (!token || !verifyMsgSignature(token, timestamp, nonce, signature)) {
     console.error(
-      `[wx-push] GET 接入校验失败 appid=${appid || '(默认)'}：Token 不匹配（未配置 WX_MSG_TOKEN_${appid || '<appid>'}？）`
+      `[wx-push] GET 接入校验失败 appid=${appid || '(默认)'} ` +
+        `tokenConfigured=${token ? `yes(len=${token.length})` : 'NO（环境变量未生效或值为空）'} ` +
+        `expected=${token ? computeMsgSignature(token, timestamp, nonce) : '-'} received=${signature || '-'} ` +
+        `timestamp=${timestamp} nonce=${nonce}`
     )
     return new NextResponse('fail', { status: 403 })
   }
