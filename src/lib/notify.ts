@@ -24,7 +24,19 @@ export type SaleNotifyInfo = {
   totalCount?: number
 }
 
-const WEBHOOK = (process.env.DEV_WECHAT_WORK_WEBHOOK || '').trim()
+/**
+ * webhook 地址必须「调用时」读取，不能在模块顶层求值成常量：
+ * Next.js 会在构建期静态内联 process.env.X，顶层常量一旦在构建时为空就永久为空，
+ * 部署之后再补环境变量也不会生效（必须重新部署）。
+ * 与 wx-apps / wx-xpay 的写法保持一致，统一惰性读取。
+ *
+ * 多租户：目前所有小程序共用同一个群机器人（DEV_WECHAT_WORK_WEBHOOK），
+ * 消息体里用「小程序」一栏标注来源；如需按租户分群，再扩成
+ * DEV_WECHAT_WORK_WEBHOOK_<appid>（findFlatEnv）+ 全局兜底。
+ */
+function webhookUrl(): string {
+  return (process.env.DEV_WECHAT_WORK_WEBHOOK || '').trim()
+}
 
 function envLabel(env: number): '现网' | '沙箱' {
   return env === 1 ? '沙箱' : '现网'
@@ -44,6 +56,7 @@ function fmtTime(iso?: string | null): string {
  * 最佳努力：调用失败/未配置均不影响发货主链路。
  */
 export async function notifyDevOfSale(info: SaleNotifyInfo): Promise<void> {
+  const WEBHOOK = webhookUrl()
   if (!WEBHOOK) {
     console.log('[notify] DEV_WECHAT_WORK_WEBHOOK 未配置，跳过开发者通知 (outTradeNo=' + info.outTradeNo + ')')
     return

@@ -19,7 +19,7 @@ import { deliverByNotify } from '@/lib/wx-xpay'
  * 文档：https://developers.weixin.qq.com/miniprogram/dev/framework/server-ability/message-push.html
  *
  * ## 多租户
- *   本服务端同时服务多款小程序（金铁班次助手 / 洋泾小蜜蜂 / 健康笔记），
+ *   本服务端同时服务多款小程序（金铁班次助手 / 洋泾小蜜蜂 / 金铁班次助手），
  *   每个小程序在各自 MP 后台配置消息推送，Token / EncodingAESKey 各不相同，
  *   服务端用扁平环境变量区分：
  *     WX_MSG_TOKEN_<appid>    该小程序的推送 Token

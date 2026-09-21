@@ -91,8 +91,11 @@ export const XPAY_PRODUCTS_BY_APP: Record<string, XpayProduct[]> = {
     { productId: 'disable_ads', name: '关闭广告位', desc: '关闭小程序内广告展示', priceFen: 100, attach: 'bee-ads' },
     { productId: 'add_energy', name: '加鸡腿', desc: '给小蜜蜂加鸡腿', priceFen: 5200, attach: 'bee-energy' },
   ],
-  // 健康笔记     wxca56ef69f60a66a0
-  // 许愿池道具见下方 BEE_APP 分组
+  // Robot仿真 wx9faa63f28130817a：尚未上架虚拟道具，先占位分组。
+  // 开卖时按 MP 后台【道具管理】的道具 ID 与价格（分）在此登记；
+  // 未登记前不影响发货，但开发者通知只会显示 productId、不显示价格。
+  'wx9faa63f28130817a': [],
+  // 金铁班次助手 wxca56ef69f60a66a0 即上方 [DEFAULT_APP_KEY] 分组，无需重复登记。
 }
 
 function registryKey(appid?: string): string {

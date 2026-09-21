@@ -301,7 +301,7 @@ WX_SECRET=your_app_secret
 
 # 多小程序（多租户）凭证：每个小程序一套扁平环境变量，<appid> 为小程序真实 appid
 # WX_SECRET_wxc9edff70eb75f100=洋泾小蜜蜂的secret
-# WX_SECRET_wxca56ef69f60a66a0=健康笔记的secret
+# WX_SECRET_wxca56ef69f60a66a0=金铁班次助手的secret
 # WX_XPAY_OFFER_ID_wxc9edff70eb75f100=该小程序虚拟支付 offerId
 # WX_XPAY_APP_KEY_wxc9edff70eb75f100=该小程序虚拟支付现网 AppKey
 # WX_XPAY_APP_KEY_SANDBOX_wxc9edff70eb75f100=该小程序虚拟支付沙箱 AppKey
@@ -428,7 +428,7 @@ errcode=40001/42001 时自动刷新 token 重试一次
 ## 8. 微信多小程序（多租户）通用架构
 
 本后端同时服务名下多款小程序：**金铁班次助手**（默认，`WX_APPID`）、
-**洋泾小蜜蜂**（`wxc9edff70eb75f100`）、**健康笔记**（`wxca56ef69f60a66a0`）。
+**洋泾小蜜蜂**（`wxc9edff70eb75f100`）、**Robot仿真**（`wx9faa63f28130817a`）。
 消息推送、虚拟支付、内容安全三条链路全部按 appid 路由租户，共用同一套部署。
 
 ### 8.1 配置约定（扁平环境变量）

@@ -9,6 +9,7 @@ import {
   notifyProvideGoods,
   queryXpayOrder,
 } from '@/lib/wx-xpay'
+import { notifyDevOfSale } from '@/lib/notify'
 
 /**
  * POST /api/wx/xpay-query
@@ -143,7 +144,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 5) 补发货（幂等）
-    const { counted } = await deliverOrder(config, {
+    const { counted, order: delivered } = await deliverOrder(config, {
       outTradeNo,
       wxOrderId: res.order?.wx_order_id || '',
       openid,
@@ -168,6 +169,25 @@ export async function POST(request: NextRequest) {
     }
 
     const stats = await statsFor(openid)
+
+    // 7) 开发者售出通知（群机器人）。
+    //    本接口是「支付成功后端上立刻调用」的兜底发货路径，通常先于平台推送完成发货；
+    //    若这里不推送，后续到达的平台推送会因幂等（counted=false）跳过通知，
+    //    导致道具明明卖出去了却收不到消息。
+    //    deliverOrder 幂等，推送链路与本路径至多一处拿到 counted=true，不会重复打扰。
+    if (counted && delivered) {
+      await notifyDevOfSale({
+        appid: delivered.appid || config.appid,
+        productId: delivered.product_id,
+        outTradeNo: delivered.out_trade_no,
+        wxOrderId: delivered.wx_order_id,
+        openid: delivered.openid,
+        env: delivered.env,
+        paidAt: delivered.paid_at,
+        totalCount: stats.totalCount,
+      })
+    }
+
     return NextResponse.json({
       success: true,
       enabled: true,
