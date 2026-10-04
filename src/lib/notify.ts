@@ -38,6 +38,15 @@ function webhookUrl(): string {
   return (process.env.DEV_WECHAT_WORK_WEBHOOK || '').trim()
 }
 
+/**
+ * 「小蜜蜂盯」事项通知专用 webhook。
+ * 主理人看的是另一个群（WATCH_WECHAT_WORK_WEBHOOK），未配置时回退到开发者群。
+ */
+/** 盯事项通知沿用开发者群 webhook，不新增环境变量 */
+function watchWebhookUrl(): string {
+  return webhookUrl()
+}
+
 function envLabel(env: number): '现网' | '沙箱' {
   return env === 1 ? '沙箱' : '现网'
 }
@@ -98,5 +107,37 @@ export async function notifyDevOfSale(info: SaleNotifyInfo): Promise<void> {
     }
   } catch (err) {
     console.error('[notify] 开发者通知推送异常:', err)
+  }
+}
+
+/**
+ * 推送「小蜜蜂盯」新事项给主理人。
+ *
+ * 主理人没有后台账号，这条消息是他们掌握事项全貌的唯一入口，
+ * 正文（含附件直链）由 watch.ts 组装好后整体传入。
+ * 最佳努力：未配置 webhook / 推送失败均不影响事项创建主链路。
+ */
+export async function notifyNewWatchTask(markdown: string): Promise<void> {
+  const WEBHOOK = watchWebhookUrl()
+  if (!WEBHOOK) {
+    console.log('[notify] 未配置 WATCH_WECHAT_WORK_WEBHOOK / DEV_WECHAT_WORK_WEBHOOK，跳过盯事项通知')
+    return
+  }
+
+  const payload = { msgtype: 'markdown', markdown: { content: markdown } }
+
+  try {
+    const res = await fetch(WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+    const text = await res.text()
+    const failed = !res.ok || /"errcode"\s*:\s*[1-9]\d*/.test(text)
+    if (failed) {
+      console.error(`[notify] 盯事项通知推送失败 status=${res.status} body=${text.slice(0, 200)}`)
+    }
+  } catch (err) {
+    console.error('[notify] 盯事项通知推送异常:', err)
   }
 }

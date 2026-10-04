@@ -312,6 +312,88 @@ export interface Database {
           updated_at?: string
         }
       }
+      watch_tasks: {
+        Row: {
+          id: string
+          task_no: string
+          openid: string
+          appid: string
+          title: string
+          location: string
+          detail: string | null
+          status: 'submitted' | 'watching' | 'resolved' | 'closed' | 'deleted'
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          task_no: string
+          openid: string
+          appid: string
+          title: string
+          location: string
+          detail?: string | null
+          status?: 'submitted' | 'watching' | 'resolved' | 'closed' | 'deleted'
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          task_no?: string
+          openid?: string
+          appid?: string
+          title?: string
+          location?: string
+          detail?: string | null
+          status?: 'submitted' | 'watching' | 'resolved' | 'closed' | 'deleted'
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      watch_attachments: {
+        Row: {
+          id: string
+          task_id: string | null
+          kind: 'image' | 'video'
+          file_key: string
+          mime_type: string
+          size: number
+          width: number | null
+          height: number | null
+          duration_ms: number | null
+          openid: string
+          appid: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          task_id?: string | null
+          kind: 'image' | 'video'
+          file_key: string
+          mime_type: string
+          size: number
+          width?: number | null
+          height?: number | null
+          duration_ms?: number | null
+          openid: string
+          appid: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          task_id?: string | null
+          kind?: 'image' | 'video'
+          file_key?: string
+          mime_type?: string
+          size?: number
+          width?: number | null
+          height?: number | null
+          duration_ms?: number | null
+          openid?: string
+          appid?: string
+          created_at?: string
+        }
+      }
     }
     Views: {
       [_ in never]: never

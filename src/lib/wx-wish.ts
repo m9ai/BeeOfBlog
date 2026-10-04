@@ -1,9 +1,10 @@
-import { createClient, type SupabaseClient } from '@supabase/supabase-js'
-import {
-  code2Session,
-  getAccessToken,
-  resolveWxCredential,
-} from './wx-apps'
+import type { SupabaseClient } from '@supabase/supabase-js'
+import { getServiceClient } from './supabase/admin'
+import { code2Session, resolveWxCredential } from './wx-apps'
+import { checkTextContent } from './wx-sec-check'
+
+/** 心愿内容长度上限（与 mini_wishes 表的 CHECK 约束一致） */
+const MAX_WISH_CONTENT_LENGTH = 120
 
 /**
  * 小程序许愿池服务端模块
@@ -62,16 +63,8 @@ export type AuthContext = {
 
 // ---------------------------------------------------------------- 数据库
 
-function getDb(): SupabaseClient {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
-  if (!url || !key) {
-    throw new Error('缺少 Supabase 配置（NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY）')
-  }
-  return createClient(url, key, {
-    auth: { persistSession: false, autoRefreshToken: false },
-  })
-}
+// 复用共享的 service_role 客户端（与 wx-xpay / watch 系列一致）
+const getDb = getServiceClient
 
 // ---------------------------------------------------------------- 认证
 
@@ -93,95 +86,16 @@ export async function authByCode(
 
 // ---------------------------------------------------------------- 内容安全审核
 
-type WxSecCheckResult = {
-  errcode?: number
-  errmsg?: string
-  result?: { suggest?: string; label?: number }
-  trace_id?: string
-}
-
-async function callMsgSecCheck(
-  accessToken: string,
-  content: string,
-  openid: string
-): Promise<WxSecCheckResult> {
-  const url = `https://api.weixin.qq.com/wxa/msg_sec_check?access_token=${encodeURIComponent(accessToken)}`
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      content,
-      version: 2,
-      scene: 1,
-      openid,
-    }),
-    cache: 'no-store',
-  })
-  return (await res.json().catch(() => ({}))) as WxSecCheckResult
-}
-
 /**
- * 文本内容安全检测。
+ * 心愿内容安全检测。
  *
- * 拦截策略（收紧）：
- *   - errcode = 87014      → 拦截
- *   - suggest = 'risky'    → 拦截
- *   - suggest = 'review'   → 拦截（疑似违规需人工复核，不放行）
- *
- * 降级策略（fail-open）：
- *   token / code2Session / 微信接口异常时返回 pass=true，不阻断正常用户，
- *   但会打 warn/error 日志便于监控漏放。
+ * 判定与降级策略见 @/lib/wx-sec-check（与「小蜜蜂盯」共用同一套策略）。
  */
 export async function checkWishContent(
   content: string,
   auth: AuthContext
 ): Promise<{ pass: boolean; errmsg?: string; degraded?: boolean }> {
-  if (!content || !content.trim()) {
-    return { pass: false, errmsg: '心愿内容不能为空' }
-  }
-  if (content.length > 120) {
-    return { pass: false, errmsg: '心愿内容不能超过 120 字' }
-  }
-
-  let accessToken: string
-  try {
-    accessToken = await getAccessToken(auth.appid, auth.secret)
-  } catch (err) {
-    console.warn('[wish-sec-check] access_token 获取失败，降级放行:', err)
-    return { pass: true, degraded: true }
-  }
-
-  let wxData: WxSecCheckResult
-  try {
-    wxData = await callMsgSecCheck(accessToken, content, auth.openid)
-  } catch (err) {
-    console.warn('[wish-sec-check] 微信接口异常，降级放行:', err)
-    return { pass: true, degraded: true }
-  }
-
-  const errcode = typeof wxData.errcode === 'number' ? wxData.errcode : -1
-  const suggest = wxData.result?.suggest
-  const blocked = errcode === 87014 || suggest === 'risky' || suggest === 'review'
-
-  if (errcode !== 0 && errcode !== 87014) {
-    // 其他微信服务端异常，降级放行
-    console.warn(
-      `[wish-sec-check] wechat api error，降级放行: errcode=${errcode} errmsg=${wxData.errmsg}`
-    )
-    return { pass: true, degraded: true }
-  }
-
-  if (blocked) {
-    console.warn(
-      `[wish-sec-check] blocked: errcode=${errcode} suggest=${suggest ?? '-'} trace_id=${wxData.trace_id ?? '-'}`
-    )
-    let errmsg = '您输入的内容涉嫌违规，请修改后再试'
-    if (suggest === 'review') errmsg = '您输入的内容需人工复核，请修改后再试'
-    if (wxData.errmsg && wxData.errmsg !== 'ok') errmsg = wxData.errmsg
-    return { pass: false, errmsg }
-  }
-
-  return { pass: true }
+  return checkTextContent(content, auth, MAX_WISH_CONTENT_LENGTH, '心愿内容')
 }
 
 // ---------------------------------------------------------------- 订单校验

@@ -38,6 +38,7 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(true)
   const [authChecking, setAuthChecking] = useState(true)
   const [pendingWishlistCount, setPendingWishlistCount] = useState(0)
+  const [pendingWatchCount, setPendingWatchCount] = useState(0)
   const supabase = createClient()
 
   useEffect(() => {
@@ -69,6 +70,7 @@ export default function AdminPage() {
       setAuthChecking(false)
       fetchPosts()
       fetchPendingWishlistCount()
+      fetchPendingWatchCount()
     } catch (error) {
       console.error('Auth check error:', error)
       router.push('/admin/login')
@@ -106,6 +108,22 @@ export default function AdminPage() {
 
     if (!error) {
       setPendingWishlistCount(count || 0)
+    }
+  }
+
+  /**
+   * 小蜜蜂盯待处理数。
+   * watch_tasks 开了 RLS（anon 一律拒绝），浏览器客户端读不到，
+   * 必须走 /api/admin/watch/tasks（服务端 service_role 取数）。
+   */
+  async function fetchPendingWatchCount() {
+    try {
+      const res = await fetch('/api/admin/watch/tasks?status=submitted&pageSize=1')
+      if (!res.ok) return
+      const data = await res.json().catch(() => ({}))
+      setPendingWatchCount(data?.total || 0)
+    } catch (error) {
+      console.error('Error fetching pending watch count:', error)
     }
   }
 
@@ -343,6 +361,29 @@ export default function AdminPage() {
                   <div>
                     <h2 className="text-lg font-semibold">物价指南</h2>
                     <p className="text-sm text-muted-foreground">管理上海物价指南数据</p>
+                  </div>
+                </div>
+                <ChevronRight className="w-5 h-5 text-muted-foreground" />
+              </div>
+            </div>
+          </Link>
+          <Link href="/admin/watch">
+            <div className="bg-card border rounded-xl p-6 hover:shadow-md transition-shadow">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center">
+                    <Eye className="w-6 h-6 text-amber-500" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-semibold">小蜜蜂盯</h2>
+                    <p className="text-sm text-muted-foreground">
+                      处理用户提交的盯事项
+                      {pendingWatchCount > 0 && (
+                        <span className="ml-2 px-2 py-0.5 bg-amber-500 text-white text-xs rounded-full">
+                          {pendingWatchCount} 待处理
+                        </span>
+                      )}
+                    </p>
                   </div>
                 </div>
                 <ChevronRight className="w-5 h-5 text-muted-foreground" />
