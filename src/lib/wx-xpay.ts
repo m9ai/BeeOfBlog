@@ -89,7 +89,7 @@ export const XPAY_PRODUCTS_BY_APP: Record<string, XpayProduct[]> = {
     { productId: 'make_a_wish', name: '许愿', desc: '许下一个心愿投入许愿池', priceFen: 100, attach: 'wish-pool' },
     { productId: 'fulfill_vow', name: '还愿', desc: '心愿达成后回池还愿', priceFen: 100, attach: 'wish-pool' },
     { productId: 'disable_ads', name: '关闭广告位', desc: '关闭小程序内广告展示', priceFen: 100, attach: 'bee-ads' },
-    { productId: 'add_energy', name: '加鸡腿', desc: '给小蜜蜂加鸡腿', priceFen: 5200, attach: 'bee-energy' },
+    { productId: 'add_energy', name: '加鸡腿', desc: '给小蜜蜂加鸡腿', priceFen: 520, attach: 'bee-energy' },
   ],
   // Robot仿真 wx9faa63f28130817a：尚未上架虚拟道具，先占位分组。
   // 开卖时按 MP 后台【道具管理】的道具 ID 与价格（分）在此登记；
