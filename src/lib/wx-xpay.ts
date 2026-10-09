@@ -98,6 +98,7 @@ export const XPAY_PRODUCTS_BY_APP: Record<string, XpayProduct[]> = {
     { productId: 'add_energy', name: '加鸡腿', desc: '为「Robot仿真」助力一次', priceFen: 666, attach: 'add-energy' },
     { productId: 'disable_ads', name: '关闭广告位', desc: '关闭小程序内广告展示', priceFen: 1990, attach: 'disable-ads' },
     { productId: 'function_unlock', name: '解锁功能', desc: '解锁小程序内功能', priceFen: 100, attach: 'function-unlock' },
+    { productId: 'function_unlock_all', name: '永久解锁功能', desc: '永久解锁小程序内功能', priceFen: 1990, attach: 'function-unlock-all' },
   ],
   // 金铁班次助手 wxca56ef69f60a66a0 即上方 [DEFAULT_APP_KEY] 分组，无需重复登记。
 }
